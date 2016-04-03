@@ -1,8 +1,4 @@
-{$IFNDEF MSDOS}
-{$IFNDEF UNIX}
-{$I DEFINES.INC}
-{$ENDIF}
-{$ENDIF}
+
 unit RPPort;
 
 interface
@@ -56,7 +52,7 @@ implementation
 
 {$IFDEF FPC}
   uses
-    Crt, SysUtils;
+    Crt, SysUtils, Classes;
 {$ENDIF}
 {$IFDEF VPASCAL}
   uses

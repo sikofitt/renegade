@@ -1,10 +1,7 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
 {$A+,B-,D-,E-,F+,I-,L-,N+,O-,R-,S-,V-}
-{$PACKRECORDS c}
+{$PACKRECORDS 1}
 
-UNIT Common;
+Unit Common;
 
 INTERFACE
 
@@ -20,10 +17,11 @@ CONST
   StrLen = 119;
 
 Type
-  BBSVersion = Packed Record
+  BBSVersion = Record
    Major,
    Minor,
    Patch : Byte;
+   Qualifier : String[6]; // -alpha, -beta, -dev
    OS : Astr;
   End;
 
@@ -489,6 +487,7 @@ VAR
 procedure Sound(hz: Word; duration: Word);
 function Ticks: LongInt;
 {$ENDIF}
+{ Returns the BBS Version Information }
 Function GetBBSVersion : BBSVersion;
 FUNCTION GetC(c: Byte): STRING;
 PROCEDURE ShowColors;
@@ -794,15 +793,25 @@ Begin
 
   {$IFDEF UNIX } OsType := 'Unix';  {$ENDIF}
   {$IFDEF LINUX} OsType := 'Linux'; {$ENDIF}
-  {$IFDEF WIN32} OsType := 'Win32'; {$ENDIF}
-  {$IFDEF WIN64} OsType := 'Win64'; {$ENDIF}
-  {$IFDEF MSDOS} OsType := 'DOS';   {$ENDIF}
+  {$IFDEF FREEBSD} OsTYpe := 'FreeBSD'; {$ENDIF}
 
+  {$IFDEF WINDOWS}
+     OsType := 'Win';
+  {$ENDIF}
+
+  {$IFDEF CPU64}
+    OsType := OsType + '64';
+  {$ELSE CPU32}
+    OsType := OsType + '32';
+  {$ENDIF}
+  {$IFDEF MSDOS} OsType := 'DOS'; {$ENDIF}
+  {$IFDEF DARWIN} OsType := 'OS/X'; {$ENDIF}
   With TBBSVersionRecord Do
   Begin
        Major := 2;
        Minor := 0;
        Patch := 0;
+       Qualifier := '-dev';
        OS    := OsType;
   End;
 

@@ -1016,4 +1016,4 @@ Packed Record
          CKeys: STRING[14];               { Command Execution Keys }
          CmdKeys: STRING[2];              { Command Keys: Type OF Command }
          Options: STRING[50]);            { MString: Command Data }
-    END;
+    END;

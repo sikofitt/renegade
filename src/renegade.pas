@@ -1,13 +1,6 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-{$IFDEF WIN64}
-{$DEFINE WIN32}
-{$ENDIF}
 {$IFDEF MSDOS}
 {$M 35500,0,131072}
 {$ENDIF}
-{$MODE TP}
        {                                                         }
        {    _______                                  __          }
        {   |   _   .-----.-----.-----.-----.---.-.--|  .-----.   }
@@ -244,7 +237,10 @@ BEGIN
   AllowAbort := TRUE;
 END;
 
+{$R *.res}
+
 BEGIN
+  Application.Title:='Renegade BBS';
   ClrScr;
   TextColor(Yellow);
 {$IFDEF MSDOS}
@@ -551,10 +547,16 @@ BEGIN
   IF (General.Multinode) THEN
   BEGIN
     Assign(TextFile,General.LogsPath+'SYSOP.LOG');
-    IF Exist(General.LogsPath+'SYSOP.LOG') THEN
+   If FileExists(General.LogsPath+'sysop.log') Then
+{    IF Exist(General.LogsPath+'SYSOP.LOG') THEN  }
+     Begin
       Append(TextFile)
-    ELSE
-      ReWrite(TextFile);
+     End
+    Else
+      Begin
+        ReWrite(TextFile);
+
+      End;
     Reset(SysOpLogFile);
     WHILE NOT EOF(SysOpLogFile) DO
     BEGIN

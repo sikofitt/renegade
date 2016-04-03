@@ -1,414 +1,424 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
 {$MODE TP}
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S-,V-}
 
-UNIT Common1;
+unit Common1;
 
-INTERFACE
+interface
 
-FUNCTION CheckPW: Boolean;
-PROCEDURE NewCompTables;
-PROCEDURE Wait(b: Boolean);
-PROCEDURE InitTrapFile;
-PROCEDURE Local_Input1(VAR S: STRING; MaxLen: Byte; LowerCase: Boolean);
-PROCEDURE Local_Input(VAR S: STRING; MaxLen: Byte);
-PROCEDURE Local_InputL(VAR S: STRING; MaxLen: Byte);
-PROCEDURE Local_OneK(VAR C: Char; S: STRING);
-PROCEDURE SysOpShell;
-PROCEDURE ReDrawForANSI;
+function CheckPW: boolean;
+procedure NewCompTables;
+procedure Wait(b: boolean);
+procedure InitTrapFile;
+procedure Local_Input1(var S: string; MaxLen: byte; LowerCase: boolean);
+procedure Local_Input(var S: string; MaxLen: byte);
+procedure Local_InputL(var S: string; MaxLen: byte);
+procedure Local_OneK(var C: char; S: string);
+procedure SysOpShell;
+procedure ReDrawForANSI;
 
-IMPLEMENTATION
+implementation
 
-USES
+uses
   Crt,
   Common,
   File0,
   Mail0,
   TimeFunc;
 
-FUNCTION CheckPW: Boolean;
-VAR
+function CheckPW: boolean;
+var
   Password: STR20;
-BEGIN
-  IF (NOT General.SysOpPWord) OR (InWFCMenu) THEN
-  BEGIN
-    CheckPW := TRUE;
+begin
+  if (not General.SysOpPWord) or (InWFCMenu) then
+  begin
+    CheckPW := True;
     Exit;
-  END;
-  CheckPW := FALSE;
+  end;
+  CheckPW := False;
   { Prompt(FString.SysOpPrompt); }
-  lRGLngStr(33,FALSE);
-  GetPassword(Password,20);
-  IF (Password = General.SysOpPW) THEN
-    CheckPW := TRUE
-  ELSE IF (InCom) AND (Password <> '') THEN
-    SysOpLog('--> SysOp Password Failure = '+Password+' ***');
-END;
+  lRGLngStr(33, False);
+  GetPassword(Password, 20);
+  if (Password = General.SysOpPW) then
+    CheckPW := True
+  else if (InCom) and (Password <> '') then
+    SysOpLog('--> SysOp Password Failure = ' + Password + ' ***');
+end;
 
-PROCEDURE NewCompTables;
-VAR
-  FileCompArrayFile: FILE OF CompArrayType;
-  MsgCompArrayFile: FILE OF CompArrayType;
+procedure NewCompTables;
+var
+  FileCompArrayFile: file of CompArrayType;
+  MsgCompArrayFile: file of CompArrayType;
   CompFileArray: CompArrayType;
   CompMsgArray: CompArrayType;
-  Counter,
-  Counter1,
-  Counter2,
-  SaveReadMsgArea,
-  SaveReadFileArea: Integer;
-BEGIN
+  Counter, Counter1, Counter2, SaveReadMsgArea, SaveReadFileArea: integer;
+begin
   SaveReadMsgArea := ReadMsgArea;
   SaveReadFileArea := ReadFileArea;
   Reset(FileAreaFile);
-  IF (IOResult <> 0) THEN
-  BEGIN
+  if (IOResult <> 0) then
+  begin
     SysOpLog('Error opening FBASES.DAT (Procedure: NewCompTables)');
     Exit;
-  END;
+  end;
   NumFileAreas := FileSize(FileAreaFile);
-  Assign(FileCompArrayFile,TempDir+'FACT'+IntToStr(ThisNode)+'.DAT');
+  Assign(FileCompArrayFile, TempDir + 'FACT' + IntToStr(ThisNode) + '.DAT');
   ReWrite(FileCompArrayFile);
   CompFileArray[0] := 0;
   CompFileArray[1] := 0;
-  FOR Counter := 1 TO FileSize(FileAreaFile) DO
-    Write(FileCompArrayFile,CompFileArray);
+  for Counter := 1 to FileSize(FileAreaFile) do
+    Write(FileCompArrayFile, CompFileArray);
   Reset(FileCompArrayFile);
-  IF (NOT General.CompressBases) THEN
-  BEGIN
-    FOR Counter := 1 TO FileSize(FileAreaFile) DO
-    BEGIN
-      Seek(FileAreaFile,(Counter - 1));
-      Read(FileAreaFile,MemFileArea);
-      IF (NOT AACS(MemFileArea.ACS)) THEN
-      BEGIN
+  if (not General.CompressBases) then
+  begin
+    for Counter := 1 to FileSize(FileAreaFile) do
+    begin
+      Seek(FileAreaFile, (Counter - 1));
+      Read(FileAreaFile, MemFileArea);
+      if (not AACS(MemFileArea.ACS)) then
+      begin
         CompFileArray[0] := 0;
         CompFileArray[1] := 0;
-      END
-      ELSE
-      BEGIN
+      end
+      else
+      begin
         CompFileArray[0] := Counter;
         CompFileArray[1] := Counter;
-      END;
-      Seek(FileCompArrayFile,(Counter - 1));
-      Write(FileCompArrayFile,CompFileArray);
-    END;
-  END
-  ELSE
-  BEGIN
+      end;
+      Seek(FileCompArrayFile, (Counter - 1));
+      Write(FileCompArrayFile, CompFileArray);
+    end;
+  end
+  else
+  begin
     Counter2 := 0;
     Counter1 := 0;
-    FOR Counter := 1 TO FileSize(FileAreaFile) DO
-    BEGIN
-      Seek(FileAreaFile,(Counter - 1));
-      Read(FileAreaFile,MemFileArea);
+    for Counter := 1 to FileSize(FileAreaFile) do
+    begin
+      Seek(FileAreaFile, (Counter - 1));
+      Read(FileAreaFile, MemFileArea);
       Inc(Counter1);
-      IF (NOT AACS(MemFileArea.ACS)) THEN
-      BEGIN
+      if (not AACS(MemFileArea.ACS)) then
+      begin
         Dec(Counter1);
         CompFileArray[0] := 0;
-      END
-      ELSE
-      BEGIN
+      end
+      else
+      begin
         CompFileArray[0] := Counter1;
-        Seek(FileCompArrayFile,(Counter - 1));
-        Write(FileCompArrayFile,CompFileArray);
+        Seek(FileCompArrayFile, (Counter - 1));
+        Write(FileCompArrayFile, CompFileArray);
         Inc(Counter2);
-        Seek(FileCompArrayFile,(Counter2 - 1));
-        Read(FileCompArrayFile,CompFileArray);
+        Seek(FileCompArrayFile, (Counter2 - 1));
+        Read(FileCompArrayFile, CompFileArray);
         CompFileArray[1] := Counter;
-        Seek(FileCompArrayFile,(Counter2 - 1));
-        Write(FileCompArrayFile,CompFileArray);
-      END;
-    END;
-  END;
+        Seek(FileCompArrayFile, (Counter2 - 1));
+        Write(FileCompArrayFile, CompFileArray);
+      end;
+    end;
+  end;
   Close(FileAreaFile);
   LastError := IOResult;
   LowFileArea := 0;
   Counter1 := 0;
   Counter := 1;
-  WHILE (Counter <= FileSize(FileCompArrayFile)) AND (Counter1 = 0) DO
-  BEGIN
-    Seek(FileCompArrayFile,(Counter - 1));
-    Read(FileCompArrayFile,CompFileArray);
-    IF (CompFileArray[0] <> 0) THEN
+  while (Counter <= FileSize(FileCompArrayFile)) and (Counter1 = 0) do
+  begin
+    Seek(FileCompArrayFile, (Counter - 1));
+    Read(FileCompArrayFile, CompFileArray);
+    if (CompFileArray[0] <> 0) then
       Counter1 := CompFileArray[0];
     Inc(Counter);
-  END;
+  end;
   LowFileArea := Counter1;
   HighFileArea := 0;
   Counter1 := 0;
   Counter := 1;
-  WHILE (Counter <= FileSize(FileCompArrayFile)) DO
-  BEGIN
-    Seek(FileCompArrayFile,(Counter - 1));
-    Read(FileCompArrayFile,CompFileArray);
-    IF (CompFileArray[0] <> 0) THEN
+  while (Counter <= FileSize(FileCompArrayFile)) do
+  begin
+    Seek(FileCompArrayFile, (Counter - 1));
+    Read(FileCompArrayFile, CompFileArray);
+    if (CompFileArray[0] <> 0) then
       Counter1 := CompFileArray[0];
     Inc(Counter);
-  END;
+  end;
   HighFileArea := Counter1;
   Close(FileCompArrayFile);
   LastError := IOResult;
   Reset(MsgAreaFile);
-  IF (IOResult <> 0) THEN
-  BEGIN
+  if (IOResult <> 0) then
+  begin
     SysOpLog('Error opening MBASES.DAT (Procedure: NewCompTables)');
     Exit;
-  END;
+  end;
   NumMsgAreas := FileSize(MsgAreaFile);
-  Assign(MsgCompArrayFile,TempDir+'MACT'+IntToStr(ThisNode)+'.DAT');
+  Assign(MsgCompArrayFile, TempDir + 'MACT' + IntToStr(ThisNode) + '.DAT');
   ReWrite(MsgCompArrayFile);
   CompMsgArray[0] := 0;
   CompMsgArray[1] := 0;
-  FOR Counter := 1 TO FileSize(MsgAreaFile) DO
-    Write(MsgCompArrayFile,CompMsgArray);
+  for Counter := 1 to FileSize(MsgAreaFile) do
+    Write(MsgCompArrayFile, CompMsgArray);
   Reset(MsgCompArrayFile);
-  IF (NOT General.CompressBases) THEN
-  BEGIN
-    FOR Counter := 1 TO FileSize(MsgAreaFile) DO
-    BEGIN
-      Seek(MsgAreaFile,(Counter - 1));
-      Read(MsgAreaFile,MemMsgArea);
-      IF (NOT AACS(MemMsgArea.ACS)) THEN
-      BEGIN
+  if (not General.CompressBases) then
+  begin
+    for Counter := 1 to FileSize(MsgAreaFile) do
+    begin
+      Seek(MsgAreaFile, (Counter - 1));
+      Read(MsgAreaFile, MemMsgArea);
+      if (not AACS(MemMsgArea.ACS)) then
+      begin
         CompMsgArray[0] := 0;
         CompMsgArray[1] := 0;
-      END
-      ELSE
-      BEGIN
+      end
+      else
+      begin
         CompMsgArray[0] := Counter;
         CompMsgArray[1] := Counter;
-      END;
-      Seek(MsgCompArrayFile,(Counter - 1));
-      Write(MsgCompArrayFile,CompMsgArray);
-    END;
-  END
-  ELSE
-  BEGIN
+      end;
+      Seek(MsgCompArrayFile, (Counter - 1));
+      Write(MsgCompArrayFile, CompMsgArray);
+    end;
+  end
+  else
+  begin
     Counter2 := 0;
     Counter1 := 0;
-    FOR Counter := 1 TO FileSize(MsgAreaFile) DO
-    BEGIN
-      Seek(MsgAreaFile,(Counter - 1));
-      Read(MsgAreaFile,MemMsgArea);
+    for Counter := 1 to FileSize(MsgAreaFile) do
+    begin
+      Seek(MsgAreaFile, (Counter - 1));
+      Read(MsgAreaFile, MemMsgArea);
       Inc(Counter1);
-      IF (NOT AACS(MemMsgArea.ACS)) THEN
-      BEGIN
+      if (not AACS(MemMsgArea.ACS)) then
+      begin
         Dec(Counter1);
         CompMsgArray[0] := 0;
-      END
-      ELSE
-      BEGIN
+      end
+      else
+      begin
         CompMsgArray[0] := Counter1;
-        Seek(MsgCompArrayFile,(Counter - 1));
-        Write(MsgCompArrayFile,CompMsgArray);
+        Seek(MsgCompArrayFile, (Counter - 1));
+        Write(MsgCompArrayFile, CompMsgArray);
         Inc(Counter2);
-        Seek(MsgCompArrayFile,(Counter2 - 1));
-        Read(MsgCompArrayFile,CompMsgArray);
+        Seek(MsgCompArrayFile, (Counter2 - 1));
+        Read(MsgCompArrayFile, CompMsgArray);
         CompMsgArray[1] := Counter;
-        Seek(MsgCompArrayFile,(Counter2 - 1));
-        Write(MsgCompArrayFile,CompMsgArray);
-      END;
-    END;
-  END;
+        Seek(MsgCompArrayFile, (Counter2 - 1));
+        Write(MsgCompArrayFile, CompMsgArray);
+      end;
+    end;
+  end;
   Close(MsgAreaFile);
   LastError := IOResult;
   LowMsgArea := 0;
   Counter1 := 0;
   Counter := 1;
-  WHILE (Counter <= FileSize(MsgCompArrayFile)) AND (Counter1 = 0) DO
-  BEGIN
-    Seek(MsgCompArrayFile,(Counter - 1));
-    Read(MsgCompArrayFile,CompMsgArray);
-    IF (CompMsgArray[0] <> 0) THEN
+  while (Counter <= FileSize(MsgCompArrayFile)) and (Counter1 = 0) do
+  begin
+    Seek(MsgCompArrayFile, (Counter - 1));
+    Read(MsgCompArrayFile, CompMsgArray);
+    if (CompMsgArray[0] <> 0) then
       Counter1 := CompMsgArray[0];
     Inc(Counter);
-  END;
+  end;
   LowMsgArea := Counter1;
   HighMsgArea := 0;
   Counter1 := 0;
   Counter := 1;
-  WHILE (Counter <= FileSize(MsgCompArrayFile)) DO
-  BEGIN
-    Seek(MsgCompArrayFile,(Counter - 1));
-    Read(MsgCompArrayFile,CompMsgArray);
-    IF (CompMsgArray[0] <> 0) THEN
+  while (Counter <= FileSize(MsgCompArrayFile)) do
+  begin
+    Seek(MsgCompArrayFile, (Counter - 1));
+    Read(MsgCompArrayFile, CompMsgArray);
+    if (CompMsgArray[0] <> 0) then
       Counter1 := CompMsgArray[0];
     Inc(Counter);
-  END;
+  end;
   HighMsgArea := Counter1;
   Close(MsgCompArrayFile);
   LastError := IOResult;
   ReadMsgArea := -1;
   ReadFileArea := -1;
-  IF (NOT FileAreaAC(FileArea)) THEN
-    ChangeFileArea(CompFileArea(1,1));
-  IF (NOT MsgAreaAC(MsgArea)) THEN
-    ChangeMsgArea(CompMsgArea(1,1));
+  if (not FileAreaAC(FileArea)) then
+    ChangeFileArea(CompFileArea(1, 1));
+  if (not MsgAreaAC(MsgArea)) then
+    ChangeMsgArea(CompMsgArea(1, 1));
   LoadMsgArea(SaveReadMsgArea);
   LoadFileArea(SaveReadFileArea);
-END;
+end;
 
-PROCEDURE Wait(b: Boolean);
-CONST
-  SaveCurrentColor: Byte = 0;
-BEGIN
-  IF (B) THEN
-  BEGIN
+procedure Wait(b: boolean);
+const
+  SaveCurrentColor: byte = 0;
+begin
+  if (B) then
+  begin
     SaveCurrentColor := CurrentColor;
     { Prompt(FString.lWait); }
-    lRGLngStr(4,FALSE);
-  END
-  ELSE
-  BEGIN
-    BackErase(LennMCI(lRGLngStr(4,TRUE){FString.lWait}));
+    lRGLngStr(4, False);
+  end
+  else
+  begin
+    BackErase(LennMCI(lRGLngStr(4, True){FString.lWait}));
     SetC(SaveCurrentColor);
-  END;
-END;
+  end;
+end;
 
-PROCEDURE InitTrapFile;
-BEGIN
-  Trapping := FALSE;
-  IF (General.GlobalTrap) OR (TrapActivity IN ThisUser.SFlags) THEN
-    Trapping := TRUE;
-  IF (Trapping) THEN
-  BEGIN
-    IF (TrapSeparate IN ThisUser.SFlags) THEN
-      Assign(TrapFile,General.LogsPath+'TRAP'+IntToStr(UserNum)+'.LOG')
-    ELSE
-      Assign(TrapFile,General.LogsPath+'TRAP.LOG');
+procedure InitTrapFile;
+begin
+  Trapping := False;
+  if (General.GlobalTrap) or (TrapActivity in ThisUser.SFlags) then
+    Trapping := True;
+  if (Trapping) then
+  begin
+    if (TrapSeparate in ThisUser.SFlags) then
+      Assign(TrapFile, General.LogsPath + 'TRAP' + IntToStr(UserNum) + '.LOG')
+    else
+      Assign(TrapFile, General.LogsPath + 'TRAP.LOG');
     Append(TrapFile);
-    IF (IOResult = 2) THEN
-    BEGIN
+    if (IOResult = 2) then
+    begin
       ReWrite(TrapFile);
       WriteLn(TrapFile);
-    END;
-    WriteLn(TrapFile,'***** Renegade User Audit - '+Caps(ThisUser.Name)+' on at '+DateStr+' '+TimeStr+' *****');
-  END;
-END;
+    end;
+    WriteLn(TrapFile, '***** Renegade User Audit - ' + Caps(ThisUser.Name) +
+      ' on at ' + DateStr + ' ' + TimeStr + ' *****');
+  end;
+end;
 
-PROCEDURE Local_Input1(VAR S: STRING; MaxLen: Byte; LowerCase: Boolean);
-VAR
-  C: Char;
-  B: Byte;
-BEGIN
+procedure Local_Input1(var S: string; MaxLen: byte; LowerCase: boolean);
+var
+  C: char;
+  B: byte;
+begin
   B := 1;
-  REPEAT
+  repeat
     C := ReadKey;
-    IF (NOT LowerCase) THEN
+    if (not LowerCase) then
       C := UpCase(C);
-    IF (C IN [#32..#255]) THEN
-      IF (B <= MaxLen) THEN
-      BEGIN
+    if (C in [#32..#255]) then
+      if (B <= MaxLen) then
+      begin
         S[B] := C;
         Inc(B);
         Write(C);
-      END
-      ELSE
-    ELSE
-      CASE C of
-        ^H : IF (B > 1) THEN
-             BEGIN
-               Write(^H' '^H);
-               C := ^H;
-               Dec(B);
-             END;
-     ^U,^X : WHILE (B <> 1) DO
-             BEGIN
-               Write(^H' '^H);
-               Dec(B);
-             END;
-      END;
-  UNTIL (C IN [^M,^N]);
+      end
+      else
+    else
+      case C of
+        ^H: if (B > 1) then
+          begin
+            Write(^H' '^H);
+            C := ^H;
+            Dec(B);
+          end;
+        ^U, ^X: while (B <> 1) do
+          begin
+            Write(^H' '^H);
+            Dec(B);
+          end;
+      end;
+  until (C in [^M, ^N]);
   S[0] := Chr(B - 1);
-  IF (WhereY <= Hi(WindMax) - Hi(WindMin)) THEN
+  if (WhereY <= Hi(WindMax) - Hi(WindMin)) then
     WriteLn;
-END;
+end;
 
-PROCEDURE Local_Input(VAR S: STRING; MaxLen: Byte);
-BEGIN
-  Local_Input1(S,MaxLen,FALSE);
-END;
+{ Wrapper for Local_Input1 to specify uppercase }
+procedure Local_Input(var S: string; MaxLen: byte);
+begin
+  Local_Input1(S, MaxLen, False);
+end;
 
-PROCEDURE Local_InputL(VAR S: STRING; MaxLen: Byte);
-BEGIN
-  Local_Input1(S,MaxLen,TRUE);
-END;
+{ Wrapper for Local_Input1 to specify lowercase }
+procedure Local_InputL(var S: string; MaxLen: byte);
+begin
+  Local_Input1(S, MaxLen, True);
+end;
 
-PROCEDURE Local_OneK(VAR C: Char; S: STRING);
-BEGIN
-  REPEAT
+procedure Local_OneK(var C: char; S: string);
+begin
+  repeat
     C := UpCase(ReadKey)
-  UNTIL (Pos(C,S) > 0);
+  until (Pos(C, S) > 0);
   WriteLn(C);
-END;
+end;
 
-PROCEDURE SysOpShell;
-VAR
-  SavePath: STRING;
-  SaveWhereX,
-  SaveWhereY,
-  SaveCurCo: Byte;
-  ReturnCode: Integer;
-  SaveTimer: LongInt;
-BEGIN
-  SaveCurCo := CurrentColor;
-  GetDir(0,SavePath);
+{ Creates a waiting prompt for user
+  while sysop shells to dos/bash }
+procedure SysOpShell;
+var
+  SavePath: string;
+  SaveWhereX, SaveWhereY, SaveCurrentColor: byte;
+  ReturnCode: integer;
+  SaveTimer: longint;
+begin
+  SaveCurrentColor := CurrentColor;
+  GetDir(0, SavePath);
   SaveTimer := Timer;
-  IF (UserOn) THEN
-  BEGIN
+  if (UserOn) then
+  begin
     { Prompt(FString.ShellDOS1); }
-    lRGLngStr(12,FALSE);
+    lRGLngStr(12, False);
     Com_Flush_Send;
     Delay(100);
-  END;
+  end; { UserOn }
   SaveWhereX := WhereX;
   SaveWhereY := WhereY;
-  Window(1,1,80,25);
+  Window(1, 1, 80, 25);
   TextBackGround(Black);
   TextColor(LightGray);
   ClrScr;
   TextColor(LightCyan);
   WriteLn('Type "EXIT" to return to Renegade.');
   WriteLn;
-  TimeLock := TRUE;
-  ShellDOS(FALSE,'',ReturnCode);
-  TimeLock := FALSE;
-  IF (UserOn) THEN
+  TimeLock := True;
+  ShellDOS(False, '', ReturnCode);
+  TimeLock := False;
+  if (UserOn) then
+  begin
     Com_Flush_Recv;
+  end; { UserOn }
   ChDir(SavePath);
   TextBackGround(Black);
   TextColor(LightGray);
   ClrScr;
-  TextAttr := SaveCurCo;
-  GoToXY(SaveWhereX,SaveWhereY);
-  IF (UserOn) THEN
-  BEGIN
-    IF (NOT InChat) THEN
+  TextAttr := SaveCurrentColor;
+  GoToXY(SaveWhereX, SaveWhereY);
+  if (UserOn) then
+  begin
+    if (not InChat) then
+    begin
       FreeTime := ((FreeTime + Timer) - SaveTimer);
+    end; { Not InChat }
     Update_Screen;
-    FOR SaveCurCo := 1 TO LennMCI(lRGLngStr(12,TRUE){FString.ShellDOS1}) DO
+    for SaveCurrentColor := 1 to LennMCI(lRGLngStr(12, True){FString.ShellDOS1}) do
+    begin
       BackSpace;
-  END;
-END;
+    end; { For SaveCurrentColor }
+  end; { UserOn }
+end; { SysOpShell; }
 
-PROCEDURE ReDrawForANSI;
-BEGIN
-  IF (DOSANSIOn) THEN
-  BEGIN
-    DOSANSIOn := FALSE;
+procedure ReDrawForANSI;
+begin
+  if (DOSANSIOn) then
+  begin
+    DOSANSIOn := False;
     Update_Screen;
-  END;
+  end; { DOSANSIOn }
   TextAttr := 7;
   CurrentColor := 7;
-  IF (OutCom) THEN
-    IF (OKAvatar) THEN
-      SerialOut(^V^A^G)
-    ELSE IF (OkANSI) THEN
-      SerialOut(#27+'[0m');
-END;
+  if (OutCom) then
+  begin
+    if (OKAvatar) then
+    begin
+      SerialOut(^V^A^G);
+    end { OKAvatar }
+    else if (OkANSI) then
+    begin
+      SerialOut(#27 + '[0m');
+    end; { OkANSI }
+  end; { OutCom }
+end; { ReDrawForAnsi }
 
-END.
-
+end. { Unit Common1 }
+
+
+
