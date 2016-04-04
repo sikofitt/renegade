@@ -1,30 +1,28 @@
-{
-*****************************************************************************
-    This file is part of Renegade BBS
-
-    Foobar is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    Foobar is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
-
-*****************************************************************************
-
-           _______                                  __
-          |   _   .-----.-----.-----.-----.---.-.--|  .-----.
-          |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|
-          |.  _   |_____|__|__|_____|___  |___._|_____|_____|
-          |:  |   |                 |_____|
-          |::.|:. |
-          `--- ---'
-}
+{**************************************************************************}
+{   This file is part of Renegade BBS                                      }
+{                                                                          }
+{   Foobar is free software: you can redistribute it and/or modify         }
+{   it under the terms of the GNU General Public License as published by   }
+{   the Free Software Foundation, either version 3 of the License, or      }
+{   (at your option) any later version.                                    }
+{                                                                          }
+{   Foobar is distributed in the hope that it will be useful,              }
+{   but WITHOUT ANY WARRANTY; without even the implied warranty of         }
+{   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          }
+{   GNU General Public License for more details.                           }
+{                                                                          }        
+{   You should have received a copy of the GNU General Public License      }
+{   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.        }
+{                                                                          }        
+{**************************************************************************}
+{          _______                                  __                     }
+{         |   _   .-----.-----.-----.-----.---.-.--|  .-----.              }    
+{         |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|              }
+{         |.  _   |_____|__|__|_____|___  |___._|_____|_____|              }
+{         |:  |   |                 |_____|                                }    
+{         |::.|:. |                                                        }
+{         `--- ---'                                                        }
+{**************************************************************************}
 
 {$IFDEF MSDOS}
 {$M 35500,0,131072}
@@ -139,17 +137,17 @@ Begin
     IF (IOResult <> 0) THEN
       ReWrite(TextFile);
 
-    WriteLn(TextFile,'ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ');
+    WriteLn(TextFile,'ÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃ');
     WriteLn(TextFile,'Critical error Log file - Contains screen images at instant of error.');
-    WriteLn(TextFile,'The "²" character shows the cursor position at time of error.');
-    WriteLn(TextFile,'ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ');
+    WriteLn(TextFile,'The "Â²" character shows the cursor position at time of error.');
+    WriteLn(TextFile,'ÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃ');
     WriteLn(TextFile);
     WriteLn(TextFile);
-    WriteLn(TextFile,'¯>¯ error #'+IntToStr(ExitCode)+' at '+DateStr+' '+TimeStr+' version: '+General.Version);
+    WriteLn(TextFile,'Â¯>Â¯ error #'+IntToStr(ExitCode)+' at '+DateStr+' '+TimeStr+' version: '+General.Version);
 
     IF (UserOn) THEN
     BEGIN
-      Write(TextFile,'¯>¯ User "'+AllCaps(ThisUser.name)+' #'+IntToStr(UserNum)+'" was on ');
+      Write(TextFile,'Â¯>Â¯ User "'+AllCaps(ThisUser.name)+' #'+IntToStr(UserNum)+'" was on ');
       IF (ComPortSpeed > 0) THEN
         WriteLn(TextFile,'at '+IntToStr(ActualSpeed)+ 'baud')
       ELSE
