@@ -522,9 +522,9 @@ Var
   Command: Char;
   AType,
   SaveNumBatchDLFiles: Byte;
-  ReturnCode: LargeInt;
+  ReturnCode: LongInt;
   GotPts,
-  SaveFileArea: LargeInt;
+  SaveFileArea: LongInt;
   Ok,
   SaveFileCreditRatio: Boolean;
 {@Pickup}
