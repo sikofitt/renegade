@@ -1,26 +1,40 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
+{
+*****************************************************************************
+This file is part of Renegade BBS
+
+See the file LICENSE, included in this distribution,
+for details about the license.
+*****************************************************************************
+
+           _______                                  __
+          |   _   .-----.-----.-----.-----.---.-.--|  .-----.
+          |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|
+          |.  _   |_____|__|__|_____|___  |___._|_____|_____|
+          |:  |   |                 |_____|
+          |::.|:. |
+          `--- ---'
+
+}
 
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
 
-UNIT EMail;
+Unit EMail; // Unit Renegade.Messages.Email;
 
-INTERFACE
+Interface
 
-USES
+Uses
   Common;
 
-PROCEDURE SSMail(MenuOption: Str50);
+PROCEDURE SSMail(MenuOption: AnsiString);
 PROCEDURE SMail(MassMail: Boolean);
 PROCEDURE SEMail(UNum: Integer; ReplyHeader: MHeaderRec);
 PROCEDURE AutoReply(ReplyHeader: MHeaderRec);
 PROCEDURE ReadMail;
 PROCEDURE ShowEmail;
 
-IMPLEMENTATION
+Implementation
 
-USES
+Uses
   Dos,
   Common5,
   File6,

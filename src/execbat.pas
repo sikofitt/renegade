@@ -1,12 +1,9 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
 
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
 
-UNIT ExecBat;
+Unit ExecBat;
 
-INTERFACE
+Interface
 
 USES
   Common,
@@ -16,12 +13,12 @@ PROCEDURE ExecWindow(VAR Ok: Boolean;
                      CONST Dir,
                      BatLine: AStr;
                      OkLevel: Integer;
-                     VAR RCode: SmallInt);
-PROCEDURE ExecBatch(VAR Ok: Boolean;
+                     VAR RCode: Byte);
+Procedure ExecBatch(Var Ok: Boolean;
                     Dir,
                     BatLine: AStr;
                     OkLevel: Integer;
-                    VAR RCode: SmallInt;
+                    Var RCode: Byte;
                     Windowed: Boolean);
 PROCEDURE Shel(CONST s: AStr);
 PROCEDURE Shel2(x: Boolean);
@@ -54,7 +51,7 @@ PROCEDURE ExecWindow(VAR Ok: Boolean;
                      CONST Dir,
                      BatLine: AStr;
                      OkLevel: Integer;
-                     VAR RCode: SmallInt);
+                     VAR RCode: Byte);
 VAR
   SaveWindowOn: Boolean;
   SaveCurWindow: Byte;
@@ -152,11 +149,11 @@ BEGIN
   GoToXY(SaveX,SaveY);
 END;
 
-PROCEDURE ExecBatch(VAR Ok: Boolean;     { result                     }
-                    Dir: AStr;           { directory takes place in   }
+Procedure ExecBatch(Var Ok: Boolean;     { result                     }
+                    Dir,            { directory takes place in   }
                     BatLine: AStr;       { .BAT file line to execute  }
                     OkLevel: Integer;    { DOS errorlevel for success }
-                    VAR RCode: SmallInt;     { errorlevel returned }
+                    Var RCode: Byte;     { errorlevel returned }
                     Windowed: Boolean);  { Windowed? }
 VAR
   BatchFile: Text;
@@ -226,4 +223,4 @@ BEGIN
   LastScreenSwap := (Timer - 5);
 END;
 
-END.
+END.

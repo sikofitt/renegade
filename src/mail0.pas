@@ -25,7 +25,7 @@ PROCEDURE LoadLastReadRecord(VAR LastReadRec: ScanRec);
 PROCEDURE SaveLastReadRecord(LastReadRec: ScanRec);
 PROCEDURE InitMsgArea(MArea: Integer);
 PROCEDURE ReadMsg(Anum,MNum,TNum: Word);
-FUNCTION HeaderLine(MHeader: MHeaderRec; MNum,TNum: Word; Line: byte; VAR FileOwner: Str36): STRING;
+FUNCTION HeaderLine(MHeader: MHeaderRec; MNum,TNum: Word; Line: byte; Var FileOwner: AnsiString): STRING;
 FUNCTION ToYou(MessageHeader: MHeaderRec): Boolean;
 FUNCTION FromYou(MessageHeader: MHeaderRec): Boolean;
 FUNCTION GetTagLine: Str74;
@@ -489,13 +489,15 @@ END;
 PROCEDURE ExtractMsgToFile(MsgNum: Word; MHeader: MHeaderRec);
 VAR
   ExtTxtFile: Text;
-  FileOwner: Str36;
-  FileName: Str52;
-  MsgTxtStr: STRING;
+  FileOwner: AnsiString; // Str36
+  FileName: AnsiString; // Str52
+  MsgTxtStr: String;
   Counter: Byte;
   TempTextSize: Word;
   StripColors: Boolean;
 BEGIN
+  SetLength(FileOwner, 36);
+  SetLength(FileName, 52);
   NL;
   Print('Extract message to file:');
   Prt(': ');
@@ -579,7 +581,7 @@ BEGIN
   END;
 END;
 
-FUNCTION HeaderLine(MHeader: MHeaderRec; MNum,TNum: Word; Line: byte; VAR FileOwner: Str36): STRING;
+Function HeaderLine(MHeader: MHeaderRec; MNum,TNum: Word; Line: byte; Var FileOwner: AnsiString): String;
 VAR
   S,
   S1: STRING;
@@ -724,13 +726,14 @@ VAR
   FileInfo: FileInfoRecordType;
   TransferFlags: TransferFlagSet;
   MsgTxtStr: AStr;
-  FileOwner: Str36;
+  FileOwner: AnsiString;
   DS: DirStr;
   NS: NameStr;
   ES: ExtStr;
   SaveFileArea: Integer;
   TempTextSize: Word;
 BEGIN
+  SetLength(FileOwner, 36);
   AllowAbort := (CoSysOp) OR (NOT (MAForceRead IN MemMsgArea.MAFlags));
   AllowContinue := TRUE;
   LoadHeader(Anum,MHeader);
@@ -892,4 +895,4 @@ BEGIN
   GetTagLine := TagLine;
 END;
 
-END.
+END.

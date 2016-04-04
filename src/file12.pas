@@ -1,7 +1,3 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-{$MODE TP}
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
 
 UNIT File12;
@@ -117,8 +113,8 @@ BEGIN
         TempBULVTextSize := 0;
         Seek(BatchULF,(BatchUL.BULVPointer - 1));
         REPEAT
-          BlockRead(BatchULF,TempStr[0],1);
-          BlockRead(BatchULF,TempStr[1],Ord(TempStr[0]));
+          BlockRead(BatchULF,TempStr[1],1);
+          BlockRead(BatchULF,TempStr[2],Ord(TempStr[1]));
           Inc(TempBULVTextSize,(Length(TempStr) + 1));
           PrintACR('^3'+PadRightStr(TempStr,24)+'^1');
         UNTIL (TempBULVTextSize >= BatchUL.BULVTextSize);
@@ -209,8 +205,8 @@ BEGIN
                   TotLoad := 0;
                   Seek(BatchULF,(BatchUL1.BULVPointer - 1));
                   REPEAT
-                    BlockRead(BatchULF,TempStr[0],1);
-                    BlockRead(BatchULF,TempStr[1],Ord(TempStr[0]));
+                    BlockRead(BatchULF,TempStr[1],1);
+                    BlockRead(BatchULF,TempStr[2],Ord(TempStr[1]));
                     Inc(TotLoad,(Length(TempStr) + 1));
                     BlockWrite(BatchULF1,TempStr,(Length(TempStr) + 1));
                   UNTIL (TotLoad >= BatchUL1.BULVTextSize);
@@ -305,8 +301,8 @@ BEGIN
             TotLoad := 0;
             Seek(BatchULF,(BatchUL1.BULVPointer - 1));
             REPEAT
-              BlockRead(BatchULF,TempStr[0],1);
-              BlockRead(BatchULF,TempStr[1],Ord(TempStr[0]));
+              BlockRead(BatchULF,TempStr[1],1);
+              BlockRead(BatchULF,TempStr[2],Ord(TempStr[1]));
               Inc(TotLoad,(Length(TempStr) + 1));
               BlockWrite(BatchULF1,TempStr,(Length(TempStr) + 1));
             UNTIL (TotLoad >= BatchUL1.BULVTextSize);
@@ -346,31 +342,31 @@ END;
 
 PROCEDURE BatchUpload(BiCleanUp: Boolean; TransferTime: LongInt);
 TYPE
-  TotalsRecordType = RECORD
+  TotalsRecordType = Record
     FilesUL,
     FilesULCredit: Byte;
     BytesUL,
     BytesULCredit,
-    PointsULCredit: LongInt;
+    PointsULCredit: PtrInt;
   END;
 VAR
   Totals: TotalsRecordType;
   BatchUL1: BatchULRecordType;
-  BatchULF1: FILE;
+  BatchULF1: File;
   (*
   DirInfo: SearchRec;
   *)
-  TempStr: STRING;
+  TempStr: String;
   InputStr: AStr;
   LineNum,
   FileNumToList,
   NumExtDesc: Byte;
   TotLoad,
-  ReturnCode,
+  ReturnCode : Byte;
   ProtocolNumber,
   SaveFArea,
   SaveFileArea,
-  TempBULVTextSize: Integer;
+  TempBULVTextSize: PtrInt;
   NumFAreas,
   FArea,
   TempVPointer,
@@ -378,7 +374,7 @@ VAR
   RecNum1,
   RefundTime,
   TakeAwayRefundTime,
-  TotConversionTime: LongInt;
+  TotConversionTime: PtrInt;
   AutoLogOff,
   AHangUp,
   WentToSysOp,
@@ -386,8 +382,8 @@ VAR
   SaveConfSystem: Boolean;
 
   PROCEDURE UpFile;
-  VAR
-    GotPts: LongInt;
+  Var
+    GotPts : PtrInt;
     ConversionTime: LongInt;
     ArcOk,
     Convt: Boolean;
@@ -633,8 +629,8 @@ BEGIN
           TempBULVTextSize := 0;
           Seek(BatchULF,(BatchUL.BULVPointer - 1));
           REPEAT
-            BlockRead(BatchULF,TempStr[0],1);
-            BlockRead(BatchULF,TempStr[1],Ord(TempStr[0]));
+            BlockRead(BatchULF,TempStr[1],1);
+            BlockRead(BatchULF,TempStr[2],Ord(TempStr[1]));
             Inc(TempBULVTextSize,(Length(TempStr) + 1));
             ExtendedArray[LineNum] := TempStr;
             Inc(LineNum);
@@ -660,8 +656,8 @@ BEGIN
           TotLoad := 0;
           Seek(BatchULF,(BatchUL1.BULVPointer - 1));
           REPEAT
-            BlockRead(BatchULF,TempStr[0],1);
-            BlockRead(BatchULF,TempStr[1],Ord(TempStr[0]));
+            BlockRead(BatchULF,TempStr[1],1);
+            BlockRead(BatchULF,TempStr[2],Ord(TempStr[1]));
             Inc(TotLoad,(Length(TempStr) + 1));
             BlockWrite(BatchULF1,TempStr,(Length(TempStr) + 1));
           UNTIL (TotLoad >= BatchUL1.BULVTextSize);
@@ -960,4 +956,4 @@ BEGIN
 END;
 
 END.
-
+

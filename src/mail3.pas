@@ -316,7 +316,7 @@ VAR
   NewMsgArea,
   SaveReadMsgArea: Integer;
   MArea,
-  NumMAreas: LongInt;
+  NumMAreas: PtrInt;
   TempTextSize: Word;
   SaveConfSystem: Boolean;
 BEGIN
@@ -474,4 +474,4 @@ BEGIN
   InitMsgArea(SaveReadMsgArea);
 END;
 
-END.
+END.

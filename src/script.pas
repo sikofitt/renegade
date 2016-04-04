@@ -13,7 +13,7 @@ USES
 
 PROCEDURE ReadQ(CONST FileN: AStr);
 PROCEDURE ReadASW(UserN: Integer; FN: AStr);
-PROCEDURE ReadASW1(MenuOption: Str50);
+PROCEDURE ReadASW1(MenuOption: AnsiString); // Str50
 
 IMPLEMENTATION
 
@@ -32,7 +32,7 @@ VAR
   C: Char;
   OutP,
   Lin,
-  S,
+  S : AnsiString;
   Mult,
   Got,
   LastInp,
@@ -145,7 +145,7 @@ BEGIN
           Dec(X);
       END;
     UNTIL ((OutP[X] = ^M) AND NOT (OutP[X - 1] IN [^V,^Y])) OR (X = 159) OR EOF(InFile) OR HangUp;
-    OutP[0] := Chr(X);
+    OutP[1] := Chr(X);
     IF (Pos(^[,OutP) > 0) OR (Pos(^V,OutP) > 0) THEN
     BEGIN
       CROff := TRUE;
@@ -154,8 +154,8 @@ BEGIN
     ELSE
     BEGIN
       IF (OutP[X] = ^M) THEN
-        Dec(OutP[0]);
-      IF (OutP[1] = ^J) THEN
+        Dec(OutP[1]);
+      IF (OutP[2] = ^J) THEN
         Delete(OutP,1,1);
     END;
     IF (Pos('*',OutP) <> 0) AND (OutP[1] <> ';') THEN
@@ -166,13 +166,13 @@ BEGIN
       CASE OutP[1] OF
         ';' : BEGIN
                 IF (Pos('*',OutP) <> 0) THEN
-                  IF (OutP[2] <> 'D') THEN
+                  IF (OutP[3] <> 'D') THEN
                     OutP := Copy(OutP,1,(Pos('*',OutP) - 1));
                 Lin := Copy(OutP,3,255);
                 I := (80 - Length(Lin));
                 S := Copy(OutP,1,2);
-                IF (S[1] = ';') THEN
-                  CASE S[2] OF
+                IF (S[2] = ';') THEN
+                  CASE S[3] OF
                     'R','F','V','C','D','G','I','K','L','Q','S','T',';': I := 1; { DO nothing }
                   ELSE IF (Lin[1] = ';') THEN
                     Prompt(Copy(Lin,2,255))
@@ -181,8 +181,14 @@ BEGIN
                   END;
                 S := #1#1#1;
                 CASE OutP[2] OF
-                  'A' : InputL(S,I);
-                  'B' : Input(S,I);
+                  'A' : Begin
+                          SetLength(S, I);
+                          InputL(S,I);
+                        End;
+                  'B' : Begin
+                          SetLength(S, I);
+                          Input(S,I);
+                        End;
                   'C' : BEGIN
                           Mult := '';
                           I := 1;
@@ -384,12 +390,12 @@ BEGIN
   LastError := IOResult;
 END;
 
-PROCEDURE ReadASW1(MenuOption: Str50);
+PROCEDURE ReadASW1(MenuOption: AnsiString);
 VAR
   PS: PathStr;
   NS: NameStr;
   ES: ExtStr;
-  UserN: Integer;
+  UserN: LongInt;
 BEGIN
   IF (MenuOption = '') THEN
   BEGIN
