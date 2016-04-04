@@ -9,7 +9,8 @@
 #Renegade BBS
 Renegade BBS code update project.
 
-This is a project to update Renegade BBS to a more modern code base using [Free Pascal v3.x](http://freepascal.org/ "Free Pascal")
+This is a project to update Renegade BBS to a more modern code base using [Free Pascal v3.x](http://freepascal.org/ "Free Pascal").
+
 When finished it will compile on at least :
 * Linux i386/x86_64
 * Windows i386/x86_64
