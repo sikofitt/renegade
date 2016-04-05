@@ -61,6 +61,7 @@ Uses
   File1,
   File2,
   File9,
+  SysUtils,
   TimeFunc;
 
 { De-compresses an Archive }
