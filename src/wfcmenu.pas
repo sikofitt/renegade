@@ -1,7 +1,3 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
 
 UNIT WFCMenu;
@@ -13,7 +9,7 @@ PROCEDURE WFCMenus;
 
 IMPLEMENTATION
 
-USES
+Uses
   Crt,
   Dos,
   Boot,
@@ -46,6 +42,7 @@ USES
   SysOp10,
   SysOp11,
   SysOp12,
+  SysUtils,
   TimeFunc,
   MiscUser
 {$IFDEF WIN32}
@@ -333,7 +330,7 @@ BEGIN
     IF (KeyPressed) THEN
     BEGIN
 
-       C := UpCase(ReadKey);
+       C := UpperCase(ReadKey);
 
        IF (C = ^[) THEN
        BEGIN
@@ -1077,7 +1074,7 @@ BEGIN
         LastKeyPress := GetPackDateTime;
       END;
 
-      C := UpCase(C);
+      C := UpperCase(C);
           {$IFDEF FPC}
     cursoron;
     {$ELSE}
@@ -1248,7 +1245,7 @@ BEGIN
                   rl2 := Timer;
                   WHILE (NOT KeyPressed) AND (ABS(Timer - rl2) < 10) DO;
                   IF (KeyPressed) THEN
-                    C := UpCase(ReadKey)
+                    C := UpperCase(ReadKey)
                   ELSE
                     C := 'N';
                   WriteLn(C);

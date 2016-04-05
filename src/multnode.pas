@@ -26,7 +26,8 @@ USES
   Menus,
   Script,
   ShortMsg,
-  TimeFunc;
+  TimeFunc,
+  SysUtils;
 
 PROCEDURE pick_node(VAR NodeNum: Byte; IsChat: BOOLEAN);
 BEGIN
@@ -182,7 +183,7 @@ VAR
     Temp := '';
     FOR Index := 1 TO Length(s) DO
       IF (s[Index] = '%') THEN
-        CASE (UpCase(s[Index + 1])) OF
+        CASE (UpperCase(s[Index + 1])) OF
         'S' : BEGIN
                 Temp := Temp + Caps(ThisUser.Name);
                 Inc(Index);
@@ -713,7 +714,7 @@ BEGIN
       END;
     IF (NOT Done) AND (s <> '') AND (s[1] = '/') THEN
     BEGIN
-      Cmd := UpCase(s[2]);
+      Cmd := UpperCase(s[2]);
       s3 := AllCaps(Copy(s,2,255));
       IF (Pos(' ',s3) > 0) THEN
       BEGIN

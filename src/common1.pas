@@ -35,7 +35,7 @@ function CheckPW: boolean;
 procedure NewCompTables;
 procedure Wait(b: boolean);
 procedure InitTrapFile;
-procedure Local_Input1(var S: string; MaxLen: byte; LowerCase: boolean);
+procedure Local_Input1(var S: string; MaxLen: byte; Lower: boolean);
 procedure Local_Input(var S: string; MaxLen: byte);
 procedure Local_InputL(var S: string; MaxLen: byte);
 procedure Local_OneK(var C: char; S: string);
@@ -49,7 +49,8 @@ uses
   Common,
   File0,
   Mail0,
-  TimeFunc;
+  TimeFunc,
+  SysUtils;
 
 function CheckPW: boolean;
 var
@@ -310,7 +311,7 @@ begin
   end;
 end;
 
-procedure Local_Input1(var S: string; MaxLen: byte; LowerCase: boolean);
+procedure Local_Input1(var S: string; MaxLen: byte; Lower: boolean);
 var
   C: char;
   B: byte;
@@ -319,7 +320,7 @@ begin
   repeat
     C := ReadKey;
     if (not LowerCase) then
-      C := UpCase(C);
+      C := UpperCase(C);
     if (C in [#32..#255]) then
       if (B <= MaxLen) then
       begin
@@ -363,7 +364,7 @@ end;
 procedure Local_OneK(var C: char; S: string);
 begin
   repeat
-    C := UpCase(ReadKey)
+    C := UpperCase(ReadKey)
   until (Pos(C, S) > 0);
   WriteLn(C);
 end;

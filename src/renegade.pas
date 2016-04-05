@@ -23,7 +23,7 @@
 {         |::.|:. |                                                        }
 {         `--- ---'                                                        }
 {**************************************************************************}
-
+{$APPTYPE CONSOLE}
 {$IFDEF MSDOS}
 {$M 35500,0,131072}
 {$ENDIF}
@@ -43,7 +43,7 @@
 {$V-} { Variable string Length allowed }
 {$X+} { Allow extended syntax }
 
-PROGRAM Renegade;
+Program Renegade;
 
 USES
   Crt,
@@ -65,7 +65,8 @@ USES
   NewUsers,
   OffLine,
   TimeFunc,
-  WfCMenu, unit1
+  WfCMenu, 
+  SysUtils
   {$IFDEF MSDOS}
   ,Overlay
   {$ENDIF}
@@ -185,7 +186,7 @@ VAR
 
   FUNCTION SC(s: astr; i: Integer): Char;
   BEGIN
-    SC := UpCase(s[i]);
+    SC := UpperCase(s[i]);
   END;
 
 BEGIN

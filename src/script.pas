@@ -1,7 +1,3 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-
 {$A+,B-,D-,E-,F+,I-,L-,N-,O+,R-,S+,V-}
 
 UNIT Script;
@@ -22,7 +18,8 @@ USES
   Doors,
   MiscUser,
   SysOp2G,
-  TimeFunc;
+  TimeFunc,
+  SysUtils;
 
 PROCEDURE ReadQ(CONST FileN: AStr);
 VAR
@@ -281,8 +278,8 @@ BEGIN
                           IF (Lin[1] = ';') THEN
                             OutP := #0#0#0
                         END;
-                  'V' : IF (UpCase(OutP[3]) IN ['!'..'~']) THEN
-                          AutoValidate(ThisUser,UserNum,UpCase(OutP[3]));
+                  'V' : IF (UpperCase(OutP[3]) IN ['!'..'~']) THEN
+                          AutoValidate(ThisUser,UserNum,UpperCase(OutP[3]));
                   ';' : S := #0#0#0;
                 END;
                 IF (S <> #1#1#1) THEN

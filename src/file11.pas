@@ -47,7 +47,8 @@ USES
   File1,
   File10,
   Menus,
-  TimeFunc;
+  TimeFunc,
+  SysUtils;
 
 TYPE
   DownLoadArrayType = ARRAY [0..99] OF SmallInt;
@@ -986,9 +987,9 @@ BEGIN
   Next := FALSE;
   InitFArray(FArray);
   FArrayRecNum := 0;
-  IF (UpCase(MenuOption[1]) = 'C') THEN
+  IF (UpperCase(MenuOption[1]) = 'C') THEN
     NewFileScan(FileArea,FALSE,FArrayRecNum)
-  ELSE IF (UpCase(MenuOption[1]) = 'G') THEN
+  ELSE IF (UpperCase(MenuOption[1]) = 'G') THEN
     GlobalNewFileScan(FArrayRecNum)
   ELSE IF (StrToInt(MenuOption) <> 0) THEN
     NewFileScan(StrToInt(MenuOption),FALSE,FArrayRecNum)

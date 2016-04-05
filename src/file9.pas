@@ -32,7 +32,8 @@ USES
   Common5,
   File0,
   File1,
-  TimeFunc;
+  TimeFunc,
+  SysUtils;
 
 PROCEDURE DosDir(CurDir: ASTR; CONST FSpec: Str12; Expanded: Boolean);
 VAR
@@ -55,7 +56,7 @@ BEGIN
     TempStr := 'has no label.'
   ELSE
     TempStr := 'is '+DirInfo.Name;
-  PrintACR(' Volume in drive '+UpCase(CurDir[1])+' '+TempStr);
+  PrintACR(' Volume in drive '+UpperCase(CurDir[1])+' '+TempStr);
 
   (*  Add Serial Number if possible *)
 

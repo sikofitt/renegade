@@ -17,7 +17,8 @@ PROCEDURE MsgAreaScanInput(DisplayStr: AStr; MaxLen: Byte; VAR S: AStr; CONST Al
 IMPLEMENTATION
 
 USES
-  Crt;
+  Crt,
+  SysUtils;
 
 PROCEDURE ANSIG(X,Y: Byte);
 BEGIN
@@ -233,7 +234,7 @@ BEGIN
       END;
     END;
 
-    C := UpCase(Char(W));
+    C := UpperCase(Char(W));
 
     SaveS := s;
 
@@ -475,7 +476,7 @@ BEGIN
       END;
     END;
 
-    C := UpCase(Char(W));
+    C := UpperCase(Char(W));
 
     SaveS := s;
 

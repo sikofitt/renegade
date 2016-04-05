@@ -15,6 +15,9 @@ PROCEDURE DoChangeMenu(VAR Done: BOOLEAN; VAR NewMenuCmd: ASTR; Cmd: CHAR; CONST
 
 IMPLEMENTATION
 
+Uses
+  SysUtils;
+
 PROCEDURE DoChangeMenu(VAR Done: BOOLEAN; VAR NewMenuCmd: ASTR; Cmd: CHAR; CONST MenuOption: Str50);
 VAR
   TempStr,
@@ -30,7 +33,7 @@ BEGIN
               TempStr := MenuOption;
               IF (Pos(';',TempStr) <> 0) THEN
                 TempStr := Copy(TempStr,(Pos(';',TempStr) + 1),Length(TempStr));
-              IF (UpCase(TempStr[1]) = 'C') THEN
+              IF (UpperCase(TempStr[1]) = 'C') THEN
                 MenuStackPtr := 0;
               IF (Pos(';',TempStr) = 0) OR (Length(TempStr) = 1) THEN
                 TempStr := ''
@@ -55,7 +58,7 @@ BEGIN
               TempStr := MenuOption;
               IF (Pos(';',TempStr) <> 0) THEN
                 TempStr := Copy(TempStr,(Pos(';',TempStr) + 1),Length(TempStr));
-              IF (UpCase(TempStr[1]) = 'C') THEN
+              IF (UpperCase(TempStr[1]) = 'C') THEN
                 MenuStackPtr := 0;
               IF (Pos(';',TempStr) = 0) OR (Length(TempStr) = 1) THEN
                 TempStr := ''
@@ -84,7 +87,7 @@ BEGIN
               CurMenu := MenuStack[MenuStackPtr];
               Dec(MenuStackPtr);
             END;
-            IF (UpCase(MenuOption[1]) = 'C') THEN
+            IF (UpperCase(MenuOption[1]) = 'C') THEN
               MenuStackPtr := 0;
             IF (Pos(';',MenuOption) <> 0) THEN
               NewMenuCmd := AllCaps(Copy(MenuOption,(Pos(';',MenuOption) + 1),Length(MenuOption)));
