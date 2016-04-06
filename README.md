@@ -6,7 +6,8 @@
     |::.|:. |
     `--- ---'
 
-#Renegade BBS
+# Renegade BBS
+
 Renegade BBS code update project.
 
 This is a project to update Renegade BBS to a more modern code base using [Free Pascal v3.x](http://freepascal.org/ "Free Pascal").
@@ -19,6 +20,6 @@ Eventually it should compile on any system that can run Free Pascal.
 
 ## Contributing
 
-All Code should conform to the [Object Pascal Style Guide](http://edn.embarcadero.com/article/10280 "Object Pascal Style Guide").
+All code should conform to the [Object Pascal Style Guide](http://edn.embarcadero.com/article/10280 "Object Pascal Style Guide"), with exceptions found [here](../../wiki/Style-Guide "Style Guide).
 
 You can follow the roadmap [here](../../wiki/Roadmap "Roadmap").

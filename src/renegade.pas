@@ -1,47 +1,39 @@
-{**************************************************************************}
-{   This file is part of Renegade BBS                                      }
-{                                                                          }
-{   Foobar is free software: you can redistribute it and/or modify         }
-{   it under the terms of the GNU General Public License as published by   }
-{   the Free Software Foundation, either version 3 of the License, or      }
-{   (at your option) any later version.                                    }
-{                                                                          }
-{   Foobar is distributed in the hope that it will be useful,              }
-{   but WITHOUT ANY WARRANTY; without even the implied warranty of         }
-{   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          }
-{   GNU General Public License for more details.                           }
-{                                                                          }        
-{   You should have received a copy of the GNU General Public License      }
-{   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.        }
-{                                                                          }        
-{**************************************************************************}
-{          _______                                  __                     }
-{         |   _   .-----.-----.-----.-----.---.-.--|  .-----.              }    
-{         |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|              }
-{         |.  _   |_____|__|__|_____|___  |___._|_____|_____|              }
-{         |:  |   |                 |_____|                                }    
-{         |::.|:. |                                                        }
-{         `--- ---'                                                        }
-{**************************************************************************}
-{$APPTYPE CONSOLE}
-{$IFDEF MSDOS}
-{$M 35500,0,131072}
-{$ENDIF}
+{*******************************************************}
+{                                                       }
+{   Renegade BBS                                        }
+{                                                       }
+{   Copyright (c) 1990-2013 The Renegade Dev Team       }
+{   Copyleft  (ↄ) 2016 Renegade BBS                     }
+{                                                       }
+{   This file is part of Renegade BBS                   }
+{                                                       }
+{   Renegade is free software: you can redistribute it  }
+{   and/or modify it under the terms of the GNU General }
+{   Public License as published by the Free Software    }
+{   Foundation, either version 3 of the License, or     }
+{   (at your option) any later version.                 }
+{                                                       }
+{   Foobar is distributed in the hope that it will be   }
+{   useful, but WITHOUT ANY WARRANTY; without even the  }
+{   implied warranty of MERCHANTABILITY or FITNESS FOR  }
+{   A PARTICULAR PURPOSE.  See the GNU General Public   }
+{   License for more details.                           }
+{                                                       }
+{   You should have received a copy of the GNU General  }
+{   Public License along with Renegade.  If not, see    }
+{   <http://www.gnu.org/licenses/>.                     }
+{                                                       }
+{*******************************************************}
+{   _______                                  __         }
+{  |   _   .-----.-----.-----.-----.---.-.--|  .-----.  }
+{  |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|  }
+{  |.  _   |_____|__|__|_____|___  |___._|_____|_____|  }
+{  |:  |   |                 |_____|                    }
+{  |::.|:. |                                            }
+{  `--- ---'                                            }
+{*******************************************************}
 
-{$A+} { Align Data for faster execution }
-{$B-} { Shortcut Boolean eval }
-{$D+} { No Debug Info }
-{$IFNDEF UNIX}
-{$E-} { No Math-Co library }
-{$ENDIF}
-{$I-} { Disable I/O check }
-{$P+} { Allow OpenString }
-{$O+} { Use Overlays? }
-{$Q-} { No overflow check }
-{$R-} { No range check }
-{$S-} { Don't Check stack usage }
-{$V-} { Variable string Length allowed }
-{$X+} { Allow extended syntax }
+{$I Renegade.Common.Defines.inc}
 
 Program Renegade;
 
@@ -65,7 +57,7 @@ USES
   NewUsers,
   OffLine,
   TimeFunc,
-  WfCMenu, 
+  WfCMenu,
   SysUtils
   {$IFDEF MSDOS}
   ,Overlay
@@ -96,12 +88,12 @@ Const
 
 Var
   ExitSave: Pointer;
-  GeneralF: FILE OF GeneralRecordType;
-  ByteFile: FILE OF Byte;
+  GeneralF: file of GeneralRecordType;
+  ByteFile: file of byte;
   TextFile: Text;
   S: Astr;
-  Counter: Byte;
-  Counter1: Integer;
+  Counter: byte;
+  Counter1: integer;
 
 
 Procedure ErrorHandle;
