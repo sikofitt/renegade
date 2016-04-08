@@ -8,6 +8,10 @@
 
 # Renegade BBS
 
+[![Software License](https://img.shields.io/badge/License-GPL3-blue.svg?style=flat-square)](LICENSE)
+[![Roadmap](https://img.shields.io/badge/Build_-_Not_Ready-blue.svg?style=flat-square)](../../wiki/Roadmap)
+[![Build Status](https://travis-ci.org/renegadebbs/renegade.svg?branch=2.0.x)](https://travis-ci.org/renegadebbs/renegade)
+
 Renegade BBS code update project.
 
 This is a project to update Renegade BBS to a more modern code base using [Free Pascal v3.x](http://freepascal.org/ "Free Pascal").
