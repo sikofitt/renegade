@@ -1,24 +1,21 @@
 Program BCrypt.Test.pas;
 
-Uses base64, SysUtils, blowfish, classes;
-
-Const BFRounds = 12;
-
+Uses SysUtils, classes, BCrypt, Renegade.Random, Base64;
+Const BFRounds = 14;
 Var
-  Base64String : AnsiString;
-  InputString  : AnsiString;
-  OutputString : AnsiString;
-  BlowFishCrypt: TBlowFishEncryptStream;
-  StringStream : TStringStream;  
-Begin
-  StringStream := TStringStream.Create('');
-  BlowFishCrypt := TBlowFishEncryptStream.Create('760b35c6ad6034cee18bb7d26d37075501783918378e', StringStream);
-  SetLength(OutputString, 32);
-  BlowFishCrypt.Write('Testing this out', 32);
-  InputString := 'String to encode';
-  WriteLn(StringStream.DataString);
-  Base64String := EncodeStringBase64(StringStream.DataString);
-  WriteLn(Base64String); 
-  BlowFishCrypt.Free;
-  StringStream.Free;
-End.
+  SaltString  : AnsiString;
+  SaltBytes :  UTF8String;
+  HashedPassword : AnsiString;
+  ch : Char;
+Begin  
+  SaltBytes:= RandomBytes(32);
+  SaltString := EncodeStringBase64(SaltBytes);
+  SetLength(SaltString, Length(SaltBytes)+1);
+  HashedPassword := HashPassword('password', SaltString);
+  WriteLn(Length(HashedPassword));
+ WriteLn(HashedPassword);
+ for ch := 'a' to 'z' do
+  begin
+  write(ch);
+  end;
+ End.

@@ -8,6 +8,7 @@ uses
   Classes, SysUtils, RegExpr;
 
 function checkPassword(const Str: string; const Hash: ansistring): boolean;
+function HashPassword(const Str: string; const salt: ansistring): ansistring;
 
 implementation
 
@@ -282,7 +283,7 @@ const
   BCRYPT_SALT_LEN = 16;
   //bcrypt uses 128-bit (16-byte) salt (This isn't an adjustable parameter, just a name for a constant)
   BLOWFISH_NUM_ROUNDS = 16;
-
+  BFRounds = 12;
   BsdBase64EncodeTable: array[0..63] of char =
     { 0:} './' +
     { 2:} 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
@@ -552,7 +553,7 @@ var
 begin
   Move(MagicText[0], cdata[0], Sizeof(MagicText));
   cLen := Length(cData);
-  round := 1 shl 13;
+  round := 1 shl BFRounds;
   InitializeKey();
   EKSKey(salt, key);
 
@@ -592,7 +593,7 @@ var
 begin
   saltString := BsdBase64Encode(salt, Length(salt));
   hashString := BsdBase64Encode(hash, Length(MagicText) * 4 - 1);
-  Result := Format('$2a$13$%s%s', [saltString, hashString]);
+  Result := Format('$2y$%d$%s%s', [BFRounds, saltString, hashString]);
 end;
 
 function HashPassword(const Str: string; const salt: ansistring): ansistring;
@@ -600,7 +601,8 @@ var
   password: ansistring;
   key, saltBytes, Hash: TBytes;
 begin
-  password := AnsiToUtf8(str);
+  //password := AnsiToUtf8(str);
+  password := Str;
   SetLength(key, Length(password) + 1);
   Move(password[1], key[0], Length(password));
   key[high(key)] := 0;
@@ -615,7 +617,7 @@ var
   RegexObj: TRegExpr;
 begin
   RegexObj := TRegExpr.Create;
-  RegexObj.Expression := '^\$2a\$13\$([\./0-9A-Za-z]{22})';
+  RegexObj.Expression := '^\$2y\$\d{2}\$([\./0-9A-Za-z]{22})';
   if RegexObj.Exec(Hash) then
   begin
     Result := HashPassword(Str, RegexObj.Match[1]) = Hash;

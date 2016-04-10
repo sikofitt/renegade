@@ -3,33 +3,39 @@ Unit Renegade.Random;
 
 Interface
 
-Function RandomBytes(NumberOfBytes : PtrUint) : UTF8String;  
+Function RandomBytes(NumberOfBytes : LongInt) : UTF8String;  
 
 Implementation
 
 Uses
   SysUtils;
+
+type 
+  AcceptableChars = array ['a'..'z', 'A'..'Z', 0..9] of PChar; 
+
+Function RandomBytes(NumberOfBytes : LongInt) : UTF8String;
+
   
-Function RandomBytes(NumberOfBytes : PtrUInt) : UTF8String;
 Var
-  i, RandomNumber : PtrUInt;
-  Result : AnsiString;
+  i, RandomNumber : LongInt;
+  RandomString : ^UTF8String;
+  
 Begin
-  SetLength(Result, NumberOfBytes);
+  New(RandomString);
+  SetLength(RandomString^, NumberOfBytes);
   Randomize;
-    i := 0;
+    i := 1;
     repeat;
         RandomNumber := Random(255);
-        if RandomNumber > 27 then
+       if Chr(RandomNumber) in ['.','/', 'a'..'z', 'A'..'Z', '0'..'9'] then
           begin
-            Result[i] := Chr(RandomNumber);
+            RandomString^[i] := Chr(RandomNumber);
             Inc(i);
           end
-        else begin
-         Dec(i);
-         end;
-    until i = NumberOfBytes;
-    RandomBytes := Result;
+      until  i = NumberOfBytes +1 ;
+      
+    RandomBytes := RandomString^;
+  
 End;
 
 End.
