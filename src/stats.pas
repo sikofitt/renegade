@@ -368,7 +368,7 @@ BEGIN
     IF (Pos(';',MenuOption) <> 0) THEN
       ExcludeUserNum := StrToInt(Copy(MenuOption,(Pos(';',MenuOption) + 1),50));
     SearchTop10User(Top10User,MenuOption[1],ExcludeUserNum);
-    CASE UpperCase(MenuOption[1]) OF
+    CASE AnsiUpperCase(MenuOption[1]) OF
       'A' : BEGIN
               Title := 'High Time Users';
               Header := 'Minutes Online';

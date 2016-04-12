@@ -21,7 +21,7 @@ USES
 
 PROCEDURE DosDir(CurDir: ASTR; CONST FSpec: Str12; Expanded: Boolean);
 PROCEDURE DirF(Expanded: Boolean);
-PROCEDURE DeleteFF(F: FileInfoRecordType; RN: PtrInt);
+PROCEDURE DeleteFF(F: FileInfoRecordType; RN: SizeInt);
 PROCEDURE ToggleFileAreaScanFlags;
 PROCEDURE SetFileAreaNewScanDate;
 
@@ -56,7 +56,7 @@ BEGIN
     TempStr := 'has no label.'
   ELSE
     TempStr := 'is '+DirInfo.Name;
-  PrintACR(' Volume in drive '+UpperCase(CurDir[1])+' '+TempStr);
+  PrintACR(' Volume in drive '+AnsiUpperCase(CurDir[1])+' '+TempStr);
 
   (*  Add Serial Number if possible *)
 
@@ -158,7 +158,7 @@ BEGIN
   DosDir(MemFileArea.DLPath,FSpec,Expanded);
 END;
 
-PROCEDURE DeleteFF(F: FileInfoRecordType; RN: PtrInt);
+PROCEDURE DeleteFF(F: FileInfoRecordType; RN: SizeInt);
 VAR
   ExtFile1: FILE;
   S,
@@ -234,7 +234,7 @@ VAR
   SaveFArea,
   SaveFileArea: Integer;
   FArea,
-  NumFAreas: PtrInt;
+  NumFAreas: SizeInt;
   SaveConfSystem,
   SaveTempPause: Boolean;
 

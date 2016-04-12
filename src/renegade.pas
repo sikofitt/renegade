@@ -178,7 +178,7 @@ VAR
 
   FUNCTION SC(s: astr; i: Integer): Char;
   BEGIN
-    SC := UpperCase(s[i]);
+    SC := AnsiUpperCase(s[i]);
   END;
 
 BEGIN

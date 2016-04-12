@@ -109,51 +109,51 @@ VAR
       IF (S[Index] = '%') AND (Index + 1 < Length(S)) THEN
       BEGIN
         Add := '%' + S[Index + 1] + S[Index + 2];
-          CASE UpperCase(S[Index + 1]) OF
-          'A' : CASE UpperCase(S[Index + 2]) OF
+          CASE AnsiUpperCase(S[Index + 1]) OF
+          'A' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'N' : Add := MemFileArea.AreaName;
                   'R' : Add := AOnOff((MemFileArea.ACS = ''),'*None*',MemFileArea.ACS);
                   'T' : Add := AOnOff((MemFileArea.ArcType = 0),'*None*',General.FileArcInfo[MemFileArea.ArcType].Ext);
                 END;
-          'C' : CASE UpperCase(S[Index + 2]) OF
+          'C' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'T' : Add := AOnOff((MemFileArea.CmtType = 0),'*None*',IntToStr(MemFileArea.CmtType));
                 END;
-          'D' : CASE UpperCase(S[Index + 2]) OF
+          'D' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'D' : Add := MCIVars1.Drive;
                   'P' : Add := MemFileArea.DLPath;
                   'R' : Add := AOnOff((MemFileArea.DLACS = ''),'*None*',MemFileArea.DLACS);
                 END;
-          'F' : CASE UpperCase(S[Index + 2]) OF
+          'F' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'N' : Add := MemFileArea.FileName;
                   'R' : Add := IntToStr(MCIVars1.FirstRecNum);
                   'S' : Add := DisplayFAFlags(MemFileArea.FAFlags,'5','1');
                   'T' : Add := DisplayFAFlags(MemFileArea.FAFlags,'5','4');
                 END;
-          'G' : CASE UpperCase(S[Index + 2]) OF
+          'G' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'D' : Add := GetDirPath(MemFileArea);
                 END;
-          'L' : CASE UpperCase(S[Index + 2]) OF
+          'L' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'R' : Add := IntToStr(MCIVars1.LastRecNum);
                 END;
-          'M' : CASE UpperCase(S[Index + 2]) OF
+          'M' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'A' : Add := IntToStr(MaxFileAreas);
                   'F' : Add := IntToStr(MemFileArea.MaxFiles);
                 END;
-          'N' : CASE UpperCase(S[Index + 2]) OF
+          'N' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'A' : Add := IntToStr(NumFileAreas);
                   'F' : Add := IntToStr(NumFileAreas + 1);
                   'P' : Add := MCIVars1.NewPath;
                 END;
-          'O' : CASE UpperCase(S[Index + 2]) OF
+          'O' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'P' : Add := MCIVars1.OldPath;
                 END;
-          'P' : CASE UpperCase(S[Index + 2]) OF
+          'P' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'W' : Add := AOnOff((MemFileArea.Password = ''),'*None*',MemFileArea.Password);
                 END;
-          'R' : CASE UpperCase(S[Index + 2]) OF
+          'R' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'E' : Add := IntToStr(MCIVars1.RecNumToEdit);
                 END;
-          'U' : CASE UpperCase(S[Index + 2]) OF
+          'U' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'P' : Add := MemFileArea.ULPath;
                   'R' : Add := AOnOff((MemFileArea.ULACS = ''),'*None*',MemFileArea.ULACS);
                 END;

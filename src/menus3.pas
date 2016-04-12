@@ -33,7 +33,7 @@ BEGIN
               TempStr := MenuOption;
               IF (Pos(';',TempStr) <> 0) THEN
                 TempStr := Copy(TempStr,(Pos(';',TempStr) + 1),Length(TempStr));
-              IF (UpperCase(TempStr[1]) = 'C') THEN
+              IF (AnsiUpperCase(TempStr[1]) = 'C') THEN
                 MenuStackPtr := 0;
               IF (Pos(';',TempStr) = 0) OR (Length(TempStr) = 1) THEN
                 TempStr := ''
@@ -58,7 +58,7 @@ BEGIN
               TempStr := MenuOption;
               IF (Pos(';',TempStr) <> 0) THEN
                 TempStr := Copy(TempStr,(Pos(';',TempStr) + 1),Length(TempStr));
-              IF (UpperCase(TempStr[1]) = 'C') THEN
+              IF (AnsiUpperCase(TempStr[1]) = 'C') THEN
                 MenuStackPtr := 0;
               IF (Pos(';',TempStr) = 0) OR (Length(TempStr) = 1) THEN
                 TempStr := ''
@@ -87,7 +87,7 @@ BEGIN
               CurMenu := MenuStack[MenuStackPtr];
               Dec(MenuStackPtr);
             END;
-            IF (UpperCase(MenuOption[1]) = 'C') THEN
+            IF (AnsiUpperCase(MenuOption[1]) = 'C') THEN
               MenuStackPtr := 0;
             IF (Pos(';',MenuOption) <> 0) THEN
               NewMenuCmd := AllCaps(Copy(MenuOption,(Pos(';',MenuOption) + 1),Length(MenuOption)));

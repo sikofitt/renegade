@@ -183,7 +183,7 @@ VAR
     Temp := '';
     FOR Index := 1 TO Length(s) DO
       IF (s[Index] = '%') THEN
-        CASE (UpperCase(s[Index + 1])) OF
+        CASE (AnsiUpperCase(s[Index + 1])) OF
         'S' : BEGIN
                 Temp := Temp + Caps(ThisUser.Name);
                 Inc(Index);
@@ -714,7 +714,7 @@ BEGIN
       END;
     IF (NOT Done) AND (s <> '') AND (s[1] = '/') THEN
     BEGIN
-      Cmd := UpperCase(s[2]);
+      Cmd := AnsiUpperCase(s[2]);
       s3 := AllCaps(Copy(s,2,255));
       IF (Pos(' ',s3) > 0) THEN
       BEGIN

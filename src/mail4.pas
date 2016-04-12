@@ -120,7 +120,7 @@ VAR
   SaveTempPause: Boolean;
 BEGIN
   IF (MenuOption <> '') THEN
-    CASE UpperCase(MenuOption[1]) OF
+    CASE AnsiUpperCase(MenuOption[1]) OF
       '+' : BEGIN
               MArea := MsgArea;
               IF (MsgArea >= NumMsgAreas) THEN

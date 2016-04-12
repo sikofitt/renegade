@@ -234,7 +234,7 @@ BEGIN
       END;
     END;
 
-    C := UpperCase(Char(W));
+    C := AnsiUpperCase(Char(W));
 
     SaveS := s;
 
@@ -476,7 +476,7 @@ BEGIN
       END;
     END;
 
-    C := UpperCase(Char(W));
+    C := AnsiUpperCase(Char(W));
 
     SaveS := s;
 

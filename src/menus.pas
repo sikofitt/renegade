@@ -305,7 +305,7 @@ BEGIN
         END;
       END;
 
-      C := UpperCase(Char(Key));
+      C := AnsiUpperCase(Char(Key));
       SaveSS := SS;
       IF (SS = '') THEN
       BEGIN
@@ -675,16 +675,16 @@ BEGIN
     'B' : CASE Cmd[2] OF
             '?' : BatchDLULInfo;
 
-            'C' : IF (UpperCase(MenuOption[1]) = 'U') THEN
+            'C' : IF (AnsiUpperCase(MenuOption[1]) = 'U') THEN
                     ClearBatchULQueue
                   ELSE
                     ClearBatchDLQueue;
             'D' : BatchDownload;
-            'L' : IF (UpperCase(MenuOption[1]) = 'U') THEN
+            'L' : IF (AnsiUpperCase(MenuOption[1]) = 'U') THEN
                     ListBatchULFiles
                   ELSE
                     ListBatchDLFiles;
-            'R' : IF (UpperCase(MenuOption[1]) = 'U') THEN
+            'R' : IF (AnsiUpperCase(MenuOption[1]) = 'U') THEN
                     RemoveBatchULFiles
                   ELSE
                     RemoveBatchDLFiles;

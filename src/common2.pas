@@ -631,7 +631,7 @@ BEGIN
           GoToXY(1,FirstRow);
           Write(Message);
           IF (OneKey) THEN
-            Answer := UpperCase(ReadKey)
+            Answer := AnsiUpperCase(ReadKey)
           ELSE
           BEGIN
             GoToXY(2,(FirstRow + 1));
@@ -1309,7 +1309,7 @@ BEGIN
             Shd(oo,TRUE);
             REPEAT
               C := ReadKey;
-              CASE UpperCase(C) OF
+              CASE AnsiUpperCase(C) OF
                 ^M : BEGIN
                        Done := TRUE;
                        Done1 := TRUE;
@@ -1358,7 +1358,7 @@ BEGIN
       5 : BEGIN
             Done1 := FALSE;
             REPEAT
-              C := UpperCase(ReadKey);
+              C := AnsiUpperCase(ReadKey);
               CASE C OF
                 #13 : Done1 := TRUE;
                  #0 : BEGIN
@@ -1389,7 +1389,7 @@ BEGIN
             S := 'LCVUA*PEKM1234';
             Done1 := FALSE;
             REPEAT
-              C := UpperCase(ReadKey);
+              C := AnsiUpperCase(ReadKey);
               IF (C = #13) THEN
                 Done1 := TRUE
               ELSE IF (C = #0) THEN

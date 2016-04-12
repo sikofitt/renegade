@@ -983,9 +983,9 @@ BEGIN
   Next := FALSE;
   InitFArray(FArray);
   FArrayRecNum := 0;
-  IF (UpperCase(MenuOption[1]) = 'C') THEN
+  IF (AnsiUpperCase(MenuOption[1]) = 'C') THEN
     NewFileScan(FileArea,FALSE,FArrayRecNum)
-  ELSE IF (UpperCase(MenuOption[1]) = 'G') THEN
+  ELSE IF (AnsiUpperCase(MenuOption[1]) = 'G') THEN
     GlobalNewFileScan(FArrayRecNum)
   ELSE IF (StrToInt(MenuOption) <> 0) THEN
     NewFileScan(StrToInt(MenuOption),FALSE,FArrayRecNum)

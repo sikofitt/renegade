@@ -38,6 +38,8 @@
 {$APPTYPE console}
 {$DESCRIPTION Renegade Bulletin Board System}
 {$MODE objfpc}
+{$UNITPATH Lib.Password;3rdparty/fptest/*;3rdparty/fundamentals/*}
+{$MODESWITCH typehelpers}
 
 {$A+} { Align Data for faster execution }
 {$B-} { Shortcut Boolean eval }
@@ -76,6 +78,7 @@
 {$CHECKPOINTER ON} { Heep pointer checking, see
                      http://www.freepascal.org/docs-html/prog/progsu8.html#x15-140001.2.8 }
 {$IEEEERRORS ON}   { IEEE (floating point) error checking for constants. }
+{$WARNINGS ON}     { Generate Warnings }
 {$ENDIF}
 
 {$V-} { Variable string Length allowed }

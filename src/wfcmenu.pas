@@ -330,7 +330,7 @@ BEGIN
     IF (KeyPressed) THEN
     BEGIN
 
-       C := UpperCase(ReadKey);
+       C := AnsiUpperCase(ReadKey);
 
        IF (C = ^[) THEN
        BEGIN
@@ -1074,7 +1074,7 @@ BEGIN
         LastKeyPress := GetPackDateTime;
       END;
 
-      C := UpperCase(C);
+      C := AnsiUpperCase(C);
           {$IFDEF FPC}
     cursoron;
     {$ELSE}
@@ -1245,7 +1245,7 @@ BEGIN
                   rl2 := Timer;
                   WHILE (NOT KeyPressed) AND (ABS(Timer - rl2) < 10) DO;
                   IF (KeyPressed) THEN
-                    C := UpperCase(ReadKey)
+                    C := AnsiUpperCase(ReadKey)
                   ELSE
                     C := 'N';
                   WriteLn(C);

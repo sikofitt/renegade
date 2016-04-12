@@ -2261,7 +2261,7 @@ BEGIN
      '%' : IF (MCIAllowed) AND (Length(InString) > (Counter + 1)) THEN
            BEGIN
              TempStr := AllCaps(MCI('%' + InString[Counter + 1] + InString[Counter + 2]));
-             IF (Copy(TempStr,1,3) <> '%' + UpperCase(InString[Counter + 1]) + UpperCase(InString[Counter + 2])) THEN
+             IF (Copy(TempStr,1,3) <> '%' + AnsiUpperCase(InString[Counter + 1]) + UpperCase(InString[Counter + 2])) THEN
                Inc(StrLen,Length(TempStr) - 3);
            END;
     END;
@@ -3224,7 +3224,7 @@ BEGIN
     UserColor(3);
     Prompt(SQOutSp(ShowYesNo(DYNY)));
     REPEAT
-      Cmd := UpperCase(Char(GetKey));
+      Cmd := AnsiUpperCase(Char(GetKey));
     UNTIL (Cmd IN ['Y','N',^M]) OR (HangUp);
     IF (DYNY) AND (Cmd <> 'N') THEN
       Cmd := 'Y';
@@ -3253,7 +3253,7 @@ BEGIN
   MPL(1);
   TempPause := (Pause IN ThisUser.Flags);
   REPEAT
-    C := UpperCase(Char(GetKey));
+    C := AnsiUpperCase(Char(GetKey));
   UNTIL (Pos(C,ValidKeys) > 0) OR (HangUp);
   IF (HangUp) THEN
     C := ValidKeys[1];
@@ -3273,7 +3273,7 @@ BEGIN
   REPEAT
     C := Char(GetKey);
     IF (C = 'q') THEN
-      C := UpperCase(C);
+      C := AnsiUpperCase(C);
   UNTIL (Pos(C,ValidKeys) > 0) OR (HangUp);
   IF (HangUp) THEN
     C := ValidKeys[1];
@@ -3292,7 +3292,7 @@ BEGIN
   MPL(1);
   TempPause := (Pause IN ThisUser.Flags);
   REPEAT
-    C := UpperCase(Char(GetKey));
+    C := AnsiUpperCase(Char(GetKey));
   UNTIL (Pos(C,ValidKeys) > 0) OR (HangUp);
   IF (HangUp) THEN
     C := ValidKeys[1];
@@ -3328,14 +3328,14 @@ BEGIN
   IF (NOT AllowAbort) OR (Abort) OR (HangUp) OR (Empty) THEN
     Exit;
   Cmd := Char(GetKey);
-  IF (DisplayingMenu) AND (Pos(UpperCase(Cmd),MenuKeys) > 0) THEN
+  IF (DisplayingMenu) AND (Pos(AnsiUpperCase(Cmd),MenuKeys) > 0) THEN
   BEGIN
     MenuAborted := TRUE;
     Abort := TRUE;
-    Buf := Buf + UpperCase(Cmd);
+    Buf := Buf + AnsiUpperCase(Cmd);
   END
   ELSE
-    CASE UpperCase(Cmd) OF
+    CASE AnsiUpperCase(Cmd) OF
       ' ',^C,^X,^K :
             Abort := TRUE;
       'N',^N :
@@ -3451,26 +3451,26 @@ BEGIN
       CASE s[i] OF
         '%' : IF MCIAllowed AND (i + 1 < Length(s)) THEN
               BEGIN
-                IF (UpperCase(s[i + 1]) = 'P') AND (UpperCase(s[i + 2]) = 'A') THEN { %PA Pause }
+                IF (AnsiUpperCase(s[i + 1]) = 'P') AND (UpperCase(s[i + 2]) = 'A') THEN { %PA Pause }
                 BEGIN
                   Inc(i,2);
                   PauseScr(FALSE)
                 END
-                ELSE IF (UpperCase(s[i + 1]) = 'P') AND (UpperCase(s[i + 2]) = 'E') THEN { %PE Null Pause }
+                ELSE IF (AnsiUpperCase(s[i + 1]) = 'P') AND (UpperCase(s[i + 2]) = 'E') THEN { %PE Null Pause }
                   BEGIN
                     Inc(i,2);
                     PauseIsNull := TRUE;
                     PauseScr(FALSE);
                     PauseIsNull := FALSE;
                   END
-                ELSE IF (UpperCase(s[i + 1]) = 'D') THEN
-                  IF (UpperCase(s[i + 2]) = 'E') THEN { %DE Delay }
+                ELSE IF (AnsiUpperCase(s[i + 1]) = 'D') THEN
+                  IF (AnsiUpperCase(s[i + 2]) = 'E') THEN { %DE Delay }
                   BEGIN
                     Inc(i,2);
                     OutKey(' '); OutKey(#8); { guard against +++ }
                     Delay(800);
                   END
-                  ELSE IF ((UpperCase(s[i + 2]) = 'F') AND (NOT PrintingFile)) THEN { %DF File Include }
+                  ELSE IF ((AnsiUpperCase(s[i + 2]) = 'F') AND (NOT PrintingFile)) THEN { %DF File Include }
                   BEGIN
                     cs := ''; Inc(i, 3);
                     WHILE (i < Length(s)) AND (s[i] <> '%') DO
@@ -3873,15 +3873,15 @@ VAR
               END;
             END;
       'D' : ACS := (User.DSL >= VSI) OR (TempSysOp);
-      'E' : CASE UpperCase(VS[1]) OF
+      'E' : CASE AnsiUpperCase(VS[1]) OF
               'A' : ACS := OkANSI;
               'N' : ACS := NOT (OkANSI OR OkAvatar OR OkVT100);
               'V' : ACS := OkAvatar;
               'R' : ACS := OkRIP;
               '1' : ACS := OkVT100;
             END;
-      'F' : ACS := (UpperCase(VS[1]) IN User.AR);
-      'G' : ACS := (User.Sex = UpperCase(VS[1]));
+      'F' : ACS := (AnsiUpperCase(VS[1]) IN User.AR);
+      'G' : ACS := (User.Sex = AnsiUpperCase(VS[1]));
       'H' : BEGIN
               GetTime(Hour,Minute,Second,Sec100);
               ACS := (Hour = VSI);
@@ -3894,7 +3894,7 @@ VAR
       'N' : ACS := (ThisNode = VSI);
       'O' : ACS := SysOpAvailable;
       'P' : ACS := ((User.lCredit - User.Debit) >= VSI);
-      'R' : ACS := (TACCH(UpperCase(VS[1])) IN User.Flags);
+      'R' : ACS := (TACCH(AnsiUpperCase(VS[1])) IN User.Flags);
       'S' : ACS := (User.SL >= VSI) OR (TempSysOp);
       'T' : ACS := (NSL DIV 60 >= VSI);
       'U' : ACS := (UNum = VSI);
@@ -4198,7 +4198,7 @@ BEGIN
   GotCmd := FALSE;
   s := '';
   REPEAT
-    c := UpperCase(Char(GetKey));
+    c := AnsiUpperCase(Char(GetKey));
     SaveS := s;
     IF ((Pos(c,Allowed) <> 0) AND (s = '')) THEN
     BEGIN
@@ -4608,7 +4608,7 @@ BEGIN
   IF (IsCont) THEN
   BEGIN
     REPEAT
-      Cmd := UpperCase(Char(GetKey));
+      Cmd := AnsiUpperCase(Char(GetKey));
       CASE Cmd OF
         'C' : IF (IsCont) THEN
                 TempPause := FALSE;
@@ -4714,7 +4714,7 @@ BEGIN
   FOR Index := 1 TO Length(S) DO
     IF (S[Index] = '%') THEN
     BEGIN
-      CASE UpperCase(S[Index + 1]) OF
+      CASE AnsiUpperCase(S[Index + 1]) OF
         'A' : Add := AOnOff(LocalIOOnly,'0',IntToStr(ActualSpeed));
         'B' : Add := IntToStr(ComPortSpeed);
         'C' : Add := Liner.Address;
@@ -4779,8 +4779,8 @@ BEGIN
     BEGIN
       Add := '%' + S[Index + 1] + S[Index + 2];
       WITH ThisUser DO
-        CASE UpperCase(S[Index + 1]) OF
-          'A' : CASE UpperCase(S[Index + 2]) OF
+        CASE AnsiUpperCase(S[Index + 1]) OF
+          'A' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '1' : Add := IntToStr(LowFileArea);
                   '2' : Add := IntToStr(HighFileArea);
                   '3' : Add := IntToStr(LowMsgArea);
@@ -4794,14 +4794,14 @@ BEGIN
                           Add := '';
                         END;
                 END;
-          'B' : CASE UpperCase(S[Index + 2]) OF
+          'B' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'D' : Add := IntToStr(ActualSpeed);
                   'L' : Add := PHours('Always allowed',General.MinBaudLowTime,General.MinBaudHiTime);
                   'M' : Add := PHours('Always allowed',General.MinBaudDLLowTime,General.MinBaudDLHiTime);
                   'N' : Add := General.BBSName;
                   'P' : Add := General.BBSPhone;
                 END;
-          'C' : CASE UpperCase(S[Index + 2]) OF
+          'C' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'A' : Add := FormatNumber(General.CallAllow[SL]);
                   'D' : Add := AOnOff(General.PerCall,'call','day ');
                   'L' : Add := ^L;
@@ -4832,7 +4832,7 @@ BEGIN
 
                         END;
                 END;
-          'D' : CASE UpperCase(S[Index + 2]) OF
+          'D' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '1'..'3' :
                         Add := UsrDefStr[Ord(S[Index + 2]) - 48];
                   'A' : Add := DateStr;
@@ -4851,7 +4851,7 @@ BEGIN
                             Add := 'morning'
                         END;
                 END;
-          'E' : CASE UpperCase(S[Index + 2]) OF
+          'E' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'D' : Add := AOnOff((Expiration = 0),'Never',ToDate8(PD2Date(Expiration)));
                   'S' : Add := FormatNumber(EmailSent);
                   'T' : Add := IntToStr(General.EventWarningTime);
@@ -4861,7 +4861,7 @@ BEGIN
                         ELSE
                           Add := 'Never';
                 END;
-          'F' : CASE UpperCase(S[Index + 2]) OF
+          'F' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '#' : Add := IntToStr(CompFileArea(FileArea,0));
                   'B' : BEGIN
                           LoadFileArea(FileArea);
@@ -4874,10 +4874,10 @@ BEGIN
                   'S' : Add := AOnOff(NewScanFileArea,'','not ');
                   'T' : Add := IntToStr(NumFileAreas);
                 END;
-          'G' : CASE UpperCase(S[Index + 2]) OF
+          'G' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'N' : AOnOff((Sex = 'M'),'Mr.','Ms.');
                 END;
-          'H' : CASE UpperCase(S[Index + 2]) OF
+          'H' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '1' : Add := CTim(General.lLowTime);  (* Verify All CTim *)
                   '2' : Add := CTim(General.HiTime);
                   '3' : Add := CTim(General.MinBaudLowTime);
@@ -4888,18 +4888,18 @@ BEGIN
                   '8' : add := CTim(General.MinBaudDLHiTime);
                   'M' : Add := IntToStr(HiMsg);
                 END;
-          'I' : CASE UpperCase(S[Index + 2]) OF
+          'I' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'L' : Add := IntToStr(Illegal);
                   'P' : Add := ThisUser.CallerID;
                 END;
-          'K' : CASE UpperCase(S[Index + 2]) OF
+          'K' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'D' : Add := FormatNumber(General.DLKOneday[SL]);
                   'R' : IF (DK > 0) THEN
                           Str((UK / DK):3:3,Add)
                         ELSE
                           Add := '0';
                 END;
-          'L' : CASE UpperCase(S[Index + 2]) OF
+          'L' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'C' : Add := ToDate8(PD2Date(LastOn));
                   'F' : Add := ^M^J;
                   'N' : BEGIN
@@ -4910,7 +4910,7 @@ BEGIN
                         END;
                   'O' : Add := CityState;
                 END;
-          'M' : CASE UpperCase(S[Index + 2]) OF
+          'M' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '#' : Add := IntToStr(CompMsgArea(MsgArea,0));
                   '1' : Add := IntToStr(General.GlobalMenu);
                   '2' : Add := IntToStr(General.AllStartMenu);
@@ -4932,7 +4932,7 @@ BEGIN
                   'S' : Add := AOnOff(LastReadRecord.NewScan,'','not ');
                   'T' : Add := IntToStr(NumMsgAreas);
                 END;
-          'N' : CASE UpperCase(S[Index + 2]) OF
+          'N' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'D' : Add := IntToStr(ThisNode);
                   'L' : Add := '';
                   'M' : Add := ShowOnOff(General.NetworkMode);
@@ -4941,7 +4941,7 @@ BEGIN
                         ELSE
                           Add := '0';
                 END;
-          'O' : CASE UpperCase(S[Index + 2]) OF
+          'O' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '1' : IF (RIP IN SFlags) THEN
                           Add := 'RIP'
                         ELSE IF (Avatar IN Flags) THEN
@@ -4976,7 +4976,7 @@ BEGIN
                          END;
                         END;
                 END;
-          'P' : CASE UpperCase(S[Index + 2]) OF
+          'P' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '1' : Add := General.MsgPath;
                   '2' : Add := General.NodePath;
                   '3' : Add := General.MultPath;
@@ -5003,14 +5003,14 @@ BEGIN
                   'S' : Add := FormatNumber(MsgPost);
                   'T' : Add := General.TempPath;
                 END;
-          'Q' : CASE UpperCase(S[Index + 2]) OF
+          'Q' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'D' : Add := IntToStr(NumBatchDLFiles);
                   'U' : Add := IntToStr(NumBatchULFiles);
                 END;
-          'R' : CASE UpperCase(S[Index + 2]) OF
+          'R' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'N' : Add := Caps(RealName);
                 END;
-          'S' : CASE UpperCase(S[Index + 2]) OF
+          'S' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '1' : Add := lRGLngStr(41,TRUE); {FString.UserDefEd[Ord(S[Index + 2]) - 48]; }
                   '2' : Add := lRGLngStr(42,TRUE); {FString.UserDefEd[Ord(S[Index + 2]) - 48]; }
                   '3' : Add := lRGLngStr(43,TRUE); {FString.UserDefEd[Ord(S[Index + 2]) - 48]; }
@@ -5024,7 +5024,7 @@ BEGIN
                   'U' : Add := IntToStr(General.TotalUloads);
                   'X' : Add := AOnOff((Sex = 'M'),'Male','Female');
                 END;
-          'T' : CASE UpperCase(S[Index + 2]) OF
+          'T' : CASE AnsiUpperCase(S[Index + 2]) OF
                   '1' : Add := FormatNumber(General.TimeAllow[SL]);
                   'A' : Add := FormatNumber(TimeBankAdd);
                   'B' : Add := FormatNumber(TimeBank);
@@ -5054,7 +5054,7 @@ BEGIN
                   'T' : Add := FormatNumber(TTimeOn);
                   'U' : Add := IntToStr(General.NumUsers);
                 END;
-          'U' : CASE UpperCase(S[Index + 2]) OF
+          'U' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'A' : Add := IntToStr(AgeUser(BirthDate));
                   'B' : Add := ToDate8(PD2Date(BirthDate));
                   'C' : Add := IntToStr(OnToday);
@@ -5065,10 +5065,10 @@ BEGIN
                   'N' : Add := Caps(Name);
                   'U' : Add := IntToStr(UserNum);
                 END;
-          'V' : CASE UpperCase(S[Index + 2]) OF
+          'V' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'R' : Add := General.Version;
                 END;
-          'Z' : CASE UpperCase(S[Index + 2]) OF
+          'Z' : CASE AnsiUpperCase(S[Index + 2]) OF
                   'P' : Add := ZipCode;
                 END;
         END;

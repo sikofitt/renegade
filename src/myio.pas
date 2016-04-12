@@ -386,7 +386,7 @@ VAR
   C: Char;
 BEGIN
   REPEAT
-    C := UpperCase(ReadKey)
+    C := AnsiUpperCase(ReadKey)
   UNTIL (C IN ['Y','N',#13,#27]);
   IF (C = 'Y') THEN
   BEGIN

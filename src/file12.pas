@@ -347,7 +347,7 @@ TYPE
     FilesULCredit: Byte;
     BytesUL,
     BytesULCredit,
-    PointsULCredit: PtrInt;
+    PointsULCredit: SizeInt;
   END;
 VAR
   Totals: TotalsRecordType;
@@ -366,7 +366,7 @@ VAR
   ProtocolNumber,
   SaveFArea,
   SaveFileArea,
-  TempBULVTextSize: PtrInt;
+  TempBULVTextSize: SizeInt;
   NumFAreas,
   FArea,
   TempVPointer,
@@ -374,7 +374,7 @@ VAR
   RecNum1,
   RefundTime,
   TakeAwayRefundTime,
-  TotConversionTime: PtrInt;
+  TotConversionTime: SizeInt;
   AutoLogOff,
   AHangUp,
   WentToSysOp,
@@ -383,7 +383,7 @@ VAR
 
   PROCEDURE UpFile;
   Var
-    GotPts : PtrInt;
+    GotPts : SizeInt;
     ConversionTime: LongInt;
     ArcOk,
     Convt: Boolean;

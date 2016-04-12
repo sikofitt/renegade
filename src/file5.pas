@@ -708,7 +708,7 @@ VAR
                 Abort := TRUE;
                 Exit;
               END;
-              Cmd := UpperCase(FileInfo.Description[2]);
+              Cmd := AnsiUpperCase(FileInfo.Description[2]);
               CASE Cmd OF
                 'D' : BEGIN
                         Kill(MemFileArea.DLPath+DirInfo.Name);

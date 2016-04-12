@@ -106,7 +106,7 @@ BEGIN
     IF (i <= Length(Format)) THEN
       IF ((Format[i] = '@') AND (c IN ['a'..'z','A'..'Z'])) OR ((Format[i] = '#') AND (c IN ['0'..'9'])) THEN
       BEGIN
-        c := UpperCase(c);
+        c := AnsiUpperCase(c);
         OutKey(c);
         InputStr := InputStr + c;
         Inc(i);
@@ -448,17 +448,17 @@ BEGIN
             IF (NOT (NumbersOnly IN InputFlags)) THEN
             BEGIN
               IF (UpperOnly IN InputFlags) THEN
-                c := Ord(UpperCase(Char(c)));
+                c := Ord(AnsiUpperCase(Char(c)));
               IF (CapWords IN InputFlags) THEN
                 IF (Cp > 1) THEN
                 BEGIN
                   IF (S[Cp - 1] IN [#32..#64]) THEN
-                    c := Ord(UpperCase(Char(c)))
+                    c := Ord(AnsiUpperCase(Char(c)))
                   ELSE IF (c IN [Ord('A')..Ord('Z')]) THEN
                     Inc(c,32);
                 END
                 ELSE
-                  c := Ord(UpperCase(Char(c)));
+                  c := Ord(AnsiUpperCase(Char(c)));
             END;
             IF (NOT (NumbersOnly IN InputFlags)) OR (c IN [45,48..57]) THEN
             BEGIN

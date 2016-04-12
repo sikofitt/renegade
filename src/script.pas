@@ -278,8 +278,8 @@ BEGIN
                           IF (Lin[1] = ';') THEN
                             OutP := #0#0#0
                         END;
-                  'V' : IF (UpperCase(OutP[3]) IN ['!'..'~']) THEN
-                          AutoValidate(ThisUser,UserNum,UpperCase(OutP[3]));
+                  'V' : IF (AnsiUpperCase(OutP[3]) IN ['!'..'~']) THEN
+                          AutoValidate(ThisUser,UserNum,AnsiUpperCase(OutP[3]));
                   ';' : S := #0#0#0;
                 END;
                 IF (S <> #1#1#1) THEN

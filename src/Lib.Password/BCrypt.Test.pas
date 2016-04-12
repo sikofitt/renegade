@@ -1,21 +1,21 @@
 Program BCrypt.Test.pas;
 
-Uses SysUtils, classes, BCrypt, Renegade.Random, Base64;
-Const BFRounds = 14;
+Uses
+  SysUtils, Renegade.Hash.BCrypt;
+Const BCRYPT_DEFAULT_COST = 14;
 Var
-  SaltString  : AnsiString;
-  SaltBytes :  UTF8String;
-  HashedPassword : AnsiString;
-  ch : Char;
-Begin  
-  SaltBytes:= RandomBytes(32);
-  SaltString := EncodeStringBase64(SaltBytes);
-  SetLength(SaltString, Length(SaltBytes)+1);
-  HashedPassword := HashPassword('password', SaltString);
-  WriteLn(Length(HashedPassword));
- WriteLn(HashedPassword);
- for ch := 'a' to 'z' do
-  begin
-  write(ch);
-  end;
+  HashToCompare : PAnsiString;
+  PasswordInformation : RTPasswordInformation;
+Begin
+  HashToCompare := NewStr('$2y$12$gGgJvTCj2L4klTKG.5cWeeC1UM2CUIV1e3UusdkwKlOi3lye5/ezW');
+  WriteLn(verifyPassword('password', HashToCompare^));
+  DisposeStr(HashToCompare);
+  PasswordInformation := passwordGetInfo(HashToCompare^);
+  with PasswordInformation do
+    begin
+      WriteLn(Algo);
+      WriteLn(AlgoName);
+      WriteLn(Cost);
+    end;
+
  End.

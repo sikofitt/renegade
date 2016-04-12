@@ -85,7 +85,7 @@ TYPE
 {$IFDEF FPC}
   SmallWord = Word;
 {$ENDIF}
-Integer = PtrInt;
+Integer = SizeInt;
 
   AStr = STRING[160];
   Str1 = STRING[1];

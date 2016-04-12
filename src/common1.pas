@@ -320,7 +320,7 @@ begin
   repeat
     C := ReadKey;
     if (not LowerCase) then
-      C := UpperCase(C);
+      C := AnsiUpperCase(C);
     if (C in [#32..#255]) then
       if (B <= MaxLen) then
       begin
@@ -364,7 +364,7 @@ end;
 procedure Local_OneK(var C: char; S: string);
 begin
   repeat
-    C := UpperCase(ReadKey)
+    C := AnsiUpperCase(ReadKey)
   until (Pos(C, S) > 0);
   WriteLn(C);
 end;
