@@ -1,40 +1,41 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-{$IFDEF WIN64}
-{$DEFINE WIN32}
-{$ENDIF}
-{$IFDEF MSDOS}
-{$M 35500,0,131072}
-{$ENDIF}
-{$MODE TP}
-       {                                                         }
-       {    _______                                  __          }
-       {   |   _   .-----.-----.-----.-----.---.-.--|  .-----.   }
-       {   |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|   }
-       {   |.  _   |_____|__|__|_____|___  |___._|_____|_____|   }
-       {   |:  |   |                 |_____|                     }
-       {   |::.|:. |                                             }
-       {   `--- ---'                                             }
-       {                                                         }
+{*******************************************************}
+{                                                       }
+{   Renegade BBS                                        }
+{                                                       }
+{   Copyright (c) 1990-2013 The Renegade Dev Team       }
+{   Copyleft  (â†„) 2016 Renegade BBS                     }
+{                                                       }
+{   This file is part of Renegade BBS                   }
+{                                                       }
+{   Renegade is free software: you can redistribute it  }
+{   and/or modify it under the terms of the GNU General }
+{   Public License as published by the Free Software    }
+{   Foundation, either version 3 of the License, or     }
+{   (at your option) any later version.                 }
+{                                                       }
+{   Foobar is distributed in the hope that it will be   }
+{   useful, but WITHOUT ANY WARRANTY; without even the  }
+{   implied warranty of MERCHANTABILITY or FITNESS FOR  }
+{   A PARTICULAR PURPOSE.  See the GNU General Public   }
+{   License for more details.                           }
+{                                                       }
+{   You should have received a copy of the GNU General  }
+{   Public License along with Renegade.  If not, see    }
+{   <http://www.gnu.org/licenses/>.                     }
+{                                                       }
+{*******************************************************}
+{   _______                                  __         }
+{  |   _   .-----.-----.-----.-----.---.-.--|  .-----.  }
+{  |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|  }
+{  |.  _   |_____|__|__|_____|___  |___._|_____|_____|  }
+{  |:  |   |                 |_____|                    }
+{  |::.|:. |                                            }
+{  `--- ---'                                            }
+{*******************************************************}
 
+{$I Renegade.Common.Defines.inc}
 
-{$A+} { Align Data for faster execution }
-{$B-} { Shortcut Boolean eval }
-{$D+} { No Debug Info }
-{$IFNDEF UNIX}
-{$E-} { No Math-Co library }
-{$ENDIF}
-{$I-} { Disable I/O check }
-{$P+} { Allow OpenString }
-{$O+} { Use Overlays? }
-{$Q-} { No overflow check }
-{$R-} { No range check }
-{$S-} { Don't Check stack usage }
-{$V-} { Variable string Length allowed }
-{$X+} { Allow extended syntax }
-
-PROGRAM Renegade;
+Program Renegade;
 
 USES
   Crt,
@@ -56,7 +57,8 @@ USES
   NewUsers,
   OffLine,
   TimeFunc,
-  WfCMenu
+  WfCMenu,
+  SysUtils
   {$IFDEF MSDOS}
   ,Overlay
   {$ENDIF}
@@ -81,26 +83,24 @@ USES
 {$O Events    } {$O BBSList   } {$O Common4   } {$O File7     } {$O SplitCha  }
 {$O Sysop2o   } {$O Sysop5   }  {$O SysOp12   } {$O OneLiner  }
 {$ENDIF}
-CONST
+Const
   NeedToHangUp: Boolean = FALSE;
 
-
-
-VAR
+Var
   ExitSave: Pointer;
-  GeneralF: FILE OF GeneralRecordType;
-  ByteFile: FILE OF Byte;
+  GeneralF: file of GeneralRecordType;
+  ByteFile: file of byte;
   TextFile: Text;
   S: Astr;
-  Counter: Byte;
-  Counter1: Integer;
+  Counter: byte;
+  Counter1: integer;
 
 
-PROCEDURE ErrorHandle;
-VAR
+Procedure ErrorHandle;
+Var
   TextFile: Text;
-  S: STRING[50];
-BEGIN
+  S: String[50];
+Begin
   ExitProc := ExitSave;
   IF (ErrorAddr <> NIL) THEN
   BEGIN
@@ -130,17 +130,17 @@ BEGIN
     IF (IOResult <> 0) THEN
       ReWrite(TextFile);
 
-    WriteLn(TextFile,'ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ');
+    WriteLn(TextFile,'ÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃ');
     WriteLn(TextFile,'Critical error Log file - Contains screen images at instant of error.');
-    WriteLn(TextFile,'The "²" character shows the cursor position at time of error.');
-    WriteLn(TextFile,'ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ');
+    WriteLn(TextFile,'The "Â²" character shows the cursor position at time of error.');
+    WriteLn(TextFile,'ÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃÃ');
     WriteLn(TextFile);
     WriteLn(TextFile);
-    WriteLn(TextFile,'¯>¯ error #'+IntToStr(ExitCode)+' at '+DateStr+' '+TimeStr+' version: '+General.Version);
+    WriteLn(TextFile,'Â¯>Â¯ error #'+IntToStr(ExitCode)+' at '+DateStr+' '+TimeStr+' version: '+General.Version);
 
     IF (UserOn) THEN
     BEGIN
-      Write(TextFile,'¯>¯ User "'+AllCaps(ThisUser.name)+' #'+IntToStr(UserNum)+'" was on ');
+      Write(TextFile,'Â¯>Â¯ User "'+AllCaps(ThisUser.name)+' #'+IntToStr(UserNum)+'" was on ');
       IF (ComPortSpeed > 0) THEN
         WriteLn(TextFile,'at '+IntToStr(ActualSpeed)+ 'baud')
       ELSE
@@ -178,7 +178,7 @@ VAR
 
   FUNCTION SC(s: astr; i: Integer): Char;
   BEGIN
-    SC := UpCase(s[i]);
+    SC := AnsiUpperCase(s[i]);
   END;
 
 BEGIN
@@ -244,7 +244,10 @@ BEGIN
   AllowAbort := TRUE;
 END;
 
+{$R *.res}
+
 BEGIN
+  Application.Title:='Renegade BBS';
   ClrScr;
   TextColor(Yellow);
 {$IFDEF MSDOS}
@@ -551,10 +554,16 @@ BEGIN
   IF (General.Multinode) THEN
   BEGIN
     Assign(TextFile,General.LogsPath+'SYSOP.LOG');
-    IF Exist(General.LogsPath+'SYSOP.LOG') THEN
+   If FileExists(General.LogsPath+'sysop.log') Then
+{    IF Exist(General.LogsPath+'SYSOP.LOG') THEN  }
+     Begin
       Append(TextFile)
-    ELSE
-      ReWrite(TextFile);
+     End
+    Else
+      Begin
+        ReWrite(TextFile);
+
+      End;
     Reset(SysOpLogFile);
     WHILE NOT EOF(SysOpLogFile) DO
     BEGIN

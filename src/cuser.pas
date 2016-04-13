@@ -48,9 +48,10 @@ VAR
 
   PROCEDURE ConfigureQWK;
   VAR
-    ArcExt: Str3;
+    ArcExt: AnsiString; //Str3;
     AType: Byte;
   BEGIN
+    SetLength(ArcExt, 3);
     IF (User.DefArcType < 1) OR (User.DefArcType > MaxArcs) THEN
       User.DefArcType := 1;
     Print('Current archive type: ^5'+General.FileArcInfo[User.DefArcType].Ext);
@@ -84,8 +85,9 @@ VAR
 
   PROCEDURE DoAddress;
   VAR
-    TempStreet: Str30;
+    TempStreet: AnsiString; //Str30;
   BEGIN
+    SetLength(TempStreet, 30);
     Print('Enter your street address:');
     Prt(': ');
     MPL((SizeOf(User.Street) - 1));
@@ -104,13 +106,14 @@ VAR
 
   PROCEDURE DoAge;
   VAR
-    TempDate: Str10;
+    TempDate: AnsiString; // Str10;
     TempDay,
     TempMonth,
     TempYear,
     CurYear: Word;
     Redo: Boolean;
   BEGIN
+    SetLength(TempDate, 10);
     GetYear(CurYear);
     IF (How = 1) AND (IEMSIRec.BDate <> '') THEN
     BEGIN
@@ -163,9 +166,12 @@ VAR
   PROCEDURE DoCityState;
   VAR
     s,
-    s1,
-    s2: AStr;
+    s1,  // Str2
+    s2 : AnsiString; // Str26
   BEGIN
+    SetLength(s, SizeOf(User.CityState) - 1);
+    SetLength(s1, 2);
+    SetLength(s2, 26);
     CASE How OF
       2 : FindArea;
       3 : CallFromArea := 1;
@@ -234,8 +240,9 @@ VAR
   PROCEDURE DoUserDef(QuestionNum: Byte);
   VAR
     UserDefQues: STRING[80];
-    s: Str35;
+    s: AnsiString; //Str35;
   BEGIN
+    SetLength(s, 35);
     CASE QuestionNum OF
       1 : UserDefQues := lRGLngStr(38,TRUE); {'Is ALL of your information REAL & CORRECT? (Yes/No)'}
       2 : UserDefQues := lRGLngStr(39,TRUE); {'Do you run a Telnet BBS? (If so, type in address below)'}
@@ -261,11 +268,12 @@ VAR
   PROCEDURE DoName;
   VAR
     TextFile: Text;
-    s,
+    s : AnsiString;
     s1,
     s2: AStr;
     UNum: Integer;
   BEGIN
+    SetLength(s, SizeOf(User.Name) -1);
     IF (How = 1) THEN
       IF (General.AllowAlias) AND (IEMSIRec.Handle <> '') THEN
       BEGIN
@@ -294,7 +302,7 @@ VAR
     WHILE (s[1] IN [' ','0'..'9']) AND (Length(s) > 0) do
       Delete(s,1,1);
     WHILE (s[Length(s)] = ' ') do
-      Dec(s[0]);
+      Dec(s[2]);
     IF ((Pos(' ',s) = 0) AND (How <> 3) AND NOT (General.AllowAlias)) THEN
     BEGIN
       NL;
@@ -361,8 +369,9 @@ VAR
 
   PROCEDURE DoPhone;
   VAR
-    TempPhone: AStr;
+    TempPhone: AnsiString;
   BEGIN
+    SetLength(TempPhone, 12);
     CASE How OF
       1 : BEGIN
             IF (IEMSIRec.Ph <> '') THEN
@@ -484,8 +493,9 @@ VAR
 
   PROCEDURE DoForgotPW;
   VAR
-    s: AStr;
+    s: AnsiString;
   BEGIN
+    SetLength(s, 40);
     IF (How IN [1..2]) THEN
     BEGIN
       REPEAT
@@ -504,9 +514,10 @@ VAR
 
   PROCEDURE DoRealName;
   VAR
-    TempRealName: AStr;
+    TempRealName: AnsiString;
     UNum: Integer;
   BEGIN
+    SetLength(TempRealName, SizeOf(User.RealName) -1);
     IF (How = 1) THEN
       IF (NOT General.AllowAlias) THEN
       BEGIN
@@ -526,10 +537,10 @@ VAR
       InputL(TempRealName,(SizeOf(User.RealName) - 1))
     ELSE
       InputCaps(TempRealName,(SizeOf(User.RealName) - 1));
-    WHILE (TempRealName[1] IN [' ','0'..'9']) AND (Length(TempRealName) > 0) do
+    WHILE (TempRealName[2] IN [' ','0'..'9']) AND (Length(TempRealName) > 0) do
       Delete(TempRealName,1,1);
     WHILE (TempRealName[Length(TempRealName)] = ' ') do
-      Dec(TempRealName[0]);
+      Dec(TempRealName[1]);
     IF (Pos(' ',TempRealName) = 0) AND (How <> 3) THEN
     BEGIN
       NL;
@@ -591,8 +602,9 @@ VAR
 
   PROCEDURE DoZIPCode;
   VAR
-    TempZipCode: Str10;
+    TempZipCode: AnsiString; //Str10;
   BEGIN
+    SetLength(TempZipCode, 10);
     IF (How = 3) THEN
     BEGIN
       FindArea;
@@ -632,7 +644,7 @@ VAR
   PROCEDURE ForwardMail;
   VAR
     User1: UserRecordType;
-    Unum: Integer;
+    Unum: LongInt;
   BEGIN
     NL;
     Print('^5If you forward your mail, all email sent to your account^1');
@@ -1026,4 +1038,4 @@ BEGIN
   END;
 END;
 
-END.
+END.

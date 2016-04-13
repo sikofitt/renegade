@@ -28,7 +28,7 @@ VAR
   NS: NameStr;
   ES: ExtStr;
   AType: Byte;
-  ReturnCode: SmallInt;
+  ReturnCode: Byte;
   DirFileRecNum: Integer;
   OldSiz,
   NewSiz: LongInt;
@@ -167,11 +167,13 @@ TYPE
   END;
 VAR
   TotalsRecord: TotalsRecordType;
-  FileName: Str12;
-  ReZipCmd: Str78;
+  FileName: AnsiString; // Str12
+  ReZipCmd: AnsiString; //Str78;
   FArea,
   SaveFileArea: Integer;
 BEGIN
+  SetLength(FileName, 12);
+  SetLength(ReZipCmd, 78);
   FillChar(TotalsRecord,SizeOf(TotalsRecord),0);
   NL;
   Print('Re-compress archives -');
@@ -241,4 +243,4 @@ BEGIN
            ConvertBytes(TotalsRecord.TotalOldSize,FALSE)+' , new size='+ConvertBytes(TotalsRecord.TotalNewSize,FALSE));
 END;
 
-END.
+END.

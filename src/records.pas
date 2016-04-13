@@ -1,22 +1,50 @@
+{*******************************************************}
+{                                                       }
+{   Renegade BBS                                        }
+{                                                       }
+{   Copyright (c) 1990-2013 The Renegade Dev Team       }
+{   Copyleft  (ↄ) 2016 Renegade BBS                     }
+{                                                       }
+{   This file is part of Renegade BBS                   }
+{                                                       }
+{   Renegade is free software: you can redistribute it  }
+{   and/or modify it under the terms of the GNU General }
+{   Public License as published by the Free Software    }
+{   Foundation, either version 3 of the License, or     }
+{   (at your option) any later version.                 }
+{                                                       }
+{   Foobar is distributed in the hope that it will be   }
+{   useful, but WITHOUT ANY WARRANTY; without even the  }
+{   implied warranty of MERCHANTABILITY or FITNESS FOR  }
+{   A PARTICULAR PURPOSE.  See the GNU General Public   }
+{   License for more details.                           }
+{                                                       }
+{   You should have received a copy of the GNU General  }
+{   Public License along with Renegade.  If not, see    }
+{   <http://www.gnu.org/licenses/>.                     }
+{                                                       }
+{*******************************************************}
+{   _______                                  __         }
+{  |   _   .-----.-----.-----.-----.---.-.--|  .-----.  }
+{  |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|  }
+{  |.  _   |_____|__|__|_____|___  |___._|_____|_____|  }
+{  |:  |   |                 |_____|                    }
+{  |::.|:. |                                            }
+{  `--- ---'                                            }
+{*******************************************************}
+
+{ Records for Renegade BBS }
+
 CONST
-  Build = '1.20.1';
+  Build = '2.0.0/';
 
-{$IFDEF MSDOS}
-  OS = '/DOS';
-{$ENDIF}
-
-{$IFDEF WIN32}
-  OS = '/Win32';
-{$ENDIF}
-
-{$IFDEF OS/2}
-  OS = '/2';
-{$ENDIF}
-
-{$IFDEF LINUX}
-  OS = 'Linux';
-{$ENDIF}
-
+  OS = {$I %TARGETOS%}
+  TargetCPU = {$I %FPCTARGETCPU%}
+  { ???: Move these to Reneagde.Common.Types.inc }
+  BuildTime = {$I %TIME%}
+  BuildDate = {$I %DATE%}
+  { ???: Probably don't need this in records.
+    Will move to Renegade.Common.Types.inc }
   Ver = Build + OS;
   MaxProtocols = 120;
   MaxEvents = 10;
@@ -57,6 +85,8 @@ TYPE
 {$IFDEF FPC}
   SmallWord = Word;
 {$ENDIF}
+Integer = SizeInt;
+
   AStr = STRING[160];
   Str1 = STRING[1];
   Str2 = STRING[2];
@@ -938,7 +968,7 @@ Packed Record
    }
 
   BBSListRecordType =          { *.BBS file records }
-Packed Record
+   Record
     RecordNum,                    { Number OF the Record For Edit }
     UserID,                       { User ID OF person adding this }
     MaxNodes        : LongInt;    { Maximum Number Of Nodes       }
@@ -1016,4 +1046,4 @@ Packed Record
          CKeys: STRING[14];               { Command Execution Keys }
          CmdKeys: STRING[2];              { Command Keys: Type OF Command }
          Options: STRING[50]);            { MString: Command Data }
-    END;
+    END;

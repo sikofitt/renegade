@@ -1,7 +1,3 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
 
 UNIT File2;
@@ -11,19 +7,21 @@ INTERFACE
 USES
   Common;
 
-FUNCTION CopyMoveFile(CopyFile: Boolean; DisplayStr: AStr; CONST SrcName,DestName: AStr; CONST ShowProg: Boolean): Boolean;
+FUNCTION CopyMoveFile(CopyFile: Boolean; DisplayStr: AStr;
+  Const SrcName, DestName: AStr; CONST ShowProg: Boolean): Boolean;
 
 IMPLEMENTATION
 
 USES
   Dos;
 
-FUNCTION CopyMoveFile(CopyFile: Boolean; DisplayStr: AStr; CONST SrcName,DestName: AStr; CONST ShowProg: Boolean): Boolean;
+FUNCTION CopyMoveFile(CopyFile: Boolean; DisplayStr: AStr;
+  Const SrcName, DestName: AStr; Const ShowProg: Boolean): Boolean;
 VAR
-  Buffer: ARRAY [1..8192] OF Byte;
+  Buffer: Array [1..8192] Of Byte;
   FromF,
   ToF: FILE;
-  CurDir: AStr;
+  CurDir: AnsiString;
   ProgressStr: Str3;
   NumRead: Word;
   TotalNumRead,

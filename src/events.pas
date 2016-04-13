@@ -1,7 +1,3 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
 
 UNIT Events;
@@ -9,9 +5,9 @@ UNIT Events;
 INTERFACE
 
 FUNCTION InTime(Tim,Tim1,Tim2: LongInt): Boolean;
-FUNCTION CheckPreEventTime(EventNum: Integer; T: LongInt): Boolean;
-FUNCTION CheckEventTime(EventNum: Integer; T: LongInt): Boolean;
-FUNCTION CheckEvents(T: LongInt): Integer;
+FUNCTION CheckPreEventTime(EventNum: LongInt; T: LongInt): Boolean;
+FUNCTION CheckEventTime(EventNum: LongInt; T: LongInt): Boolean;
+FUNCTION CheckEvents(T: LongInt): LongInt;
 FUNCTION SysOpAvailable: Boolean;
 
 IMPLEMENTATION
@@ -120,7 +116,7 @@ begin
 end;
 *)
 
-FUNCTION CheckPreEventTime(EventNum: Integer; T: LongInt): Boolean;
+FUNCTION CheckPreEventTime(EventNum: LongInt; T: LongInt): Boolean;
 
 BEGIN
   WITH MemEventArray[EventNum]^ DO
@@ -157,7 +153,7 @@ begin
 end;
 *)
 
-FUNCTION CheckEventTime(EventNum: Integer; T: LongInt): Boolean;
+FUNCTION CheckEventTime(EventNum: LongInt; T: LongInt): Boolean;
 BEGIN
   WITH MemEventArray[EventNum]^ DO
     IF (PD2Date(EventLastDate) = DateStr) OR
@@ -199,9 +195,9 @@ begin
 end;
 *)
 
-FUNCTION CheckEvents(T: LongInt): Integer;
+FUNCTION CheckEvents(T: LongInt): LongInt;
 VAR
-  EventNum: Integer;
+  EventNum: LongInt;
 BEGIN
   FOR EventNum := 1 TO NumEvents DO
     WITH MemEventArray[EventNum]^ DO

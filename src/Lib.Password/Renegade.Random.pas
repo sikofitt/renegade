@@ -32,36 +32,68 @@
 {  |::.|:. |                                            }
 {  `--- ---'                                            }
 {*******************************************************}
+{      Contains random functions for Renegade BBS       }
+{*******************************************************}
 
-{$I Renegade.Common.Defines.inc}
+{$mode objfpc}{$H+}
 
-Unit Renegade.Lib.Password;
+Unit Renegade.Random;
 
 Interface
 
-Uses
-  Renegade.Lib.Password.BCrypt;
 
-Type
-  HashTypes = (BCrypt, Scrypt);
-  THashType = Set Of HashTypes;
-
-Function PasswordHash( Password : String; HashType : THashType ) : String;
-
+function RandomBytes(NumberOfBytes : LongInt) : AnsiString;
+function RandomInt(min, max : SizeInt) : SizeInt;
 
 Implementation
 
-Function PasswordHash( Password : String; HashType : THashType ) : String;
+Uses
+  SysUtils,
+  Math;
+
+const
+  { BSD Base64 Characters }
+  BCryptAcceptableChars = ['.','/','a'..'z', 'A'..'Z', '0'..'9'];
+
+{
+  Creates a random string of NumberOfBytes
+  ???: Change this to use /dev/urandom where applicable.
+}
+function RandomBytes(NumberOfBytes : LongInt) : AnsiString;
+
 Var
-  Hash, Salt : Str64;
-  Success : Word;
+  i            : LongInt;
+  RandomString : ^AnsiString;
+  RandomChar   : Char;
 Begin
-  bcrypt_gensalt( 12, Salt );
-  Success := bcrypt_hashpw( Password, Salt, Hash );
-  If Success = 0 Then
-    PasswordHash := Hash
-  Else
-    WriteLn( 'Couldn''t create password.' );
+  New(RandomString);
+  SetLength(RandomString^, NumberOfBytes);
+  Randomize;
+  i := 1;
+  repeat;
+    RandomChar := Chr(Random(255));
+    if RandomChar in BCryptAcceptableChars then
+      begin
+        RandomString^[i] := RandomChar;
+        Inc(i);
+      end;
+  until  i = NumberOfBytes +1 ;
+  RandomBytes := RandomString^;
+  Dispose(RandomString);
+End; { RandomBytes }
+
+{ Returns a random number based between min and max }
+function RandomInt(min, max : SizeInt) : SizeInt;
+Begin
+  if (min > max) then
+    begin
+       raise EInvalidOp.create('Max cannot be less than min in function RandomInt(SizeInt,SizeInt):SizeInt.') at
+         get_caller_addr(get_frame),
+         get_caller_frame(get_frame);
+    end;
+  RandomIze;
+  RandomInt := Math.RandomRange(min, max);
 End;
 
-End.
+
+End. { unit }

@@ -26,7 +26,8 @@ USES
   File9,
   File11,
   MultNode,
-  Sysop4;
+  Sysop4,
+  SysUtils;
 
 PROCEDURE MiniDOS;
 VAR
@@ -707,7 +708,7 @@ VAR
                 Abort := TRUE;
                 Exit;
               END;
-              Cmd := UpCase(FileInfo.Description[2]);
+              Cmd := AnsiUpperCase(FileInfo.Description[2]);
               CASE Cmd OF
                 'D' : BEGIN
                         Kill(MemFileArea.DLPath+DirInfo.Name);

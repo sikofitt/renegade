@@ -1,6 +1,3 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
 {$A+,B-,D+,I-,O+,R+,S-,V-}
 {$IFNDEF UNIX}
 {$E-}
@@ -389,7 +386,7 @@ VAR
   C: Char;
 BEGIN
   REPEAT
-    C := UpCase(ReadKey)
+    C := AnsiUpperCase(ReadKey)
   UNTIL (C IN ['Y','N',#13,#27]);
   IF (C = 'Y') THEN
   BEGIN

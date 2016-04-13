@@ -12,7 +12,8 @@ PROGRAM ReneMail;
 USES
   Crt,
   Dos,
-  TimeFunc;
+  TimeFunc,
+  SysUtils;
 
 {$I RECORDS.PAS}
 
@@ -315,7 +316,7 @@ END;
 
 FUNCTION SC(S: STRING; I: Integer): Char;
 BEGIN
-  SC := UpCase(S[I]);
+  SC := AnsiUpperCase(S[I]);
 END;
 
 FUNCTION Hex(L: LongInt; B: Byte): STRING;
@@ -465,7 +466,7 @@ VAR
 BEGIN
   AllCaps[0] := s[0];
   FOR Counter := 1 TO Length(S) DO
-    AllCaps[Counter] := UpCase(S[Counter]);
+    AllCaps[Counter] := AnsiUpperCase(S[Counter]);
 END;
 
 FUNCTION Caps(S: STRING): STRING;
@@ -478,8 +479,8 @@ BEGIN
   FOR Counter := 1 TO Length(S) DO
     IF (NOT (S[Counter] IN ['A'..'Z','a'..'z',Chr(39)])) THEN
       IF (S[Counter + 1] IN ['a'..'z']) THEN
-         S[Counter + 1] := UpCase(S[Counter + 1]);
-  S[1] := UpCase(S[1]);
+         S[Counter + 1] := AnsiUpperCase(S[Counter + 1]);
+  S[1] := AnsiUpperCase(S[1]);
   Caps := S;
 END;
 

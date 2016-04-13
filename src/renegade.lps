@@ -1,631 +1,327 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
+    <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="67">
+    <Units Count="23">
       <Unit0>
         <Filename Value="renegade.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Renegade"/>
-        <TopLine Value="54"/>
-        <CursorPos X="25" Y="62"/>
-        <UsageCount Value="90"/>
+        <CursorPos X="71" Y="14"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="rpport.pas"/>
-        <IsPartOfProject Value="True"/>
+        <UnitName Value="RPPort"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="17"/>
-        <CursorPos X="19" Y="25"/>
-        <UsageCount Value="89"/>
+        <TopLine Value="155"/>
+        <CursorPos X="16" Y="151"/>
+        <UsageCount Value="10"/>
       </Unit1>
       <Unit2>
-        <Filename Value="myio.pas"/>
-        <UnitName Value="MyIO"/>
-        <EditorIndex Value="15"/>
-        <CursorPos X="9" Y="2"/>
-        <UsageCount Value="44"/>
+        <Filename Value="file9.pas"/>
+        <UnitName Value="File9"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="20" Y="236"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="rpscreen.pas"/>
-        <UnitName Value="RPScreen"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="42"/>
-        <CursorPos X="130" Y="49"/>
-        <UsageCount Value="39"/>
+        <Filename Value="execbat.pas"/>
+        <UnitName Value="ExecBat"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="167"/>
+        <CursorPos X="27" Y="187"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="records.pas"/>
-        <EditorIndex Value="13"/>
-        <TopLine Value="418"/>
-        <CursorPos X="5" Y="453"/>
-        <UsageCount Value="43"/>
+        <Filename Value="common1.pas"/>
+        <UnitName Value="Common1"/>
+        <EditorIndex Value="20"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="win32/defines.inc"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="3"/>
+        <Filename Value="common2.pas"/>
+        <UnitName Value="Common2"/>
+        <EditorIndex Value="21"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="timefunc.pas"/>
-        <UnitName Value="TimeFunc"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="17"/>
+        <Filename Value="common.pas"/>
+        <UnitName Value="Common"/>
+        <EditorIndex Value="18"/>
+        <TopLine Value="2104"/>
+        <CursorPos X="81" Y="2134"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="file9.pas"/>
-        <UnitName Value="File9"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="7"/>
-        <CursorPos X="41" Y="5"/>
-        <UsageCount Value="17"/>
+        <Filename Value="records.pas"/>
+        <EditorIndex Value="19"/>
+        <TopLine Value="32"/>
+        <CursorPos X="17" Y="60"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="file12.pas"/>
         <UnitName Value="File12"/>
-        <TopLine Value="355"/>
-        <CursorPos X="10" Y="375"/>
-        <UsageCount Value="17"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="359"/>
+        <CursorPos X="21" Y="365"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit8>
       <Unit9>
-        <Filename Value="mail0.pas"/>
-        <UnitName Value="Mail0"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="860"/>
-        <CursorPos X="30" Y="880"/>
-        <UsageCount Value="43"/>
+        <Filename Value="file4.pas"/>
+        <UnitName Value="File4"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="69"/>
+        <CursorPos X="16" Y="87"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit9>
       <Unit10>
-        <Filename Value="archive3.pas"/>
-        <UnitName Value="Archive3"/>
-        <TopLine Value="16"/>
-        <CursorPos X="24" Y="31"/>
-        <UsageCount Value="17"/>
+        <Filename Value="file2.pas"/>
+        <UnitName Value="File2"/>
+        <EditorIndex Value="17"/>
+        <CursorPos X="20" Y="28"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="archive2.pas"/>
-        <UnitName Value="Archive2"/>
-        <TopLine Value="36"/>
-        <CursorPos X="9" Y="55"/>
-        <UsageCount Value="17"/>
+        <Filename Value="events.pas"/>
+        <UnitName Value="Events"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="178"/>
+        <CursorPos X="20" Y="200"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
-        <Filename Value="mail4.pas"/>
-        <UnitName Value="Mail4"/>
-        <TopLine Value="68"/>
-        <CursorPos X="89" Y="85"/>
-        <UsageCount Value="17"/>
+        <Filename Value="mail0.pas"/>
+        <UnitName Value="Mail0"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="717"/>
+        <CursorPos X="28" Y="736"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="miscuser.pas"/>
-        <UnitName Value="MiscUser"/>
-        <TopLine Value="121"/>
-        <CursorPos X="40" Y="139"/>
-        <UsageCount Value="17"/>
+        <Filename Value="doors.pas"/>
+        <UnitName Value="Doors"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="687"/>
+        <CursorPos X="19" Y="692"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="mail3.pas"/>
-        <UnitName Value="Mail3"/>
-        <TopLine Value="298"/>
-        <CursorPos X="18" Y="314"/>
-        <UsageCount Value="17"/>
+        <Filename Value="archive3.pas"/>
+        <UnitName Value="Archive3"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="158"/>
+        <CursorPos X="10" Y="176"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="sysop7m.pas"/>
-        <UnitName Value="SysOp7M"/>
-        <TopLine Value="243"/>
-        <CursorPos X="77" Y="260"/>
-        <UsageCount Value="17"/>
+        <Filename Value="archive2.pas"/>
+        <UnitName Value="Archive2"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="24"/>
+        <CursorPos X="13" Y="43"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="cuser.pas"/>
-        <UnitName Value="CUser"/>
-        <TopLine Value="995"/>
-        <CursorPos X="7" Y="1014"/>
-        <UsageCount Value="17"/>
+        <Filename Value="miscuser.pas"/>
+        <UnitName Value="MiscUser"/>
+        <EditorIndex Value="10"/>
+        <CursorPos X="43" Y="14"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit16>
       <Unit17>
-        <Filename Value="script.pas"/>
-        <UnitName Value="Script"/>
-        <CursorPos X="42" Y="16"/>
-        <UsageCount Value="3"/>
+        <Filename Value="mail3.pas"/>
+        <UnitName Value="Mail3"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="317"/>
+        <CursorPos X="20" Y="319"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit17>
       <Unit18>
-        <Filename Value="sysop3.pas"/>
-        <UnitName Value="SysOp3"/>
-        <TopLine Value="162"/>
-        <CursorPos X="55" Y="184"/>
-        <UsageCount Value="3"/>
+        <Filename Value="sysop7m.pas"/>
+        <UnitName Value="SysOp7M"/>
+        <EditorIndex Value="12"/>
+        <TopLine Value="196"/>
+        <CursorPos X="26" Y="214"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="nodelist.pas"/>
-        <UnitName Value="Nodelist"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="17"/>
+        <Filename Value="cuser.pas"/>
+        <UnitName Value="CUser"/>
+        <EditorIndex Value="13"/>
+        <TopLine Value="637"/>
+        <CursorPos X="18" Y="647"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="email.pas"/>
-        <UnitName Value="EMail"/>
-        <TopLine Value="775"/>
-        <CursorPos X="27" Y="793"/>
-        <UsageCount Value="3"/>
+        <Filename Value="script.pas"/>
+        <UnitName Value="Script"/>
+        <EditorIndex Value="14"/>
+        <CursorPos X="53" Y="16"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit20>
       <Unit21>
-        <Filename Value="common.pas"/>
-        <UnitName Value="Common"/>
-        <EditorIndex Value="6"/>
-        <CursorPos Y="4"/>
-        <UsageCount Value="44"/>
+        <Filename Value="sysop3.pas"/>
+        <UnitName Value="SysOp3"/>
+        <EditorIndex Value="15"/>
+        <TopLine Value="1386"/>
+        <CursorPos X="19" Y="1411"/>
+        <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit21>
       <Unit22>
-        <Filename Value="common5.pas"/>
-        <UnitName Value="Common5"/>
-        <TopLine Value="476"/>
-        <CursorPos X="14" Y="493"/>
-        <UsageCount Value="17"/>
-      </Unit22>
-      <Unit23>
-        <Filename Value="execbat.pas"/>
-        <UnitName Value="ExecBat"/>
-        <TopLine Value="46"/>
-        <CursorPos X="41" Y="57"/>
-        <UsageCount Value="17"/>
-      </Unit23>
-      <Unit24>
-        <Filename Value="file1.pas"/>
-        <UnitName Value="File1"/>
-        <TopLine Value="1457"/>
-        <CursorPos X="90" Y="1473"/>
-        <UsageCount Value="17"/>
-      </Unit24>
-      <Unit25>
-        <Filename Value="shortmsg.pas"/>
-        <UnitName Value="ShortMsg"/>
-        <TopLine Value="3"/>
-        <CursorPos X="26" Y="21"/>
-        <UsageCount Value="17"/>
-      </Unit25>
-      <Unit26>
-        <Filename Value="sysop12.pas"/>
-        <UnitName Value="SysOp12"/>
-        <TopLine Value="297"/>
-        <CursorPos X="52" Y="314"/>
-        <UsageCount Value="17"/>
-      </Unit26>
-      <Unit27>
-        <Filename Value="file4.pas"/>
-        <UnitName Value="File4"/>
-        <CursorPos X="48" Y="18"/>
-        <UsageCount Value="17"/>
-      </Unit27>
-      <Unit28>
-        <Filename Value="doors.pas"/>
-        <UnitName Value="Doors"/>
-        <TopLine Value="683"/>
-        <CursorPos X="23" Y="692"/>
-        <UsageCount Value="17"/>
-      </Unit28>
-      <Unit29>
-        <Filename Value="bbslist.pas"/>
-        <UnitName Value="BBSList"/>
-        <CursorPos X="11"/>
-        <UsageCount Value="17"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="bulletin.pas"/>
-        <UnitName Value="Bulletin"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="22"/>
-        <CursorPos X="27" Y="16"/>
-        <UsageCount Value="42"/>
-        <Loaded Value="True"/>
-      </Unit30>
-      <Unit31>
-        <Filename Value="sysop4.pas"/>
-        <UnitName Value="SysOp4"/>
-        <TopLine Value="53"/>
-        <CursorPos X="21" Y="75"/>
-        <UsageCount Value="17"/>
-      </Unit31>
-      <Unit32>
-        <Filename Value="file5.pas"/>
-        <UnitName Value="File5"/>
-        <TopLine Value="91"/>
-        <CursorPos X="23" Y="109"/>
-        <UsageCount Value="17"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="mail2.pas"/>
-        <UnitName Value="Mail2"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="17"/>
-      </Unit33>
-      <Unit34>
-        <Filename Value="offline.pas"/>
-        <UnitName Value="OffLine"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="17"/>
-      </Unit34>
-      <Unit35>
-        <Filename Value="stats.pas"/>
-        <UnitName Value="STATS"/>
-        <TopLine Value="163"/>
-        <CursorPos X="25" Y="175"/>
-        <UsageCount Value="17"/>
-      </Unit35>
-      <Unit36>
-        <Filename Value="linechat.pas"/>
-        <UnitName Value="LineChat"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="17"/>
-      </Unit36>
-      <Unit37>
-        <Filename Value="sysop2a.pas"/>
-        <UnitName Value="SysOp2A"/>
-        <EditorIndex Value="14"/>
-        <CursorPos X="24" Y="142"/>
-        <UsageCount Value="41"/>
-        <Loaded Value="True"/>
-      </Unit37>
-      <Unit38>
-        <Filename Value="sysop2j.pas"/>
-        <UnitName Value="SysOp2J"/>
-        <TopLine Value="467"/>
-        <CursorPos X="68" Y="484"/>
-        <UsageCount Value="17"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="sysop2k.pas"/>
-        <UnitName Value="SysOp2K"/>
-        <TopLine Value="145"/>
-        <CursorPos X="55" Y="162"/>
-        <UsageCount Value="17"/>
-      </Unit39>
-      <Unit40>
-        <Filename Value="sysop2.pas"/>
-        <UnitName Value="SysOp2"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="50"/>
-        <CursorPos Y="68"/>
-        <UsageCount Value="41"/>
-      </Unit40>
-      <Unit41>
-        <Filename Value="sysop9.pas"/>
-        <UnitName Value="SysOp9"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="171"/>
-        <CursorPos X="30" Y="188"/>
-        <UsageCount Value="42"/>
-        <Loaded Value="True"/>
-      </Unit41>
-      <Unit42>
-        <Filename Value="oneliner.pas"/>
-        <UnitName Value="OneLiner"/>
-        <CursorPos X="11"/>
-        <UsageCount Value="17"/>
-      </Unit42>
-      <Unit43>
-        <Filename Value="multnode.pas"/>
-        <UnitName Value="Multnode"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="17"/>
-      </Unit43>
-      <Unit44>
-        <Filename Value="file6.pas"/>
-        <UnitName Value="File6"/>
-        <TopLine Value="92"/>
-        <CursorPos Y="107"/>
-        <UsageCount Value="17"/>
-      </Unit44>
-      <Unit45>
-        <Filename Value="file8.pas"/>
-        <UnitName Value="File8"/>
-        <TopLine Value="539"/>
-        <CursorPos X="24" Y="552"/>
-        <UsageCount Value="17"/>
-      </Unit45>
-      <Unit46>
-        <Filename Value="mail1.pas"/>
-        <UnitName Value="Mail1"/>
-        <TopLine Value="10"/>
-        <CursorPos X="3" Y="38"/>
-        <UsageCount Value="17"/>
-      </Unit46>
-      <Unit47>
-        <Filename Value="file11.pas"/>
-        <UnitName Value="File11"/>
-        <TopLine Value="1003"/>
-        <CursorPos X="22" Y="1017"/>
-        <UsageCount Value="17"/>
-      </Unit47>
-      <Unit48>
-        <Filename Value="arcview.pas"/>
-        <UnitName Value="ArcView"/>
-        <TopLine Value="652"/>
-        <CursorPos X="19" Y="662"/>
-        <UsageCount Value="17"/>
-      </Unit48>
-      <Unit49>
-        <Filename Value="archive1.pas"/>
-        <UnitName Value="Archive1"/>
-        <TopLine Value="442"/>
-        <CursorPos X="24" Y="449"/>
-        <UsageCount Value="17"/>
-      </Unit49>
-      <Unit50>
-        <Filename Value="common1.pas"/>
-        <UnitName Value="Common1"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="17"/>
-      </Unit50>
-      <Unit51>
-        <Filename Value="common2.pas"/>
-        <UnitName Value="Common2"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="1413"/>
-        <CursorPos X="22" Y="1413"/>
-        <UsageCount Value="39"/>
-        <Loaded Value="True"/>
-      </Unit51>
-      <Unit52>
-        <Filename Value="common3.pas"/>
-        <UnitName Value="Common3"/>
-        <EditorIndex Value="12"/>
-        <TopLine Value="363"/>
-        <CursorPos X="30" Y="378"/>
-        <UsageCount Value="33"/>
-        <Loaded Value="True"/>
-      </Unit52>
-      <Unit53>
-        <Filename Value="common4.pas"/>
-        <UnitName Value="Common4"/>
-        <EditorIndex Value="10"/>
-        <TopLine Value="1023"/>
-        <CursorPos X="15" Y="1040"/>
-        <UsageCount Value="14"/>
-        <Loaded Value="True"/>
-      </Unit53>
-      <Unit54>
-        <Filename Value="boot.pas"/>
-        <UnitName Value="Boot"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="111"/>
-        <CursorPos X="55" Y="129"/>
-        <UsageCount Value="33"/>
-        <Loaded Value="True"/>
-      </Unit54>
-      <Unit55>
-        <Filename Value="newusers.pas"/>
-        <UnitName Value="NewUsers"/>
-        <CursorPos X="11" Y="4"/>
-        <UsageCount Value="6"/>
-      </Unit55>
-      <Unit56>
-        <Filename Value="logon.pas"/>
-        <UnitName Value="Logon"/>
-        <TopLine Value="594"/>
-        <CursorPos X="20" Y="605"/>
-        <UsageCount Value="6"/>
-      </Unit56>
-      <Unit57>
-        <Filename Value="wfcmenu.pas"/>
-        <UnitName Value="WFCMenu"/>
-        <EditorIndex Value="11"/>
-        <TopLine Value="25"/>
-        <CursorPos X="5" Y="36"/>
-        <UsageCount Value="32"/>
-        <Loaded Value="True"/>
-      </Unit57>
-      <Unit58>
-        <Filename Value="menus.pas"/>
-        <UnitName Value="Menus"/>
+        <Filename Value="nodelist.pas"/>
+        <UnitName Value="Nodelist"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="16"/>
-        <TopLine Value="61"/>
-        <CursorPos X="6" Y="87"/>
-        <UsageCount Value="32"/>
-        <Loaded Value="True"/>
-      </Unit58>
-      <Unit59>
-        <Filename Value="install.pas"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="35" Y="197"/>
+        <TopLine Value="97"/>
+        <CursorPos X="43" Y="110"/>
         <UsageCount Value="10"/>
-      </Unit59>
-      <Unit60>
-        <Filename Value="upgrade/fixbbsl.pas"/>
-        <UnitName Value="FixBBSL"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="182"/>
-        <CursorPos X="28" Y="217"/>
-        <UsageCount Value="31"/>
         <Loaded Value="True"/>
-      </Unit60>
-      <Unit61>
-        <Filename Value="../../../Desktop/vp/VPSYSLNX.PAS"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="3061"/>
-        <CursorPos X="18" Y="3074"/>
-        <UsageCount Value="24"/>
-      </Unit61>
-      <Unit62>
-        <Filename Value="../../../Desktop/vp/VPSYSW32.PAS"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1398"/>
-        <CursorPos Y="1398"/>
-        <UsageCount Value="24"/>
-      </Unit62>
-      <Unit63>
-        <Filename Value="../../../Desktop/vp/VPSYSLOW.PAS"/>
-        <UnitName Value="VPSysLow"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="19" Y="19"/>
-        <UsageCount Value="24"/>
-      </Unit63>
-      <Unit64>
-        <Filename Value="../../../Desktop/vp/LINUX.PAS"/>
-        <UnitName Value="Linux"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="859"/>
-        <CursorPos Y="859"/>
-        <UsageCount Value="6"/>
-      </Unit64>
-      <Unit65>
-        <Filename Value="../../../Desktop/vp/LNXRES.PAS"/>
-        <UnitName Value="LnxRes"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="85"/>
-        <CursorPos Y="85"/>
-        <UsageCount Value="6"/>
-      </Unit65>
-      <Unit66>
-        <Filename Value="elecom/elenorm.pas"/>
-        <UnitName Value="EleNORM"/>
-        <EditorIndex Value="9"/>
-        <TopLine Value="41"/>
-        <CursorPos X="31" Y="41"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
-      </Unit66>
+      </Unit22>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="myio.pas"/>
-        <Caret Line="101" Column="14" TopLine="80"/>
+        <Filename Value="script.pas"/>
+        <Caret Line="186" Column="42" TopLine="161"/>
       </Position1>
       <Position2>
-        <Filename Value="myio.pas"/>
-        <Caret Line="600" Column="29" TopLine="579"/>
+        <Filename Value="script.pas"/>
+        <Caret Line="148" Column="11" TopLine="131"/>
       </Position2>
       <Position3>
-        <Filename Value="myio.pas"/>
-        <Caret Line="603" Column="27" TopLine="582"/>
+        <Filename Value="script.pas"/>
+        <Caret Line="182" Column="27" TopLine="147"/>
       </Position3>
       <Position4>
-        <Filename Value="myio.pas"/>
-        <Caret Line="613" Column="19" TopLine="592"/>
+        <Filename Value="script.pas"/>
+        <Caret Line="191" Column="29" TopLine="166"/>
       </Position4>
       <Position5>
-        <Filename Value="common2.pas"/>
-        <Caret Line="289" TopLine="278"/>
+        <Filename Value="script.pas"/>
+        <Caret Line="393" Column="42" TopLine="386"/>
       </Position5>
       <Position6>
-        <Filename Value="elecom/elenorm.pas"/>
-        <Caret Line="28" Column="6" TopLine="15"/>
+        <Filename Value="script.pas"/>
+        <Caret Line="398" Column="17" TopLine="391"/>
       </Position6>
       <Position7>
-        <Filename Value="elecom/elenorm.pas"/>
-        <Caret Line="2" Column="19"/>
+        <Filename Value="sysop3.pas"/>
       </Position7>
       <Position8>
-        <Filename Value="common4.pas"/>
-        <Caret Line="4" Column="41"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="658" Column="38" TopLine="624"/>
       </Position8>
       <Position9>
-        <Filename Value="elecom/elenorm.pas"/>
-        <Caret Line="29" Column="6" TopLine="16"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="190" Column="22" TopLine="184"/>
       </Position9>
       <Position10>
-        <Filename Value="common4.pas"/>
-        <Caret Line="5" Column="2"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="300" Column="33" TopLine="247"/>
       </Position10>
       <Position11>
-        <Filename Value="common4.pas"/>
-        <Caret Line="433" Column="15" TopLine="415"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="29" Column="84" TopLine="16"/>
       </Position11>
       <Position12>
-        <Filename Value="common4.pas"/>
-        <Caret Line="480" Column="15" TopLine="458"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="198" Column="24" TopLine="170"/>
       </Position12>
       <Position13>
-        <Filename Value="common4.pas"/>
-        <Caret Line="541" Column="15" TopLine="525"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="15" Column="29"/>
       </Position13>
       <Position14>
-        <Filename Value="common4.pas"/>
-        <Caret Line="516" Column="15" TopLine="513"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="416" Column="46" TopLine="390"/>
       </Position14>
       <Position15>
-        <Filename Value="common4.pas"/>
-        <Caret Line="564" Column="10" TopLine="544"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="694" Column="24" TopLine="672"/>
       </Position15>
       <Position16>
-        <Filename Value="common4.pas"/>
-        <Caret Line="607" Column="15" TopLine="586"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="929" Column="29" TopLine="894"/>
       </Position16>
       <Position17>
-        <Filename Value="common4.pas"/>
-        <Caret Line="659" Column="15" TopLine="637"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="961" Column="33" TopLine="936"/>
       </Position17>
       <Position18>
-        <Filename Value="common4.pas"/>
-        <Caret Line="642" Column="15" TopLine="630"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="992" Column="43" TopLine="961"/>
       </Position18>
       <Position19>
-        <Filename Value="common4.pas"/>
-        <Caret Line="695" Column="15" TopLine="674"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1000" Column="43" TopLine="982"/>
       </Position19>
       <Position20>
-        <Filename Value="common4.pas"/>
-        <Caret Line="786" TopLine="770"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1028" Column="85" TopLine="996"/>
       </Position20>
       <Position21>
-        <Filename Value="common4.pas"/>
-        <Caret Line="812" Column="15" TopLine="797"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1087" Column="45" TopLine="1061"/>
       </Position21>
       <Position22>
-        <Filename Value="common4.pas"/>
-        <Caret Line="838" Column="15" TopLine="818"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1124" Column="97" TopLine="1101"/>
       </Position22>
       <Position23>
-        <Filename Value="common4.pas"/>
-        <Caret Line="914" Column="15" TopLine="914"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1190" Column="55" TopLine="1172"/>
       </Position23>
       <Position24>
-        <Filename Value="common4.pas"/>
-        <Caret Line="958" Column="15" TopLine="938"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1218" Column="55" TopLine="1188"/>
       </Position24>
       <Position25>
-        <Filename Value="common4.pas"/>
-        <Caret Line="1005" Column="15" TopLine="987"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1248" Column="99" TopLine="1225"/>
       </Position25>
       <Position26>
-        <Filename Value="wfcmenu.pas"/>
-        <Caret Line="328" Column="25" TopLine="313"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1274" Column="101" TopLine="1256"/>
       </Position26>
       <Position27>
-        <Filename Value="common2.pas"/>
-        <Caret Line="375" Column="14" TopLine="375"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1315" Column="90" TopLine="1297"/>
       </Position27>
       <Position28>
-        <Filename Value="wfcmenu.pas"/>
-        <Caret Line="7" Column="25"/>
+        <Filename Value="sysop3.pas"/>
+        <Caret Line="1392" Column="99" TopLine="1368"/>
       </Position28>
       <Position29>
-        <Filename Value="myio.pas"/>
-        <Caret Line="67" Column="15" TopLine="64"/>
+        <Filename Value="nodelist.pas"/>
       </Position29>
       <Position30>
-        <Filename Value="file9.pas"/>
-        <Caret Line="27" Column="31"/>
+        <Filename Value="nodelist.pas"/>
+        <Caret Line="115" Column="19" TopLine="95"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints Count="1">
-      <Item1>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="common2.pas"/>
-        <Line Value="277"/>
-      </Item1>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

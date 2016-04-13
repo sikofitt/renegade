@@ -204,13 +204,14 @@ VAR
 
   PROCEDURE ModifyCommand;
   VAR
-    TempS1: AStr;
+    TempS1: AnsiString; // Str2
     Cmd1: Char;
     TempB: Byte;
     RecNumToModify,
     SaveRecNumToModify: SmallInt;
     Changed: Boolean;
   BEGIN
+    SetLength(TempS1, 2);
     IF (CmdNumArray[MenuToModify] = 0) THEN
       Messages(4,0,'commands')
     ELSE

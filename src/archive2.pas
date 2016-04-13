@@ -38,10 +38,10 @@ VAR
   (*
   DirInfo: SearchRec;
   *)
-  FileName,
-  S,
-  S1,
-  S2,
+  FileName, //Str78
+  S : AnsiString; // 70
+  S1 : AStr;
+  S2 : AnsiString;
   OS1: AStr;
   DS: DirStr;
   NS: NameStr;
@@ -51,8 +51,8 @@ VAR
   NumExtDesc,
   NumFiles,
   RecNum,
-  Counter: Byte;
-  Junk: SmallInt;
+  Counter,
+  Junk: Byte;
   RN,
   FArea,
   SaveFileArea,
@@ -340,6 +340,9 @@ VAR
   END;
 
 BEGIN
+  SetLength(FileName, 78);
+  SetLength(S, 70);
+  SetLength(S2, 12);
   TempPause := FALSE;
   SaveFileArea := FileArea;
   InitFileArea(FileArea);
@@ -916,4 +919,4 @@ BEGIN
   LastError := IOResult;
 END;
 
-END.
+END.

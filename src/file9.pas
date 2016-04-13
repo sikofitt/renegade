@@ -1,9 +1,16 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-{$MODE objfpc}
+{                                                         }
+{    _______                                  __          }
+{   |   _   .-----.-----.-----.-----.---.-.--|  .-----.   }
+{   |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|   }
+{   |.  _   |_____|__|__|_____|___  |___._|_____|_____|   }
+{   |:  |   |                 |_____|                     }
+{   |::.|:. |                                             }
+{   `--- ---'                                             }
+{                                                         }
+
+
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
-{$H-}
+{$H+}
 
 UNIT File9;
 
@@ -14,7 +21,7 @@ USES
 
 PROCEDURE DosDir(CurDir: ASTR; CONST FSpec: Str12; Expanded: Boolean);
 PROCEDURE DirF(Expanded: Boolean);
-PROCEDURE DeleteFF(F: FileInfoRecordType; RN: Integer);
+PROCEDURE DeleteFF(F: FileInfoRecordType; RN: SizeInt);
 PROCEDURE ToggleFileAreaScanFlags;
 PROCEDURE SetFileAreaNewScanDate;
 
@@ -25,7 +32,8 @@ USES
   Common5,
   File0,
   File1,
-  TimeFunc;
+  TimeFunc,
+  SysUtils;
 
 PROCEDURE DosDir(CurDir: ASTR; CONST FSpec: Str12; Expanded: Boolean);
 VAR
@@ -48,7 +56,7 @@ BEGIN
     TempStr := 'has no label.'
   ELSE
     TempStr := 'is '+DirInfo.Name;
-  PrintACR(' Volume in drive '+UpCase(CurDir[1])+' '+TempStr);
+  PrintACR(' Volume in drive '+AnsiUpperCase(CurDir[1])+' '+TempStr);
 
   (*  Add Serial Number if possible *)
 
@@ -150,7 +158,7 @@ BEGIN
   DosDir(MemFileArea.DLPath,FSpec,Expanded);
 END;
 
-PROCEDURE DeleteFF(F: FileInfoRecordType; RN: Integer);
+PROCEDURE DeleteFF(F: FileInfoRecordType; RN: SizeInt);
 VAR
   ExtFile1: FILE;
   S,
@@ -226,7 +234,7 @@ VAR
   SaveFArea,
   SaveFileArea: Integer;
   FArea,
-  NumFAreas: SmallInt;
+  NumFAreas: SizeInt;
   SaveConfSystem,
   SaveTempPause: Boolean;
 
@@ -380,7 +388,7 @@ END;
 (* Done - Lee Palmer 06/18/06 *)
 PROCEDURE SetFileAreaNewScanDate;
 VAR
-  TempDate: Str10;
+  TempDate: AnsiString;
   Key: CHAR;
 BEGIN
   {

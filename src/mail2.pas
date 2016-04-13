@@ -1375,9 +1375,9 @@ BEGIN
   Global := FALSE;
   Abort := FALSE;
   Next := FALSE;
-  IF (UpCase(MenuOption[1]) = 'C') THEN
+  IF (AnsiUpperCase(MenuOption[1]) = 'C') THEN
     MArea := MsgArea
-  ELSE IF (UpCase(MenuOption[1]) = 'G') THEN
+  ELSE IF (AnsiUpperCase(MenuOption[1]) = 'G') THEN
     Global := TRUE
   ELSE IF (StrToInt(MenuOption) <> 0) THEN
     MArea := StrToInt(MenuOption)

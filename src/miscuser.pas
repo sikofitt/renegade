@@ -11,10 +11,10 @@ INTERFACE
 USES
   Common;
 
-PROCEDURE lFindUserWS(VAR UserNum: Integer);
+PROCEDURE lFindUserWS(VAR UserNum: LongInt);
 PROCEDURE ChangeARFlags(MenuOption: Str50);
 PROCEDURE ChangeACFlags(MenuOption: Str50);
-PROCEDURE FindUser(VAR UserNum: Integer);
+PROCEDURE FindUser(VAR UserNum: LongInt);
 PROCEDURE InsertIndex(uname: AStr; UserNum: Integer; IsReal,IsDeleted: Boolean);
 
 IMPLEMENTATION
@@ -22,17 +22,18 @@ IMPLEMENTATION
 USES
   Dos;
 
-PROCEDURE lFindUserWS(VAR UserNum: Integer);
+PROCEDURE lFindUserWS(VAR UserNum: LongInt);
 VAR
   User: UserRecordType;
   UserIDX: UserIDXRec;
-  UserName: AStr;
+  UserName: AnsiString;
   Cmd: Char;
   Counter,
   NumIDX: Integer;
   Done,
   Asked: Boolean;
 BEGIN
+  SetLength(UserName, 36);
   MPL(36);
   Input(UserName,36);
   IF (UserName = 'SYSOP') THEN
@@ -139,9 +140,10 @@ END;
 PROCEDURE FindUser(VAR UserNum: LongInt);
 VAR
   User: UserRecordType;
-  TempUserName: Str36;
+  TempUserName: AnsiString; //Str36;
   TempUserNum: Integer;
 BEGIN
+  SetLength(TempUserName, 36);
   UserNum := 0;
   TempUserName := '';
   Input(TempUserName,36);
@@ -263,4 +265,4 @@ BEGIN
   LastError := IOResult;
 END;
 
-END.
+END.

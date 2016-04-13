@@ -84,7 +84,8 @@ USES
   TimeFunc,
   Vote,
   OneLiner,
-  Crt;
+  Crt,
+  SysUtils;
 
 
     (*
@@ -304,7 +305,7 @@ BEGIN
         END;
       END;
 
-      C := UpCase(Char(Key));
+      C := AnsiUpperCase(Char(Key));
       SaveSS := SS;
       IF (SS = '') THEN
       BEGIN
@@ -674,16 +675,16 @@ BEGIN
     'B' : CASE Cmd[2] OF
             '?' : BatchDLULInfo;
 
-            'C' : IF (UpCase(MenuOption[1]) = 'U') THEN
+            'C' : IF (AnsiUpperCase(MenuOption[1]) = 'U') THEN
                     ClearBatchULQueue
                   ELSE
                     ClearBatchDLQueue;
             'D' : BatchDownload;
-            'L' : IF (UpCase(MenuOption[1]) = 'U') THEN
+            'L' : IF (AnsiUpperCase(MenuOption[1]) = 'U') THEN
                     ListBatchULFiles
                   ELSE
                     ListBatchDLFiles;
-            'R' : IF (UpCase(MenuOption[1]) = 'U') THEN
+            'R' : IF (AnsiUpperCase(MenuOption[1]) = 'U') THEN
                     RemoveBatchULFiles
                   ELSE
                     RemoveBatchDLFiles;

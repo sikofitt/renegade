@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CONFIG>
-  <Compiler Value="/usr/bin/fpc" Date="1458060295"/>
-  <Params Value=" -MObjFPC -Scghi -Cg -O1 -g -gl -l -vewnhibq -Fu/home/eric/projects/renegade/src/ -FU/home/eric/projects/renegade/src/lib/x86_64-linux/ -oproject1 renegade.pas"/>
-  <Complete Value="False"/>
-</CONFIG>

@@ -1,7 +1,30 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
+{
+*****************************************************************************
+    This file is part of Renegade BBS
 
+    Foobar is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+*****************************************************************************
+
+           _______                                  __
+          |   _   .-----.-----.-----.-----.---.-.--|  .-----.
+          |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|
+          |.  _   |_____|__|__|_____|___  |___._|_____|_____|
+          |:  |   |                 |_____|
+          |::.|:. |
+          `--- ---'
+}
 {$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S-,V-}
 
 UNIT Common2;
@@ -608,7 +631,7 @@ BEGIN
           GoToXY(1,FirstRow);
           Write(Message);
           IF (OneKey) THEN
-            Answer := UpCase(ReadKey)
+            Answer := AnsiUpperCase(ReadKey)
           ELSE
           BEGIN
             GoToXY(2,(FirstRow + 1));
@@ -1286,7 +1309,7 @@ BEGIN
             Shd(oo,TRUE);
             REPEAT
               C := ReadKey;
-              CASE UpCase(C) OF
+              CASE AnsiUpperCase(C) OF
                 ^M : BEGIN
                        Done := TRUE;
                        Done1 := TRUE;
@@ -1335,7 +1358,7 @@ BEGIN
       5 : BEGIN
             Done1 := FALSE;
             REPEAT
-              C := UpCase(ReadKey);
+              C := AnsiUpperCase(ReadKey);
               CASE C OF
                 #13 : Done1 := TRUE;
                  #0 : BEGIN
@@ -1366,7 +1389,7 @@ BEGIN
             S := 'LCVUA*PEKM1234';
             Done1 := FALSE;
             REPEAT
-              C := UpCase(ReadKey);
+              C := AnsiUpperCase(ReadKey);
               IF (C = #13) THEN
                 Done1 := TRUE
               ELSE IF (C = #0) THEN
