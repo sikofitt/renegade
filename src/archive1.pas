@@ -82,8 +82,7 @@ Begin
   PurgeDir(TempDir+'ARC\',FALSE);
   ExecBatch(Ok, TempDir+'ARC\', General.ArcsPath +
             FunctionalMCI(General.FileArcInfo[AType].UnArcLine, FileName,
-            FileSpec),
-  General.FileArcInfo[AType].SuccLevel, ResultCode, False);
+            FileSpec), General.FileArcInfo[AType].SuccLevel, ResultCode, False);
   If (Not Ok) And (Pos('.diz', AnsiLowerCase(FileSpec)) = 0) Then
     Begin
       SysOpLog(FileName+': errors during de-compression');
@@ -106,8 +105,7 @@ Begin
     Begin
       ExecBatch(Ok,TempDir+'ARC\',General.ArcsPath+
                 FunctionalMCI(General.FileArcInfo[AType].ArcLine, FileName,
-                FileSpec),
-      General.FileArcInfo[AType].SuccLevel, ResultCode, False);
+                FileSpec), General.FileArcInfo[AType].SuccLevel, ResultCode, False);
       If (Not Ok) Then
         Begin
           SysOpLog(FileName+': errors during compression');
@@ -129,16 +127,26 @@ Begin
     Begin
       SaveSwapShell := General.SwapShell;
       General.SwapShell := FALSE;
-      TempStr := Substitute(General.FileArcInfo[AType].CmtLine,
+      TempStr := StringReplace(General.FileArcInfo[Atype].CmtLine,
                  '%C', General.FileArcComment[CommentNumber]);
-      TempStr := Substitute(TempStr, '%C', General.FileArcComment[CommentNumber]
+      TempStr := StringReplace(
+                   TempStr, 
+                   '%C', 
+                   General.FileArcComment[CommentNumber]
                  );
+
+{TempStr := Substitute(General.FileArcInfo[AType].CmtLine, @RemoveCode 
+                 '%C', General.FileArcComment[CommentNumber]);}
+
+  {TempStr := Substitute(TempStr, '%C', General.FileArcComment[CommentNumber]);}
+
       ExecBatch(Ok, TempDir+'ARC\',
                 General.ArcsPath+FunctionalMCI(TempStr, FileName, ''),
       General.FileArcInfo[AType].SuccLevel, ResultCode, False);
       General.SwapShell := SaveSwapShell;
     End;
 End;
+
 
 Procedure ArcIntegrityTest(Var Ok: Boolean; AType: Byte; Const FileName:
                            AnsiString);
