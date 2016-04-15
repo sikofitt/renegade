@@ -9,7 +9,7 @@
 
 int main() {
 
-  char hash[SCRYPT_MCF_LEN], password[60];
+  char hash[SCRYPT_MCF_LEN], password[SCRYPT_PASSWORD_LEN];
   int returnCode;
   
   printf("\nEnter a password : ");
