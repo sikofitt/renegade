@@ -1,14 +1,14 @@
 unit Renegade.Hash.BCrypt;
 
 {$mode objfpc}{$H+}
-
+{$codepage utf8}
 interface
 
 uses
   Classes,
   SysUtils,
-  RegExpr,
-  Renegade.Random; { ???: Write own RandomBytes for this unit to make this unit more portable. }
+  Math,
+  RegExpr;
 
 type
   RTPasswordInformation = Object
@@ -17,14 +17,18 @@ type
     AlgoName : AnsiString;
   end;
 
-function passwordHash(const Password : AnsiString) : AnsiString;
-function verifyPassword(const Password, Hash : AnsiString) : Boolean;
+function passwordHash(const Password : AnsiString) : AnsiString; overload;
+function passwordVerify(const Password, Hash : AnsiString) : Boolean;
 function passwordNeedsRehash(const PasswordHash : AnsiString; Algo : Word = 1; const Args : array of const) : Boolean; Unimplemented;
 function passwordGetInfo(const Hash : AnsiString) : RTPasswordInformation; Unimplemented;
+function randomBytes(NumberOfBytes : SizeUInt) : AnsiString;
+
 
 implementation
 
 const
+  OS_HAS_URANDOM = 0;
+  OS_HAS_RANDOM  = 1;
   PBoxOrg: array[0..17] of DWord = (
     $243f6a88, $85a308d3, $13198a2e, $03707344, $a4093822,
     $299f31d0, $082efa98, $ec4e6c89, $452821e6, $38d01377,
@@ -580,21 +584,9 @@ Begin
   Result := FormatPasswordHashForBsd(SaltBytes, Hash);
 End;
 
-function PasswordHash(const Password : AnsiString) : AnsiString;
-Var
-  PasswordKey,
-  SaltBytes,
-  Hash : TBytes;
-Begin
- SetLength(PasswordKey, Length(Password) + 1);
- Move(Password[1], PasswordKey[0], Length(Password));
- PasswordKey[High(PasswordKey)] := 0;
- SaltBytes := BsdBase64Decode(RandomBytes(22));
- Hash := CryptRaw(PasswordKey, SaltBytes);
- Result := FormatPasswordHashForBsd(SaltBytes, Hash);
-End; { PasswordHash }
 
-function verifyPassword(const Password, Hash : AnsiString) : Boolean;
+
+function passwordVerify(const Password, Hash : AnsiString) : Boolean;
 var
   RegexObj: TRegExpr;
   WorkingBcryptHash : AnsiString;
@@ -602,14 +594,17 @@ var
 Begin
  ResultStatus := 0;
  RegexObj := TRegExpr.Create;
- RegexObj.Expression := '^\$2y\$\d{2}\$([\./0-9A-Za-z]{22})';
+ RegexObj.Expression := '^\$2\w{1}\$\d{2}\$([\./0-9A-Za-z]{22})';
  if RegexObj.Exec(Hash) then
    begin
-    WriteLn(RegexObj.Match[1]);
     WorkingBcryptHash := bcryptHashFromStaticSalt(Password, RegexObj.Match[1]);
-    WriteLn(WorkingBcryptHash);
     for HashCounter := 1 to Length(Hash) do
       begin
+      { From ext/standard/password.c php_password_verify line 244
+        We're using this method instead of = in order to provide
+        resistance towards timing attacks. This is a constant time
+        equality check that will always check every byte of both
+        values. }
         ResultStatus := ResultStatus or (ord(WorkingBcryptHash[HashCounter]) xor ord(Hash[HashCounter]));
       end;
       Result := (ResultStatus = 0);
@@ -636,4 +631,116 @@ Begin
   PasswordInformation.Cost := 12;
   passwordGetInfo := PasswordInformation;
 End;
+function osHasURandomBlock : Boolean;
+Begin
+ osHasURandomBlock := FileExists('/dev/urandom');
+End;
+function osHasRandomBlock : Boolean;
+Begin
+  osHasRandomBlock := FileExists('/dev/random');
+End;
+
+function getRandomBlockFileName : AnsiString;
+Var
+  OSRandomBlockFileName : PAnsiString;
+Begin
+  OSRandomBlockFileName := NewStr(space(12));
+  if osHasURandomBlock then
+    begin
+      AssignStr(OSRandomBlockFileName, '/dev/urandom');
+    end
+  else if osHasRandomBlock then
+    begin
+      AssignStr(OSRandomBlockFileName,'/dev/random');
+    end;
+    getRandomBlockFileName := OSRandomBlockFileName^;
+    DisposeStr(OSRandomBlockFileName);
+End;
+
+function unixRandomBytes(NumberOfBytes : SizeUInt) : AnsiString;
+Var
+  OSRandomBlockFileName : PAnsiString;
+  RandomFileStream : TFileStream;
+  RandomFileBuffer : AnsiString;
+  FileBytesRead : SizeUInt;
+Begin
+    OSRandomBlockFileName := NewStr(getRandomBlockFileName);
+    SetLength(RandomFileBuffer, (NumberOfBytes * 2));
+  try
+    RandomFileStream := TFileStream.Create(OSRandomBlockFileName^, fmOpenRead);
+    RandomFileStream.Position := 0;
+    FileBytesRead := 1;
+
+    while FileBytesRead <= (NumberOfBytes * 2) do
+      begin
+        RandomFileStream.Read(RandomFileBuffer[FileBytesRead], 1);
+        Inc(FileBytesRead);
+      end;
+  except
+    on E:Exception do
+      writeln('File : ', OSRandomBlockFileName^, ' could not be read or written because: ', E.Message);
+    end;
+  SetLength(RandomFileBuffer, NumberOfBytes);
+  RandomFileStream.Free;
+  DisposeStr(OSRandomBlockFileName);
+  unixRandomBytes := RandomFileBuffer;
+End;
+
+function MTRandomBytes(NumberOfBytes : SizeUInt) : AnsiString;
+Var
+  RandomBytes : PAnsiString;
+  Count : SizeUint;
+  WorkingByte : sizeUInt;
+Begin
+  Count := 1;
+  WorkingByte := 0;
+
+  New(RandomBytes);
+  SetLength(RandomBytes^, (NumberOfBytes * 2) +1);
+
+  Randomize;
+  while Count <= (NumberOfBytes * 2) do
+    begin
+      WorkingByte   := WorkingByte and RandomRange(0, maxint) xor RandomRange(RandSeed, maxint);
+      if (WorkingByte mod 1000) <= 5000 then
+        begin
+          RandomBytes^[Count] := Chr(WorkingByte mod RandomRange(10, 1000) * 4 div 2 >> Random(4) mod 256);
+        end else
+        begin
+          RandomBytes^[Count] := Chr(WorkingByte div RandomRange(10, 1000) * 4 div 2 >> Random(4) mod 256);
+        end;
+      Inc(Count);
+    end;
+    SetLength(RandomBytes^, NumberOfBytes);
+    MTRandomBytes := RandomBytes^;
+    DisposeStr(RandomBytes);
+End;
+
+function randomBytes(NumberOfBytes : SizeUInt) : AnsiString;
+Begin
+
+{$IFNDEF UNIX}
+  randomBytes := unixRandomBytes(NumberOfBytes);
+{$ELSE}
+  randomBytes := MTRandomBytes(NumberOfBytes);
+{$ENDIF}
+
+End;
+
+function PasswordHash(const Password : AnsiString) : AnsiString; overload;
+Var
+  PasswordKey,
+  SaltBytes,
+  Hash : TBytes;
+  RandomizedBytes : AnsiString;
+Begin
+ SetLength(PasswordKey, Length(Password) + 1);
+ SetLength(RandomizedBytes, 22);
+ Move(Password[1], PasswordKey[0], Length(Password));
+ PasswordKey[High(PasswordKey)] := 0;
+ RandomizedBytes := Bsdbase64Encode(BytesOf(randomBytes(22)), 22);
+ SaltBytes := BsdBase64Decode(RandomizedBytes);
+ Hash := CryptRaw(PasswordKey, SaltBytes);
+ Result := FormatPasswordHashForBsd(SaltBytes, Hash);
+End; { PasswordHash }
 End.

@@ -87,7 +87,7 @@ function RandomInt(min, max : SizeInt) : SizeInt;
 Begin
   if (min > max) then
     begin
-       raise EInvalidOp.create('Max cannot be less than min in function RandomInt(SizeInt,SizeInt):SizeInt.') at
+       raise EInvalidArgument.create('Max cannot be less than min in function RandomInt(SizeInt,SizeInt):SizeInt.') at
          get_caller_addr(get_frame),
          get_caller_frame(get_frame);
     end;

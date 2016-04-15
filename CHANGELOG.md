@@ -18,5 +18,13 @@
 
   * Added a string helper (Renegade.Extension.Strings.pas) to give more OOP functionality.  (AnsiString.toLowerCase, AnsiString.Equals, etc.) ala Java.
   * Added RandomBytes and RandomInt function to unit (Renegade.Random.pas)
-  * Updated BCrypt unit.  checking function is timing safe now, inspired by php verify_password function. removed php c bcrypt files.
+  * Updated BCrypt unit.  checking function is timing safe now, inspired by php verify_password function.
   * Added testing framework FPTest
+
+### [2.0.0-dev.5] - 2016-04-15
+
+  * Updated BCrypt unit to stand on its own. (Random Functions)
+  * removed php c bcrypt files
+  * Switched randomBytes to use /dev/urandom or /dev/random respectively if the os supports it.
+
+
