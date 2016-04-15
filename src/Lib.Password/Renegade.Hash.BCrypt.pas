@@ -1,23 +1,14 @@
 unit Renegade.Hash.BCrypt;
 
 {$mode objfpc}{$H+}
-<<<<<<< HEAD
 {$codepage utf8}
-=======
-
->>>>>>> 749009e1abe3608660fb73ca3e4544fe7d856625
 interface
 
 uses
   Classes,
   SysUtils,
-<<<<<<< HEAD
   Math,
   RegExpr;
-=======
-  RegExpr,
-  Renegade.Random; { ???: Write own RandomBytes for this unit to make this unit more portable. }
->>>>>>> 749009e1abe3608660fb73ca3e4544fe7d856625
 
 type
   RTPasswordInformation = Object
@@ -26,28 +17,18 @@ type
     AlgoName : AnsiString;
   end;
 
-<<<<<<< HEAD
 function passwordHash(const Password : AnsiString) : AnsiString; overload;
 function passwordVerify(const Password, Hash : AnsiString) : Boolean;
 function passwordNeedsRehash(const PasswordHash : AnsiString; Algo : Word = 1; const Args : array of const) : Boolean; Unimplemented;
 function passwordGetInfo(const Hash : AnsiString) : RTPasswordInformation; Unimplemented;
 function randomBytes(NumberOfBytes : SizeUInt) : AnsiString;
 
-=======
-function passwordHash(const Password : AnsiString) : AnsiString;
-function verifyPassword(const Password, Hash : AnsiString) : Boolean;
-function passwordNeedsRehash(const PasswordHash : AnsiString; Algo : Word = 1; const Args : array of const) : Boolean; Unimplemented;
-function passwordGetInfo(const Hash : AnsiString) : RTPasswordInformation; Unimplemented;
->>>>>>> 749009e1abe3608660fb73ca3e4544fe7d856625
 
 implementation
 
 const
-<<<<<<< HEAD
   OS_HAS_URANDOM = 0;
   OS_HAS_RANDOM  = 1;
-=======
->>>>>>> 749009e1abe3608660fb73ca3e4544fe7d856625
   PBoxOrg: array[0..17] of DWord = (
     $243f6a88, $85a308d3, $13198a2e, $03707344, $a4093822,
     $299f31d0, $082efa98, $ec4e6c89, $452821e6, $38d01377,
@@ -603,27 +584,9 @@ Begin
   Result := FormatPasswordHashForBsd(SaltBytes, Hash);
 End;
 
-<<<<<<< HEAD
 
 
 function passwordVerify(const Password, Hash : AnsiString) : Boolean;
-=======
-function PasswordHash(const Password : AnsiString) : AnsiString;
-Var
-  PasswordKey,
-  SaltBytes,
-  Hash : TBytes;
-Begin
- SetLength(PasswordKey, Length(Password) + 1);
- Move(Password[1], PasswordKey[0], Length(Password));
- PasswordKey[High(PasswordKey)] := 0;
- SaltBytes := BsdBase64Decode(RandomBytes(22));
- Hash := CryptRaw(PasswordKey, SaltBytes);
- Result := FormatPasswordHashForBsd(SaltBytes, Hash);
-End; { PasswordHash }
-
-function verifyPassword(const Password, Hash : AnsiString) : Boolean;
->>>>>>> 749009e1abe3608660fb73ca3e4544fe7d856625
 var
   RegexObj: TRegExpr;
   WorkingBcryptHash : AnsiString;
@@ -631,7 +594,6 @@ var
 Begin
  ResultStatus := 0;
  RegexObj := TRegExpr.Create;
-<<<<<<< HEAD
  RegexObj.Expression := '^\$2\w{1}\$\d{2}\$([\./0-9A-Za-z]{22})';
  if RegexObj.Exec(Hash) then
    begin
@@ -643,16 +605,6 @@ Begin
         resistance towards timing attacks. This is a constant time
         equality check that will always check every byte of both
         values. }
-=======
- RegexObj.Expression := '^\$2y\$\d{2}\$([\./0-9A-Za-z]{22})';
- if RegexObj.Exec(Hash) then
-   begin
-    WriteLn(RegexObj.Match[1]);
-    WorkingBcryptHash := bcryptHashFromStaticSalt(Password, RegexObj.Match[1]);
-    WriteLn(WorkingBcryptHash);
-    for HashCounter := 1 to Length(Hash) do
-      begin
->>>>>>> 749009e1abe3608660fb73ca3e4544fe7d856625
         ResultStatus := ResultStatus or (ord(WorkingBcryptHash[HashCounter]) xor ord(Hash[HashCounter]));
       end;
       Result := (ResultStatus = 0);
@@ -679,7 +631,6 @@ Begin
   PasswordInformation.Cost := 12;
   passwordGetInfo := PasswordInformation;
 End;
-<<<<<<< HEAD
 function osHasURandomBlock : Boolean;
 Begin
  osHasURandomBlock := FileExists('/dev/urandom');
@@ -792,6 +743,4 @@ Begin
  Hash := CryptRaw(PasswordKey, SaltBytes);
  Result := FormatPasswordHashForBsd(SaltBytes, Hash);
 End; { PasswordHash }
-=======
->>>>>>> 749009e1abe3608660fb73ca3e4544fe7d856625
 End.
