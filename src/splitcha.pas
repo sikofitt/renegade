@@ -1,8 +1,39 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
+{*******************************************************}
+{                                                       }
+{   Renegade BBS                                        }
+{                                                       }
+{   Copyright (c) 1990-2013 The Renegade Dev Team       }
+{   Copyleft  (Б├└) 2016 Renegade BBS                     }
+{                                                       }
+{   This file is part of Renegade BBS                   }
+{                                                       }
+{   Renegade is free software: you can redistribute it  }
+{   and/or modify it under the terms of the GNU General }
+{   Public License as published by the Free Software    }
+{   Foundation, either version 3 of the License, or     }
+{   (at your option) any later version.                 }
+{                                                       }
+{   Renegade is distributed in the hope that it will be }
+{   useful, but WITHOUT ANY WARRANTY; without even the  }
+{   implied warranty of MERCHANTABILITY or FITNESS FOR  }
+{   A PARTICULAR PURPOSE.  See the GNU General Public   }
+{   License for more details.                           }
+{                                                       }
+{   You should have received a copy of the GNU General  }
+{   Public License along with Renegade.  If not, see    }
+{   <http://www.gnu.org/licenses/>.                     }
+{                                                       }
+{*******************************************************}
+{   _______                                  __         }
+{  |   _   .-----.-----.-----.-----.---.-.--|  .-----.  }
+{  |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|  }
+{  |.  _   |_____|__|__|_____|___  |___._|_____|_____|  }
+{  |:  |   |                 |_____|                    }
+{  |::.|:. |                                            }
+{  `--- ---'                                            }
+{*******************************************************}
 
-{$A+,B-,D-,E-,F+,I-,L-,N-,O+,R-,S+,V-}
+{$i Renegade.Common.Defines.inc}
 
 UNIT SplitCha;
 
@@ -235,15 +266,15 @@ BEGIN
   SysopNameLength := ( 80 - Length(General.SysOpName) );
   CLS;
   ANSIG(1,1);
-  Prompt('^4дддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд');
+  Prompt('^4О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫');
   ANSIG( ( SysopNameLength - 5 ), 1);
   Prompt('^4[ ^5' + General.SysOpName + ' ^4]');
   ANSIG(1,12);
-  Prompt('^4дддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд');
+  Prompt('^4О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫');
   ANSIG(31,12);
   Prompt('^4[ ^5Ctl^4+^5Z for Help ^4]');
   ANSIG(1,23);
-  Prompt('^4дддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд');
+  Prompt('^4О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫');
   ANSIG(3,23);
   Prompt('^4[ ^5'+ ThisUser.Name + ' ^4]');
 

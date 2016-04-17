@@ -35,10 +35,9 @@
 
 { Defines for Renegade BBS }
 
-{$APPTYPE console}
-{$DESCRIPTION Renegade Bulletin Board System}
 {$MODE objfpc}
 {$UNITPATH Lib.Password;3rdparty/fptest/*;3rdparty/fundamentals/*}
+{$INCLUDEPATH includes}
 {$MODESWITCH typehelpers}
 
 {$A+} { Align Data for faster execution }
@@ -47,9 +46,6 @@
 {$IFDEF RENEGADE_DEBUG}
 {$D+} { Debug Info // for Turbo Pascal this switch is reversed. }
 {$ENDIF}
-
-{ Not supported on *nix systems}
-{$IFNDEF UNIX} {$E-} { No Math-Co library } {$ENDIF}
 
 {$I-} { Disable I/O checking }
 
@@ -65,7 +61,7 @@
      remove unnecessary reloads of registers with values they already
      contain.
 }
-{$O ORDERFIELDS,REGVAR,SIZE,LEVEL2}
+{$OPTIMIZATION ORDERFIELDS,REGVAR,SIZE,LEVEL2}
 
 
 {$Q-} { No overflow check // Possibly turn this on at a later date. Error code 215 }
@@ -75,8 +71,10 @@
 
 {$IFDEF RENEGADE_DEBUG}
 {$S+}              { Check stack usage // By default this is off. }
+{$IFNDEF UNIX}
 {$CHECKPOINTER ON} { Heep pointer checking, see
                      http://www.freepascal.org/docs-html/prog/progsu8.html#x15-140001.2.8 }
+{$ENDIF UNIX}                     
 {$IEEEERRORS ON}   { IEEE (floating point) error checking for constants. }
 {$WARNINGS ON}     { Generate Warnings }
 {$ENDIF}

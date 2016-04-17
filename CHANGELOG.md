@@ -1,6 +1,6 @@
 ### [2.0.0-dev.1] - 2016-04-05
 
-  * Moved all UpCase function calls to Free Pascal's [UpperCase](http://www.freepascal.org/docs-html/rtl/sysutils/ansiuppercase.html "Free Pascal AnsiUpperCase")
+  * Moved all UpCase function calls to Free Pascal's [AnsiUpperCase](http://www.freepascal.org/docs-html/rtl/sysutils/ansiuppercase.html "Free Pascal AnsiUpperCase")
 
 ### [2.0.0-dev.2] - 2016-04-06
 
@@ -26,5 +26,11 @@
   * Updated BCrypt unit to stand on its own. (Random Functions)
   * removed php c bcrypt files
   * Switched randomBytes to use /dev/urandom or /dev/random respectively if the os supports it.
+  
+### [2.0.0-dev.6] - 2016-04-16
+  
+  * Updated Files to include Renegade.Common.Defines.inc
+  * Removed more {$IFDEF WIN32}, specifically header where it includes win32/defines.inc.
+  * Some Formatting.
 
 

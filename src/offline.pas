@@ -1,8 +1,39 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
-{$MODE TP}
-{$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S-,V-}
+{*******************************************************}
+{                                                       }
+{   Renegade BBS                                        }
+{                                                       }
+{   Copyright (c) 1990-2013 The Renegade Dev Team       }
+{   Copyleft  (â†„) 2016 Renegade BBS                     }
+{                                                       }
+{   This file is part of Renegade BBS                   }
+{                                                       }
+{   Renegade is free software: you can redistribute it  }
+{   and/or modify it under the terms of the GNU General }
+{   Public License as published by the Free Software    }
+{   Foundation, either version 3 of the License, or     }
+{   (at your option) any later version.                 }
+{                                                       }
+{   Renegade is distributed in the hope that it will be }
+{   useful, but WITHOUT ANY WARRANTY; without even the  }
+{   implied warranty of MERCHANTABILITY or FITNESS FOR  }
+{   A PARTICULAR PURPOSE.  See the GNU General Public   }
+{   License for more details.                           }
+{                                                       }
+{   You should have received a copy of the GNU General  }
+{   Public License along with Renegade.  If not, see    }
+{   <http://www.gnu.org/licenses/>.                     }
+{                                                       }
+{*******************************************************}
+{   _______                                  __         }
+{  |   _   .-----.-----.-----.-----.---.-.--|  .-----.  }
+{  |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|  }
+{  |.  _   |_____|__|__|_____|___  |___._|_____|_____|  }
+{  |:  |   |                 |_____|                    }
+{  |::.|:. |                                            }
+{  `--- ---'                                            }
+{*******************************************************}
+
+{$i Renegade.Common.Defines.inc}
 
 UNIT OffLine;
 
@@ -40,21 +71,22 @@ TYPE
     Conf: Byte;
   END;
 
-  QWKHeadeRec = RECORD
-    Flag: Char;
-    Num: ARRAY [1..7] OF Char;
-    MsgDate: ARRAY [1..8] OF Char;
-    MsgTime: ARRAY [1..5] OF Char;
-    MsgTo: ARRAY [1..25] OF Char;
-    MsgFrom: ARRAY [1..25] OF Char;
-    MsgSubj: ARRAY [1..25] OF Char;
-    MsgPWord: STRING[11];
-    RNum: STRING[7];
-    NumBlocks: ARRAY [1..6] OF Char;
-    Status: Byte;
-    MBase: SmallWord;
-    Crap: STRING[3];
-  END;
+  QWKHeadeRec = Record
+  Flag: Char;
+  Num: ARRAY [1..7] Of Char;
+  MsgDate: ARRAY [1..8] Of Char;
+  MsgTime: ARRAY [1..5] Of Char;
+  MsgTo: ARRAY [1..25] Of Char;
+  MsgFrom: ARRAY [1..25] Of Char;
+  MsgSubj: ARRAY [1..25] Of Char;
+  MsgPWord: STRING[11];
+  RNum: STRING[7];
+  NumBlocks: ARRAY [1..6] Of Char;
+  Status: Byte;
+  MBase: SmallWord;
+  Crap: STRING[3];
+End;
+
 
 (*
 PROCEDURE SetFileAreaNewScanDate;
@@ -218,9 +250,9 @@ VAR
   BEGIN
     LastUpdate := Timer;
     IF (NOT Abort) THEN
-      Prompt(' ‚'+PadRightInt(TotalNewMsgsInArea,7)+
-             'ƒ'+PadRightInt(TotalYourMsgsInArea,6)+
-             '„'+PadRightStr(IntToStr((FileSize(MsgFile) - LastK) DIV 1024)+'k',8));
+      Prompt(' ï¿½'+PadRightInt(TotalNewMsgsInArea,7)+
+             'ï¿½'+PadRightInt(TotalYourMsgsInArea,6)+
+             'ï¿½'+PadRightStr(IntToStr((FileSize(MsgFile) - LastK) DIV 1024)+'k',8));
   END;
 
   PROCEDURE UpdatePointers;
@@ -392,12 +424,12 @@ BEGIN
     Next := FALSE;
 
     CLS;
-    Print(Centre('|The QWKÿSystem is now gathering mail.'));
+    Print(Centre('|The QWKï¿½System is now gathering mail.'));
     NL;
-    PrintACR('sÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄ¿');
-    PrintACR('s³t Num s³u Message area name     s³v  Short  s³w Echo s³x  Total  '+
-             's³y New s³z Your s³{ Size s³');
-    PrintACR('sÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÙ');
+    PrintACR('sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿');
+    PrintACR('sï¿½t Num sï¿½u Message area name     sï¿½v  Short  sï¿½w Echo sï¿½x  Total  '+
+             'sï¿½y New sï¿½z Your sï¿½{ Size sï¿½');
+    PrintACR('sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½');
 
     FillChar(QWKHeader.MsgPWord,SizeOf(QWKHeader.MsgPWord),' ');
 
@@ -446,8 +478,8 @@ BEGIN
         PrintMain('}'+PadRightInt(MArea,4)+
                   '    ~'+PadLeftStr(MemMsgArea.Name,22)+
                   '  '+PadLeftStr(MemMsgArea.FileName,11)+
-                  '€'+PadLeftStr(ShowYesNo(MemMsgArea.MAType <> 0),3)+
-                  ''+PadRightInt(FileSize(MsgHdrF),8));
+                  'ï¿½'+PadLeftStr(ShowYesNo(MemMsgArea.MAType <> 0),3)+
+                  'ï¿½'+PadRightInt(FileSize(MsgHdrF),8));
 
         Upload_Display;
 
@@ -572,7 +604,7 @@ BEGIN
                   BlockRead(MsgTxtF,S[0],1);
                   BlockRead(MsgTxtF,S[1],Byte(S[0]));
                   Inc(TempTextSize,(Length(S) + 1));
-                  S := S + 'ã';
+                  S := S + 'ï¿½';
                   Texts := Texts + S;
                   IF (Length(Texts) > 128) THEN
                   BEGIN
@@ -1032,10 +1064,10 @@ BEGIN
               BlockRead(F,S[1],128);
               S[0] := #128;
               S := Os + S;
-              WHILE (Pos('ã',S) > 0) DO
+              WHILE (Pos('ï¿½',S) > 0) DO
               BEGIN
-                Os := Copy(S,1,Pos('ã',S)-1);
-                S := Copy(S,Pos('ã',S)+1,Length(S));
+                Os := Copy(S,1,Pos('ï¿½',S)-1);
+                S := Copy(S,Pos('ï¿½',S)+1,Length(S));
                 IF (MemMsgArea.MAType <> 0) AND (Copy(Os,1,4) = '--- ') THEN
                   Os := ''
                 ELSE
@@ -1222,4 +1254,4 @@ BEGIN
   LastError := IOResult;
 END;
 
-END.
+END.

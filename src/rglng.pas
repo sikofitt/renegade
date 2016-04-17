@@ -1,22 +1,55 @@
-{$IFDEF WIN32}
-{$I DEFINES.INC}
-{$ENDIF}
+{*******************************************************}
+{                                                       }
+{   Renegade BBS                                        }
+{                                                       }
+{   Copyright (c) 1990-2013 The Renegade Dev Team       }
+{   Copyleft  (ↄ) 2016 Renegade BBS                     }
+{                                                       }
+{   This file is part of Renegade BBS                   }
+{                                                       }
+{   Renegade is free software: you can redistribute it  }
+{   and/or modify it under the terms of the GNU General }
+{   Public License as published by the Free Software    }
+{   Foundation, either version 3 of the License, or     }
+{   (at your option) any later version.                 }
+{                                                       }
+{   Renegade is distributed in the hope that it will be }
+{   useful, but WITHOUT ANY WARRANTY; without even the  }
+{   implied warranty of MERCHANTABILITY or FITNESS FOR  }
+{   A PARTICULAR PURPOSE.  See the GNU General Public   }
+{   License for more details.                           }
+{                                                       }
+{   You should have received a copy of the GNU General  }
+{   Public License along with Renegade.  If not, see    }
+{   <http://www.gnu.org/licenses/>.                     }
+{                                                       }
+{*******************************************************}
+{   _______                                  __         }
+{  |   _   .-----.-----.-----.-----.---.-.--|  .-----.  }
+{  |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|  }
+{  |.  _   |_____|__|__|_____|___  |___._|_____|_____|  }
+{  |:  |   |                 |_____|                    }
+{  |::.|:. |                                            }
+{  `--- ---'                                            }
+{*******************************************************}
 
-PROGRAM RGLNG;
+{$i Renegade.Common.Defines.inc}
 
-USES
-  Crt,
-  Dos;
+Program RGLNG;
 
-TYPE
-  StrPointerRec = RECORD
+Uses 
+Crt,
+Dos;
+
+Type 
+  StrPointerRec = Record
     Pointer,
     TextSize: LongInt;
-  END;
+  End;
 
-VAR
+Var 
   RGStrFile: FILE;
-  StrPointerFile: FILE OF StrPointerRec;
+  StrPointerFile: FILE Of StrPointerRec;
   StrPointer: StrPointerRec;
   F: Text;
   S: STRING;
@@ -24,33 +57,35 @@ VAR
   Done,
   Found: Boolean;
 
-FUNCTION AllCaps(S: STRING): STRING;
-VAR
+Function AllCaps(S: String): STRING;
+
+Var 
   I: Integer;
-BEGIN
-  FOR I := 1 TO Length(S) DO
-    IF (S[I] IN ['a'..'z']) THEN
+Begin
+  For I := 1 To Length(S) Do
+    If (S[I] In ['a'..'z']) Then
       S[I] := Chr(Ord(S[I]) - Ord('a')+Ord('A'));
   AllCaps := S;
-END;
+End;
 
-FUNCTION SQOutSp(S: STRING): STRING;
-BEGIN
-  WHILE (Pos(' ',S) > 0) DO
+Function SQOutSp(S: String): STRING;
+Begin
+  While (Pos(' ',S) > 0) Do
     Delete(s,Pos(' ',S),1);
   SQOutSp := S;
-END;
+End;
 
-FUNCTION Exist(FN: STRING): Boolean;
-VAR
+Function Exist(FN: String): Boolean;
+
+Var 
   DirInfo: SearchRec;
-BEGIN
+Begin
   FindFirst(SQOutSp(FN),AnyFile,DirInfo);
   Exist := (DOSError = 0);
-END;
+End;
 
-PROCEDURE CompileLanguageStrings;
-BEGIN
+Procedure CompileLanguageStrings;
+Begin
   WriteLn;
   Write('Compiling language strings ... ');
   Found := TRUE;
@@ -60,253 +95,253 @@ BEGIN
   ReWrite(RGStrFile,1);
   Assign(F,'RGLNG.TXT');
   Reset(F);
-  WHILE NOT EOF(F) AND (Found) DO
-  BEGIN
-    ReadLn(F,S);
-    IF (S <> '') AND (S[1] = '$') THEN
-    BEGIN
-      Delete(S,1,1);
-      S := AllCaps(S);
-      RGStrNum := -1;
-      IF (S = 'ANONYMOUS_STRING') THEN
-        RGStrNum := 0
-      ELSE IF (S = 'ECHO_CHAR_FOR_PASSWORDS') THEN
-        RGStrNum := 1
-      ELSE IF (S = 'ENGAGE_CHAT') THEN
-        RGStrNum := 2
-      ELSE IF (S = 'END_CHAT') THEN
-        RGStrNum := 3
-      ELSE IF (S = 'SYSOP_WORKING') THEN
-        RGStrNum := 4
-      ELSE IF (S = 'PAUSE') THEN
-        RGStrNum := 5
-      ELSE IF (S = 'ENTER_MESSAGE_LINE_ONE') THEN
-        RGStrNum := 6
-      ELSE IF (S = 'ENTER_MESSAGE_LINE_TWO') THEN
-        RGStrNum := 7
-      ELSE IF (S = 'NEWSCAN_BEGIN') THEN
-        RGStrNum := 8
-      ELSE IF (S = 'NEWSCAN_DONE') THEN
-        RGStrNum := 9
-      ELSE IF (S = 'AUTO_MESSAGE_TITLE') THEN
-        RGStrNum := 10
-      ELSE IF (S = 'AUTO_MESSAGE_BORDER_CHARACTERS') THEN
-        RGStrNum := 11
-      ELSE IF (S = 'SYSOP_SHELLING_TO_DOS') THEN
-        RGStrNum := 12
-      ELSE IF (S = 'READ_MAIL') THEN
-        RGStrNum := 13
-      ELSE IF (S = 'PAGING_SYSOP') THEN
-        RGStrNum := 14
-      ELSE IF (S = 'CHAT_CALL') THEN
-        RGStrNum := 15
-      ELSE IF (S = 'BULLETIN_PROMPT') THEN
-        RGstrNum := 16
-      ELSE IF (S = 'PROTOCOL_PROMPT') THEN
-        RGStrNum := 17
-      ELSE IF (S = 'LIST_FILES') THEN
-        RGStrNum := 18
-      ELSE IF (S = 'SEARCH_FOR_NEW_FILES') THEN
-        RGStrNum := 19
-      ELSE IF (S = 'SEARCH_ALL_DIRS_FOR_FILE_MASK') THEN
-        RGStrNum := 20
-      ELSE IF (S = 'SEARCH_FOR_DESCRIPTIONS') THEN
-        RGStrNum := 21
-      ELSE IF (S = 'ENTER_THE_STRING_TO_SEARCH_FOR') THEN
-        RGStrNum := 22
-      ELSE IF (S = 'DOWNLOAD') THEN
-        RGStrNum := 23
-      ELSE IF (S = 'UPLOAD') THEN
-        RGStrNum := 24
-      ELSE IF (S = 'VIEW_INTERIOR_FILES') THEN
-        RGStrNum := 25
-      ELSE IF (S = 'INSUFFICIENT_FILE_CREDITS') THEN
-        RGStrNum := 26
-      ELSE IF (S = 'RATIO_IS_UNBALANCED') THEN
-        RGStrNum := 27
-      ELSE IF (S = 'ALL_FILES') THEN
-        RGStrNum := 28
-      ELSE IF (S = 'FILE_MASK') THEN
-        RGStrNum := 29
-      ELSE IF (S = 'FILE_ADDED_TO_BATCH_QUEUE') THEN
-        RGStrNum := 30
-      ELSE IF (S = 'BATCH_DOWNLOAD_FLAGGING') THEN
-        RGStrNum := 31
-      ELSE IF (S = 'READ_QUESTION_PROMPT') THEN
-        RGStrNum := 32
-      ELSE IF (S = 'SYSTEM_PASSWORD_PROMPT') THEN
-        RGStrNum := 33
-      ELSE IF (S = 'DEFAULT_MESSAGE_TO') THEN
-        RGStrNum := 34
-      ELSE IF (S = 'NEWSCAN_ALL') THEN
-        RGStrNum := 35
-      ELSE IF (S = 'NEWSCAN_DONE') THEN
-        RGStrNum := 36
-      ELSE IF (S = 'CHAT_REASON') THEN
-        RGStrNum := 37
-      ELSE IF (S = 'USER_DEFINED_QUESTION_ONE') THEN
-        RGStrNum := 38
-      ELSE IF (S = 'USER_DEFINED_QUESTION_TWO') THEN
-        RGStrNum := 39
-      ELSE IF (S = 'USER_DEFINED_QUESTION_THREE') THEN
-        RGStrNum := 40
-      ELSE IF (S = 'USER_DEFINED_QUESTION_EDITOR_ONE') THEN
-        RGStrNum := 41
-      ELSE IF (S = 'USER_DEFINED_QUESTION_EDITOR_TWO') THEN
-        RGStrNum := 42
-      ELSE IF (S = 'USER_DEFINED_QUESTION_EDITOR_THREE') THEN
-        RGStrNum := 43
-      ELSE IF (S = 'CONTINUE_PROMPT') THEN
-        RGStrNum := 44
-      ELSE IF (S = 'INVISIBLE_LOGIN') THEN
-        RGStrNum := 45
-      ELSE IF (S = 'CANT_EMAIL') THEN
-        RGStrNum := 46
-      ELSE IF (S = 'SEND_EMAIL') THEN
-        RGStrNum := 47
-      ELSE IF (S = 'SENDING_MASS_MAIL_TO') THEN
-        RGStrNum := 48
-      ELSE IF (S = 'SENDING_MASS_MAIL_TO_ALL_USERS') THEN
-        RGStrNum := 49
-      ELSE IF (S = 'NO_NETMAIL') THEN
-        RGStrNum := 50
-      ELSE IF (S = 'NETMAIL_PROMPT') THEN
-        RGStrNum := 51
-      ELSE IF (S = 'NO_MAIL_WAITING') THEN
-        RGStrNum := 52
-      ELSE IF (S = 'MUST_READ_MESSAGE') THEN
-        RGStrNum := 53
-      ELSE IF (S = 'SCAN_FOR_NEW_FILES') THEN
-        RGStrNum := 54
-      ELSE IF (S = 'NEW_SCAN_CHAR_FILE') THEN
-        RGStrNum := 55
-      ELSE IF (S = 'BULLETINS_PROMPT') THEN
-        RGStrNum := 56
-      ELSE IF (S = 'QUICK_LOGON') THEN
-        RGStrNum := 57
-      ELSE IF (S = 'MESSAGE_AREA_SELECT_HEADER') THEN
-        RGStrNum := 58
-      ELSE IF (S = 'FILE_AREA_SELECT_HEADER') THEN
-        RGStrNum := 59
-      ELSE IF (S = 'RECEIVE_EMAIL_HEADER') THEN
-        RGStrNum := 60
-      ELSE IF (S = 'VOTE_LIST_TOPICS_HEADER') THEN
-        RGStrNum := 61
-      ELSE IF (S = 'VOTE_TOPIC_RESULT_HEADER') THEN
-        RGStrNum := 62
-      ELSE IF (S = 'FILE_AREA_NAME_HEADER_NO_RATIO') THEN
-        RGStrNum := 63
-      ELSE IF (S = 'FILE_AREA_NAME_HEADER_RATIO') THEN
-        RGStrNum := 64
-      ELSE IF (S = 'SYSOP_CHAT_HELP') THEN
-        RGStrNum := 65
-      ELSE IF (S = 'NEW_SCAN_CHAR_MESSAGE') THEN
-        RGStrNum := 66
-      ELSE IF (S = 'FILE_AREA_SELECT_NO_FILES') THEN
-        RGStrNum := 67
-      ELSE IF (S = 'MESSAGE_AREA_SELECT_NO_FILES') THEN
-        RGStrNum := 68
-      ELSE IF (S = 'MESSAGE_AREA_LIST_PROMPT') THEN
-        RGStrNum := 69
-      ELSE IF (S = 'FILE_AREA_LIST_PROMPT') THEN
-        RGStrNum := 70
-      ELSE IF (S = 'FILE_MESSAGE_AREA_LIST_HELP') THEN
-        RGStrNum := 71
-      ELSE IF (S = 'FILE_AREA_CHANGE_PROMPT') THEN
-        RGStrNum := 72
-      ELSE IF (S = 'MESSAGE_AREA_CHANGE_PROMPT') THEN
-        RGStrNum := 73
-      ELSE IF (S = 'FILE_AREA_NEW_SCAN_TOGGLE_PROMPT') THEN
-        RGStrNum := 74
-      ELSE IF (S = 'MESSAGE_AREA_NEW_SCAN_TOGGLE_PROMPT') THEN
-        RGStrNum := 75
-      ELSE IF (S = 'FILE_AREA_MOVE_FILE_PROMPT') THEN
-        RGStrNum := 76
-      ELSE IF (S = 'MESSAGE_AREA_MOVE_MESSAGE_PROMPT') THEN
-        RGStrNum := 77
-      ELSE IF (S = 'FILE_AREA_CHANGE_MIN_MAX_ERROR') THEN
-        RGStrNum := 78
-      ELSE IF (S = 'MESSAGE_AREA_CHANGE_MIN_MAX_ERROR') THEN
-        RGStrNum := 79
-      ELSE IF (S = 'FILE_AREA_CHANGE_NO_AREA_ACCESS') THEN
-        RGStrNum := 80
-      ELSE IF (S = 'MESSAGE_AREA_CHANGE_NO_AREA_ACCESS') THEN
-        RGStrNum := 81
-      ELSE IF (S = 'FILE_AREA_CHANGE_LOWEST_AREA') THEN
-        RGStrNum := 82
-      ELSE IF (S = 'FILE_AREA_CHANGE_HIGHEST_AREA') THEN
-        RGStrNum := 83
-      ELSE IF (S = 'MESSAGE_AREA_CHANGE_LOWEST_AREA') THEN
-        RGStrNum := 84
-      ELSE IF (S = 'MESSAGE_AREA_CHANGE_HIGHEST_AREA') THEN
-        RGStrNum := 85
-      ELSE IF (S = 'FILE_AREA_NEW_SCAN_SCANNING_ALL_AREAS') THEN
-        RGStrNum := 86
-      ELSE IF (S = 'MESSAGE_AREA_NEW_SCAN_SCANNING_ALL_AREAS') THEN
-        RGStrNum := 87
-      ELSE IF (S = 'FILE_AREA_NEW_SCAN_NOT_SCANNING_ALL_AREAS') THEN
-        RGStrNum := 88
-      ELSE IF (S = 'MESSAGE_AREA_NEW_SCAN_NOT_SCANNING_ALL_AREAS') THEN
-        RGStrNum := 89
-      ELSE IF (S = 'FILE_AREA_NEW_SCAN_MIN_MAX_ERROR') THEN
-        RGStrNum := 90
-      ELSE IF (S = 'MESSAGE_AREA_NEW_SCAN_MIN_MAX_ERROR') THEN
-        RGStrNum := 91
-      ELSE IF (S = 'FILE_AREA_NEW_SCAN_AREA_ON_OFF') THEN
-        RGStrNum := 92
-      ELSE IF (S = 'MESSAGE_AREA_NEW_SCAN_AREA_ON_OFF') THEN
-        RGStrNum := 93
-      ELSE IF (S = 'MESSAGE_AREA_NEW_SCAN_AREA_NOT_REMOVED') THEN
-        RGStrNum := 94;
+  While Not EOF(F) And (Found) Do
+    Begin
+      ReadLn(F,S);
+      If (S <> '') And (S[1] = '$') Then
+        Begin
+          Delete(S,1,1);
+          S := AllCaps(S);
+          RGStrNum := -1;
+          If (S = 'ANONYMOUS_STRING') Then
+            RGStrNum := 0
+          Else If (S = 'ECHO_CHAR_FOR_PASSWORDS') Then
+                 RGStrNum := 1
+          Else If (S = 'ENGAGE_CHAT') Then
+                 RGStrNum := 2
+          Else If (S = 'END_CHAT') Then
+                 RGStrNum := 3
+          Else If (S = 'SYSOP_WORKING') Then
+                 RGStrNum := 4
+          Else If (S = 'PAUSE') Then
+                 RGStrNum := 5
+          Else If (S = 'ENTER_MESSAGE_LINE_ONE') Then
+                 RGStrNum := 6
+          Else If (S = 'ENTER_MESSAGE_LINE_TWO') Then
+                 RGStrNum := 7
+          Else If (S = 'NEWSCAN_BEGIN') Then
+                 RGStrNum := 8
+          Else If (S = 'NEWSCAN_DONE') Then
+                 RGStrNum := 9
+          Else If (S = 'AUTO_MESSAGE_TITLE') Then
+                 RGStrNum := 10
+          Else If (S = 'AUTO_MESSAGE_BORDER_CHARACTERS') Then
+                 RGStrNum := 11
+          Else If (S = 'SYSOP_SHELLING_TO_DOS') Then
+                 RGStrNum := 12
+          Else If (S = 'READ_MAIL') Then
+                 RGStrNum := 13
+          Else If (S = 'PAGING_SYSOP') Then
+                 RGStrNum := 14
+          Else If (S = 'CHAT_CALL') Then
+                 RGStrNum := 15
+          Else If (S = 'BULLETIN_PROMPT') Then
+                 RGstrNum := 16
+          Else If (S = 'PROTOCOL_PROMPT') Then
+                 RGStrNum := 17
+          Else If (S = 'LIST_FILES') Then
+                 RGStrNum := 18
+          Else If (S = 'SEARCH_FOR_NEW_FILES') Then
+                 RGStrNum := 19
+          Else If (S = 'SEARCH_ALL_DIRS_FOR_FILE_MASK') Then
+                 RGStrNum := 20
+          Else If (S = 'SEARCH_FOR_DESCRIPTIONS') Then
+                 RGStrNum := 21
+          Else If (S = 'ENTER_THE_STRING_TO_SEARCH_FOR') Then
+                 RGStrNum := 22
+          Else If (S = 'DOWNLOAD') Then
+                 RGStrNum := 23
+          Else If (S = 'UPLOAD') Then
+                 RGStrNum := 24
+          Else If (S = 'VIEW_INTERIOR_FILES') Then
+                 RGStrNum := 25
+          Else If (S = 'INSUFFICIENT_FILE_CREDITS') Then
+                 RGStrNum := 26
+          Else If (S = 'RATIO_IS_UNBALANCED') Then
+                 RGStrNum := 27
+          Else If (S = 'ALL_FILES') Then
+                 RGStrNum := 28
+          Else If (S = 'FILE_MASK') Then
+                 RGStrNum := 29
+          Else If (S = 'FILE_ADDED_TO_BATCH_QUEUE') Then
+                 RGStrNum := 30
+          Else If (S = 'BATCH_DOWNLOAD_FLAGGING') Then
+                 RGStrNum := 31
+          Else If (S = 'READ_QUESTION_PROMPT') Then
+                 RGStrNum := 32
+          Else If (S = 'SYSTEM_PASSWORD_PROMPT') Then
+                 RGStrNum := 33
+          Else If (S = 'DEFAULT_MESSAGE_TO') Then
+                 RGStrNum := 34
+          Else If (S = 'NEWSCAN_ALL') Then
+                 RGStrNum := 35
+          Else If (S = 'NEWSCAN_DONE') Then
+                 RGStrNum := 36
+          Else If (S = 'CHAT_REASON') Then
+                 RGStrNum := 37
+          Else If (S = 'USER_DEFINED_QUESTION_ONE') Then
+                 RGStrNum := 38
+          Else If (S = 'USER_DEFINED_QUESTION_TWO') Then
+                 RGStrNum := 39
+          Else If (S = 'USER_DEFINED_QUESTION_THREE') Then
+                 RGStrNum := 40
+          Else If (S = 'USER_DEFINED_QUESTION_EDITOR_ONE') Then
+                 RGStrNum := 41
+          Else If (S = 'USER_DEFINED_QUESTION_EDITOR_TWO') Then
+                 RGStrNum := 42
+          Else If (S = 'USER_DEFINED_QUESTION_EDITOR_THREE') Then
+                 RGStrNum := 43
+          Else If (S = 'CONTINUE_PROMPT') Then
+                 RGStrNum := 44
+          Else If (S = 'INVISIBLE_LOGIN') Then
+                 RGStrNum := 45
+          Else If (S = 'CANT_EMAIL') Then
+                 RGStrNum := 46
+          Else If (S = 'SEND_EMAIL') Then
+                 RGStrNum := 47
+          Else If (S = 'SENDING_MASS_MAIL_TO') Then
+                 RGStrNum := 48
+          Else If (S = 'SENDING_MASS_MAIL_TO_ALL_USERS') Then
+                 RGStrNum := 49
+          Else If (S = 'NO_NETMAIL') Then
+                 RGStrNum := 50
+          Else If (S = 'NETMAIL_PROMPT') Then
+                 RGStrNum := 51
+          Else If (S = 'NO_MAIL_WAITING') Then
+                 RGStrNum := 52
+          Else If (S = 'MUST_READ_MESSAGE') Then
+                 RGStrNum := 53
+          Else If (S = 'SCAN_FOR_NEW_FILES') Then
+                 RGStrNum := 54
+          Else If (S = 'NEW_SCAN_CHAR_FILE') Then
+                 RGStrNum := 55
+          Else If (S = 'BULLETINS_PROMPT') Then
+                 RGStrNum := 56
+          Else If (S = 'QUICK_LOGON') Then
+                 RGStrNum := 57
+          Else If (S = 'MESSAGE_AREA_SELECT_HEADER') Then
+                 RGStrNum := 58
+          Else If (S = 'FILE_AREA_SELECT_HEADER') Then
+                 RGStrNum := 59
+          Else If (S = 'RECEIVE_EMAIL_HEADER') Then
+                 RGStrNum := 60
+          Else If (S = 'VOTE_LIST_TOPICS_HEADER') Then
+                 RGStrNum := 61
+          Else If (S = 'VOTE_TOPIC_RESULT_HEADER') Then
+                 RGStrNum := 62
+          Else If (S = 'FILE_AREA_NAME_HEADER_NO_RATIO') Then
+                 RGStrNum := 63
+          Else If (S = 'FILE_AREA_NAME_HEADER_RATIO') Then
+                 RGStrNum := 64
+          Else If (S = 'SYSOP_CHAT_HELP') Then
+                 RGStrNum := 65
+          Else If (S = 'NEW_SCAN_CHAR_MESSAGE') Then
+                 RGStrNum := 66
+          Else If (S = 'FILE_AREA_SELECT_NO_FILES') Then
+                 RGStrNum := 67
+          Else If (S = 'MESSAGE_AREA_SELECT_NO_FILES') Then
+                 RGStrNum := 68
+          Else If (S = 'MESSAGE_AREA_LIST_PROMPT') Then
+                 RGStrNum := 69
+          Else If (S = 'FILE_AREA_LIST_PROMPT') Then
+                 RGStrNum := 70
+          Else If (S = 'FILE_MESSAGE_AREA_LIST_HELP') Then
+                 RGStrNum := 71
+          Else If (S = 'FILE_AREA_CHANGE_PROMPT') Then
+                 RGStrNum := 72
+          Else If (S = 'MESSAGE_AREA_CHANGE_PROMPT') Then
+                 RGStrNum := 73
+          Else If (S = 'FILE_AREA_NEW_SCAN_TOGGLE_PROMPT') Then
+                 RGStrNum := 74
+          Else If (S = 'MESSAGE_AREA_NEW_SCAN_TOGGLE_PROMPT') Then
+                 RGStrNum := 75
+          Else If (S = 'FILE_AREA_MOVE_FILE_PROMPT') Then
+                 RGStrNum := 76
+          Else If (S = 'MESSAGE_AREA_MOVE_MESSAGE_PROMPT') Then
+                 RGStrNum := 77
+          Else If (S = 'FILE_AREA_CHANGE_MIN_MAX_ERROR') Then
+                 RGStrNum := 78
+          Else If (S = 'MESSAGE_AREA_CHANGE_MIN_MAX_ERROR') Then
+                 RGStrNum := 79
+          Else If (S = 'FILE_AREA_CHANGE_NO_AREA_ACCESS') Then
+                 RGStrNum := 80
+          Else If (S = 'MESSAGE_AREA_CHANGE_NO_AREA_ACCESS') Then
+                 RGStrNum := 81
+          Else If (S = 'FILE_AREA_CHANGE_LOWEST_AREA') Then
+                 RGStrNum := 82
+          Else If (S = 'FILE_AREA_CHANGE_HIGHEST_AREA') Then
+                 RGStrNum := 83
+          Else If (S = 'MESSAGE_AREA_CHANGE_LOWEST_AREA') Then
+                 RGStrNum := 84
+          Else If (S = 'MESSAGE_AREA_CHANGE_HIGHEST_AREA') Then
+                 RGStrNum := 85
+          Else If (S = 'FILE_AREA_NEW_SCAN_SCANNING_ALL_AREAS') Then
+                 RGStrNum := 86
+          Else If (S = 'MESSAGE_AREA_NEW_SCAN_SCANNING_ALL_AREAS') Then
+                 RGStrNum := 87
+          Else If (S = 'FILE_AREA_NEW_SCAN_NOT_SCANNING_ALL_AREAS') Then
+                 RGStrNum := 88
+          Else If (S = 'MESSAGE_AREA_NEW_SCAN_NOT_SCANNING_ALL_AREAS') Then
+                 RGStrNum := 89
+          Else If (S = 'FILE_AREA_NEW_SCAN_MIN_MAX_ERROR') Then
+                 RGStrNum := 90
+          Else If (S = 'MESSAGE_AREA_NEW_SCAN_MIN_MAX_ERROR') Then
+                 RGStrNum := 91
+          Else If (S = 'FILE_AREA_NEW_SCAN_AREA_ON_OFF') Then
+                 RGStrNum := 92
+          Else If (S = 'MESSAGE_AREA_NEW_SCAN_AREA_ON_OFF') Then
+                 RGStrNum := 93
+          Else If (S = 'MESSAGE_AREA_NEW_SCAN_AREA_NOT_REMOVED') Then
+                 RGStrNum := 94;
 
-      IF (RGStrNum = -1) THEN
-      BEGIN
-        WriteLn('Error!');
-        WriteLn;
-        WriteLn(^G^G^G'The following string definition is invalid:');
-        WriteLn;
-        WriteLn('   '+S);
-        Found := FALSE;
-      END
-      ELSE
-      BEGIN
-        Done := FALSE;
-        WITH StrPointer DO
-        BEGIN
-          Pointer := (FileSize(RGStrFile) + 1);
-          TextSize := 0;
-        END;
-        Seek(RGStrFile,FileSize(RGStrFile));
-        WHILE NOT EOF(F) AND (NOT Done) DO
-        BEGIN
-          ReadLn(F,S);
-          IF (S[1] = '$') THEN
-            Done := TRUE
-          ELSE
-          BEGIN
-            Inc(StrPointer.TextSize,(Length(S) + 1));
-            BlockWrite(RGStrFile,S,(Length(S) + 1));
-          END;
-        END;
-        Seek(StrPointerFile,RGStrNum);
-        Write(StrPointerFile,StrPointer);
-      END;
-    END;
-  END;
+          If (RGStrNum = -1) Then
+            Begin
+              WriteLn('Error!');
+              WriteLn;
+              WriteLn(^G^G^G'The following string definition is invalid:');
+              WriteLn;
+              WriteLn('   '+S);
+              Found := FALSE;
+            End
+          Else
+            Begin
+              Done := FALSE;
+              With StrPointer Do
+                Begin
+                  Pointer := (FileSize(RGStrFile) + 1);
+                  TextSize := 0;
+                End;
+              Seek(RGStrFile,FileSize(RGStrFile));
+              While Not EOF(F) And (Not Done) Do
+                Begin
+                  ReadLn(F,S);
+                  If (S[1] = '$') Then
+                    Done := TRUE
+                  Else
+                    Begin
+                      Inc(StrPointer.TextSize,(Length(S) + 1));
+                      BlockWrite(RGStrFile,S,(Length(S) + 1));
+                    End;
+                End;
+              Seek(StrPointerFile,RGStrNum);
+              Write(StrPointerFile,StrPointer);
+            End;
+        End;
+    End;
   Close(F);
   Close(RGStrFile);
   Close(StrPointerFile);
-  IF (Found) THEN
+  If (Found) Then
     WriteLn('Done!')
-  ELSE
-  BEGIN
-    Erase(StrPointerFile);
-    Erase(RGStrFile);
-  END;
-END;
+  Else
+    Begin
+      Erase(StrPointerFile);
+      Erase(RGStrFile);
+    End;
+End;
 
-PROCEDURE CompileMainStrings;
-BEGIN
+Procedure CompileMainStrings;
+Begin
   WriteLn;
   Write('Compiling main strings ... ');
   Found := TRUE;
@@ -316,84 +351,84 @@ BEGIN
   ReWrite(RGStrFile,1);
   Assign(F,'RGMAIN.TXT');
   Reset(F);
-  WHILE NOT EOF(F) AND (Found) DO
-  BEGIN
-    ReadLn(F,S);
-    IF (S <> '') AND (S[1] = '$') THEN
-    BEGIN
-      Delete(S,1,1);
-      S := AllCaps(S);
-      RGStrNum := -1;
-      IF (S = 'BAUD_OVERRIDE_PW') THEN
-        RGStrNum := 0
-      ELSE IF (S = 'CALLER_LOGON') THEN
-        RGStrNum := 1
-      ELSE IF (S = 'LOGON_AS_NEW') THEN
-        RGStrNum := 2
-      ELSE IF (S = 'USER_LOGON_PASSWORD') THEN
-        RGStrNum := 3
-      ELSE IF (S = 'USER_LOGON_PHONE_NUMBER') THEN
-        RGStrNum := 4
-      ELSE IF (S = 'SYSOP_LOGON_PASSWORD') THEN
-        RGStrNum := 5
-      ELSE IF (S = 'FORGOT_PW_QUESTION') THEN
-        RGStrNum := 6
-      ELSE IF (S = 'VERIFY_BIRTH_DATE') THEN
-        RGStrNum := 7
-      ELSE IF (S = 'LOGON_WITHDRAW_BANK') THEN
-        RGStrNum := 8
-      ELSE IF (S = 'SHUTTLE_LOGON') THEN
-        RGStrNum := 9
-      ELSE IF (S = 'NEW_USER_PASSWORD') THEN
-        RGStrNum := 10;
-      IF (RGStrNum = -1) THEN
-      BEGIN
-        WriteLn('Error!');
-        WriteLn;
-        WriteLn(^G^G^G'The following string definition is invalid:');
-        WriteLn;
-        WriteLn('   '+S);
-        Found := FALSE;
-      END
-      ELSE
-      BEGIN
-        Done := FALSE;
-        WITH StrPointer DO
-        BEGIN
-          Pointer := (FileSize(RGStrFile) + 1);
-          TextSize := 0;
-        END;
-        Seek(RGStrFile,FileSize(RGStrFile));
-        WHILE NOT EOF(F) AND (NOT Done) DO
-        BEGIN
-          ReadLn(F,S);
-          IF (S[1] = '$') THEN
-            Done := TRUE
-          ELSE
-          BEGIN
-            Inc(StrPointer.TextSize,(Length(S) + 1));
-            BlockWrite(RGStrFile,S,(Length(S) + 1));
-          END;
-        END;
-        Seek(StrPointerFile,RGStrNum);
-        Write(StrPointerFile,StrPointer);
-      END;
-    END;
-  END;
+  While Not EOF(F) And (Found) Do
+    Begin
+      ReadLn(F,S);
+      If (S <> '') And (S[1] = '$') Then
+        Begin
+          Delete(S,1,1);
+          S := AllCaps(S);
+          RGStrNum := -1;
+          If (S = 'BAUD_OVERRIDE_PW') Then
+            RGStrNum := 0
+          Else If (S = 'CALLER_LOGON') Then
+                 RGStrNum := 1
+          Else If (S = 'LOGON_AS_NEW') Then
+                 RGStrNum := 2
+          Else If (S = 'USER_LOGON_PASSWORD') Then
+                 RGStrNum := 3
+          Else If (S = 'USER_LOGON_PHONE_NUMBER') Then
+                 RGStrNum := 4
+          Else If (S = 'SYSOP_LOGON_PASSWORD') Then
+                 RGStrNum := 5
+          Else If (S = 'FORGOT_PW_QUESTION') Then
+                 RGStrNum := 6
+          Else If (S = 'VERIFY_BIRTH_DATE') Then
+                 RGStrNum := 7
+          Else If (S = 'LOGON_WITHDRAW_BANK') Then
+                 RGStrNum := 8
+          Else If (S = 'SHUTTLE_LOGON') Then
+                 RGStrNum := 9
+          Else If (S = 'NEW_USER_PASSWORD') Then
+                 RGStrNum := 10;
+          If (RGStrNum = -1) Then
+            Begin
+              WriteLn('Error!');
+              WriteLn;
+              WriteLn(^G^G^G'The following string definition is invalid:');
+              WriteLn;
+              WriteLn('   '+S);
+              Found := FALSE;
+            End
+          Else
+            Begin
+              Done := FALSE;
+              With StrPointer Do
+                Begin
+                  Pointer := (FileSize(RGStrFile) + 1);
+                  TextSize := 0;
+                End;
+              Seek(RGStrFile,FileSize(RGStrFile));
+              While Not EOF(F) And (Not Done) Do
+                Begin
+                  ReadLn(F,S);
+                  If (S[1] = '$') Then
+                    Done := TRUE
+                  Else
+                    Begin
+                      Inc(StrPointer.TextSize,(Length(S) + 1));
+                      BlockWrite(RGStrFile,S,(Length(S) + 1));
+                    End;
+                End;
+              Seek(StrPointerFile,RGStrNum);
+              Write(StrPointerFile,StrPointer);
+            End;
+        End;
+    End;
   Close(F);
   Close(RGStrFile);
   Close(StrPointerFile);
-  IF (Found) THEN
+  If (Found) Then
     WriteLn('Done!')
-  ELSE
-  BEGIN
-    Erase(StrPointerFile);
-    Erase(RGStrFile);
-  END;
-END;
+  Else
+    Begin
+      Erase(StrPointerFile);
+      Erase(RGStrFile);
+    End;
+End;
 
-PROCEDURE CompileNoteStrings;
-BEGIN
+Procedure CompileNoteStrings;
+Begin
   WriteLn;
   Write('Compiling Note strings ... ');
   Found := TRUE;
@@ -403,150 +438,150 @@ BEGIN
   ReWrite(RGStrFile,1);
   Assign(F,'RGNOTE.TXT');
   Reset(F);
-  WHILE NOT EOF(F) AND (Found) DO
-  BEGIN
-    ReadLn(F,S);
-    IF (S <> '') AND (S[1] = '$') THEN
-    BEGIN
-      Delete(S,1,1);
-      S := AllCaps(S);
-      RGStrNum := -1;
-      IF (S = 'INTERNAL_USE_ONLY') THEN
-        RGStrNum := 0
-      ELSE IF (S = 'ONLY_CHANGE_LOCALLY') THEN
-        RGStrNum := 1
-      ELSE IF (S = 'INVALID_MENU_NUMBER') THEN
-        RGStrNum := 2
-      ELSE IF (S = 'MINIMUM_BAUD_LOGON_PW') THEN
-        RGStrNum := 3
-      ELSE IF (S = 'MINIMUM_BAUD_LOGON_HIGH_LOW_TIME_PW') THEN
-        RGStrNum := 4
-      ELSE IF (S = 'MINIMUM_BAUD_LOGON_HIGH_LOW_TIME_NO_PW') THEN
-        RGStrNum := 5
-      ELSE IF (S = 'LOGON_EVENT_RESTRICTED_1') THEN
-        RGStrNum := 6
-      ELSE IF (S = 'LOGON_EVENT_RESTRICTED_2') THEN
-        RGStrNum := 7
-      ELSE IF (S = 'NAME_NOT_FOUND') THEN
-        RGStrNum := 8
-      ELSE IF (S = 'ILLEGAL_LOGON') THEN
-        RGStrNum := 9
-      ELSE IF (S = 'LOGON_NODE_ACS') THEN
-        RGStrNum := 10
-      ELSE IF (S = 'LOCKED_OUT') THEN
-        RGStrNum := 11
-      ELSE IF (S = 'LOGGED_ON_ANOTHER_NODE') THEN
-        RGStrNum := 12
-      ELSE IF (S = 'INCORRECT_BIRTH_DATE') THEN
-        RGStrNum := 13
-      ELSE IF (S = 'INSUFFICIENT_LOGON_CREDITS') THEN
-        RGStrNum := 14
-      ELSE IF (S = 'LOGON_ONCE_PER_DAY') THEN
-        RGStrNum := 15
-      ELSE IF (S = 'LOGON_CALLS_ALLOWED_PER_DAY') THEN
-        RGStrNum := 16
-      ELSE IF (S = 'LOGON_TIME_ALLOWED_PER_DAY_OR_CALL') THEN
-        RGStrNum := 17
-      ELSE IF (S = 'LOGON_MINUTES_LEFT_IN_BANK') THEN
-        RGStrNum := 18
-      ELSE IF (S = 'LOGON_MINUTES_LEFT_IN_BANK_TIME_LEFT') THEN
-        RGStrNum := 19
-      ELSE IF (S = 'LOGON_BANK_HANGUP') THEN
-        RGStrNum := 20
-      ELSE IF (S = 'LOGON_ATTEMPT_IEMSI_NEGOTIATION') THEN
-        RGStrNum := 21
-      ELSE IF (S = 'LOGON_IEMSI_NEGOTIATION_SUCCESS') THEN
-        RGStrNum := 22
-      ELSE IF (S = 'LOGON_IEMSI_NEGOTIATION_FAILED') THEN
-        RGStrNum := 23
-      ELSE IF (S = 'LOGON_ATTEMPT_DETECT_EMULATION') THEN
-        RGStrNum := 24
-      ELSE IF (S = 'LOGON_RIP_DETECTED') THEN
-        RGStrNum := 25
-      ELSE IF (S = 'LOGON_ANSI_DETECT_OTHER') THEN
-        RGStrNum := 26
-      ELSE IF (S = 'LOGON_ANSI_DETECT') THEN
-        RGStrNum := 27
-      ELSE IF (S = 'LOGON_AVATAR_DETECT_OTHER') THEN
-        RGStrNum := 28
-      ELSE IF (S = 'LOGON_AVATAR_DETECT') THEN
-        RGStrNum := 29
-      ELSE IF (S = 'LOGON_EMULATION_DETECTED') THEN
-        RGStrNum := 30
-      ELSE IF (S = 'SHUTTLE_LOGON_VALIDATION_STATUS') THEN
-        RGStrNum := 31
-      ELSE IF (S = 'LOGON_CLOSED_BBS') THEN
-        RGStrNum := 32
-      ELSE IF (S = 'NODE_ACTIVITY_WAITING_ONE') THEN
-        RGStrNum := 33
-      ELSE IF (S = 'NODE_ACTIVITY_WAITING_TWO') THEN
-        RGStrNum := 34
-      ELSE IF (S = 'NODE_ACTIVITY_LOGGING_ON') THEN
-        RGStrNum := 35
-      ELSE IF (S = 'NODE_ACTIVITY_NEW_USER_LOGGING_ON') THEN
-        RGStrNum := 36
-      ELSE IF (S = 'NODE_ACTIVITY_MISCELLANEOUS') THEN
-        RGStrNum := 37
-      ELSE IF (S = 'NEW_USER_PASSWORD_INVALID') THEN
-        RGStrNum := 38
-      ELSE IF (S = 'NEW_USER_PASSWORD_ATTEMPT_EXCEEDED') THEN
-        RGStrNum := 39
-      ELSE IF (S = 'NEW_USER_RECORD_SAVING') THEN
-        RGStrNum := 40
-      ELSE IF (S = 'NEW_USER_RECORD_SAVED') THEN
-        RGStrNum := 41
-      ELSE IF (S = 'NEW_USER_APPLICATION_LETTER') THEN
-        RGStrNum := 42
-      ELSE IF (S = 'NEW_USER_IN_RESPONSE_TO_SUBJ') THEN
-        RGStrNum := 43;
-      IF (RGStrNum = -1) THEN
-      BEGIN
-        WriteLn('Error!');
-        WriteLn;
-        WriteLn(^G^G^G'The following string definition is invalid:');
-        WriteLn;
-        WriteLn('   '+S);
-        Found := FALSE;
-      END
-      ELSE
-      BEGIN
-        Done := FALSE;
-        WITH StrPointer DO
-        BEGIN
-          Pointer := (FileSize(RGStrFile) + 1);
-          TextSize := 0;
-        END;
-        Seek(RGStrFile,FileSize(RGStrFile));
-        WHILE NOT EOF(F) AND (NOT Done) DO
-        BEGIN
-          ReadLn(F,S);
-          IF (S[1] = '$') THEN
-            Done := TRUE
-          ELSE
-          BEGIN
-            Inc(StrPointer.TextSize,(Length(S) + 1));
-            BlockWrite(RGStrFile,S,(Length(S) + 1));
-          END;
-        END;
-        Seek(StrPointerFile,RGStrNum);
-        Write(StrPointerFile,StrPointer);
-      END;
-    END;
-  END;
+  While Not EOF(F) And (Found) Do
+    Begin
+      ReadLn(F,S);
+      If (S <> '') And (S[1] = '$') Then
+        Begin
+          Delete(S,1,1);
+          S := AllCaps(S);
+          RGStrNum := -1;
+          If (S = 'INTERNAL_USE_ONLY') Then
+            RGStrNum := 0
+          Else If (S = 'ONLY_CHANGE_LOCALLY') Then
+                 RGStrNum := 1
+          Else If (S = 'INVALID_MENU_NUMBER') Then
+                 RGStrNum := 2
+          Else If (S = 'MINIMUM_BAUD_LOGON_PW') Then
+                 RGStrNum := 3
+          Else If (S = 'MINIMUM_BAUD_LOGON_HIGH_LOW_TIME_PW') Then
+                 RGStrNum := 4
+          Else If (S = 'MINIMUM_BAUD_LOGON_HIGH_LOW_TIME_NO_PW') Then
+                 RGStrNum := 5
+          Else If (S = 'LOGON_EVENT_RESTRICTED_1') Then
+                 RGStrNum := 6
+          Else If (S = 'LOGON_EVENT_RESTRICTED_2') Then
+                 RGStrNum := 7
+          Else If (S = 'NAME_NOT_FOUND') Then
+                 RGStrNum := 8
+          Else If (S = 'ILLEGAL_LOGON') Then
+                 RGStrNum := 9
+          Else If (S = 'LOGON_NODE_ACS') Then
+                 RGStrNum := 10
+          Else If (S = 'LOCKED_OUT') Then
+                 RGStrNum := 11
+          Else If (S = 'LOGGED_ON_ANOTHER_NODE') Then
+                 RGStrNum := 12
+          Else If (S = 'INCORRECT_BIRTH_DATE') Then
+                 RGStrNum := 13
+          Else If (S = 'INSUFFICIENT_LOGON_CREDITS') Then
+                 RGStrNum := 14
+          Else If (S = 'LOGON_ONCE_PER_DAY') Then
+                 RGStrNum := 15
+          Else If (S = 'LOGON_CALLS_ALLOWED_PER_DAY') Then
+                 RGStrNum := 16
+          Else If (S = 'LOGON_TIME_ALLOWED_PER_DAY_OR_CALL') Then
+                 RGStrNum := 17
+          Else If (S = 'LOGON_MINUTES_LEFT_IN_BANK') Then
+                 RGStrNum := 18
+          Else If (S = 'LOGON_MINUTES_LEFT_IN_BANK_TIME_LEFT') Then
+                 RGStrNum := 19
+          Else If (S = 'LOGON_BANK_HANGUP') Then
+                 RGStrNum := 20
+          Else If (S = 'LOGON_ATTEMPT_IEMSI_NEGOTIATION') Then
+                 RGStrNum := 21
+          Else If (S = 'LOGON_IEMSI_NEGOTIATION_SUCCESS') Then
+                 RGStrNum := 22
+          Else If (S = 'LOGON_IEMSI_NEGOTIATION_FAILED') Then
+                 RGStrNum := 23
+          Else If (S = 'LOGON_ATTEMPT_DETECT_EMULATION') Then
+                 RGStrNum := 24
+          Else If (S = 'LOGON_RIP_DETECTED') Then
+                 RGStrNum := 25
+          Else If (S = 'LOGON_ANSI_DETECT_OTHER') Then
+                 RGStrNum := 26
+          Else If (S = 'LOGON_ANSI_DETECT') Then
+                 RGStrNum := 27
+          Else If (S = 'LOGON_AVATAR_DETECT_OTHER') Then
+                 RGStrNum := 28
+          Else If (S = 'LOGON_AVATAR_DETECT') Then
+                 RGStrNum := 29
+          Else If (S = 'LOGON_EMULATION_DETECTED') Then
+                 RGStrNum := 30
+          Else If (S = 'SHUTTLE_LOGON_VALIDATION_STATUS') Then
+                 RGStrNum := 31
+          Else If (S = 'LOGON_CLOSED_BBS') Then
+                 RGStrNum := 32
+          Else If (S = 'NODE_ACTIVITY_WAITING_ONE') Then
+                 RGStrNum := 33
+          Else If (S = 'NODE_ACTIVITY_WAITING_TWO') Then
+                 RGStrNum := 34
+          Else If (S = 'NODE_ACTIVITY_LOGGING_ON') Then
+                 RGStrNum := 35
+          Else If (S = 'NODE_ACTIVITY_NEW_USER_LOGGING_ON') Then
+                 RGStrNum := 36
+          Else If (S = 'NODE_ACTIVITY_MISCELLANEOUS') Then
+                 RGStrNum := 37
+          Else If (S = 'NEW_USER_PASSWORD_INVALID') Then
+                 RGStrNum := 38
+          Else If (S = 'NEW_USER_PASSWORD_ATTEMPT_EXCEEDED') Then
+                 RGStrNum := 39
+          Else If (S = 'NEW_USER_RECORD_SAVING') Then
+                 RGStrNum := 40
+          Else If (S = 'NEW_USER_RECORD_SAVED') Then
+                 RGStrNum := 41
+          Else If (S = 'NEW_USER_APPLICATION_LETTER') Then
+                 RGStrNum := 42
+          Else If (S = 'NEW_USER_IN_RESPONSE_TO_SUBJ') Then
+                 RGStrNum := 43;
+          If (RGStrNum = -1) Then
+            Begin
+              WriteLn('Error!');
+              WriteLn;
+              WriteLn(^G^G^G'The following string definition is invalid:');
+              WriteLn;
+              WriteLn('   '+S);
+              Found := FALSE;
+            End
+          Else
+            Begin
+              Done := FALSE;
+              With StrPointer Do
+                Begin
+                  Pointer := (FileSize(RGStrFile) + 1);
+                  TextSize := 0;
+                End;
+              Seek(RGStrFile,FileSize(RGStrFile));
+              While Not EOF(F) And (Not Done) Do
+                Begin
+                  ReadLn(F,S);
+                  If (S[1] = '$') Then
+                    Done := TRUE
+                  Else
+                    Begin
+                      Inc(StrPointer.TextSize,(Length(S) + 1));
+                      BlockWrite(RGStrFile,S,(Length(S) + 1));
+                    End;
+                End;
+              Seek(StrPointerFile,RGStrNum);
+              Write(StrPointerFile,StrPointer);
+            End;
+        End;
+    End;
   Close(F);
   Close(RGStrFile);
   Close(StrPointerFile);
-  IF (Found) THEN
+  If (Found) Then
     WriteLn('Done!')
-  ELSE
-  BEGIN
-    Erase(StrPointerFile);
-    Erase(RGStrFile);
-  END;
-END;
+  Else
+    Begin
+      Erase(StrPointerFile);
+      Erase(RGStrFile);
+    End;
+End;
 
-PROCEDURE CompileSysOpStrings;
-BEGIN
+Procedure CompileSysOpStrings;
+Begin
   WriteLn;
   Write('Compiling sysop strings ... ');
   Found := TRUE;
@@ -556,130 +591,131 @@ BEGIN
   ReWrite(RGStrFile,1);
   Assign(F,'RGSCFG.TXT');
   Reset(F);
-  WHILE NOT EOF(F) AND (Found) DO
-  BEGIN
-    ReadLn(F,S);
-    IF (S <> '') AND (S[1] = '$') THEN
-    BEGIN
-      Delete(S,1,1);
-      S := AllCaps(S);
-      RGStrNum := -1;
-      IF (S = 'SYSTEM_CONFIGURATION_MENU') THEN
-        RGStrNum := 0
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION') THEN
-        RGStrNum := 1
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_BBS_NAME') THEN
-        RGStrNum := 2
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_BBS_PHONE') THEN
-        RGStrNum := 3
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_TELNET_URL') THEN
-        RGStrNum := 4
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSOP_NAME') THEN
-        RGStrNum := 5
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSOP_CHAT_HOURS') THEN
-        RGStrNum := 6
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_MINIMUM_BAUD_HOURS') THEN
-        RGStrNum := 7
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_DOWNLOAD_HOURS') THEN
-        RGStrNum := 8
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_MINIMUM_BAUD_DOWNLOAD_HOURS') THEN
-        RGStrNum := 9
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSOP_PASSWORD_MENU') THEN
-        RGStrNum := 10
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSOP_PASSWORD') THEN
-        RGStrNum := 11
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_NEW_USER_PASSWORD') THEN
-        RGStrNum := 12
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_BAUD_OVERRIDE_PASSWORD') THEN
-        RGStrNum := 13
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_PRE_EVENT_TIME') THEN
-        RGStrNum := 14
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS') THEN
-        RGStrNum := 15
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_GLOBAL') THEN
-        RGStrNum := 16
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_START') THEN
-        RGStrNum := 17
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_SHUTTLE') THEN
-        RGStrNum := 18
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_NEW_USER') THEN
-        RGStrNum := 19
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_MESSAGE_READ') THEN
-        RGStrNum := 20
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_FILE_LISTING') THEN
-        RGStrNum := 21
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_BULLETIN_PREFIX') THEN
-        RGStrNum := 22
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_LOCAL_SECURITY') THEN
-        RGStrNum := 23
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_DATA_PATH') THEN
-        RGStrNum := 24
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_MISC_PATH') THEN
-        RGStrNum := 25
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_MSG_PATH') THEN
-        RGStrNum := 26
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_NODELIST_PATH') THEN
-        RGStrNum := 27
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_LOG_PATH') THEN
-        RGStrNum := 28
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_TEMP_PATH') THEN
-        RGStrNum := 29
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_PROTOCOL_PATH') THEN
-        RGStrNum := 30
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_ARCHIVE_PATH') THEN
-        RGStrNum := 31
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_ATTACH_PATH') THEN
-        RGStrNum := 32
-      ELSE IF (S = 'MAIN_BBS_CONFIGURATION_STRING_PATH') THEN
-        RGStrNum := 33;
-      IF (RGStrNum = -1) THEN
-      BEGIN
-        WriteLn('Error!');
-        WriteLn;
-        WriteLn(^G^G^G'The following string definition is invalid:');
-        WriteLn;
-        WriteLn('   '+S);
-        Found := FALSE;
-      END
-      ELSE
-      BEGIN
-        Done := FALSE;
-        WITH StrPointer DO
-        BEGIN
-          Pointer := (FileSize(RGStrFile) + 1);
-          TextSize := 0;
-        END;
-        Seek(RGStrFile,FileSize(RGStrFile));
-        WHILE NOT EOF(F) AND (NOT Done) DO
-        BEGIN
-          ReadLn(F,S);
-          IF (S[1] = '$') THEN
-            Done := TRUE
-          ELSE
-          BEGIN
-            Inc(StrPointer.TextSize,(Length(S) + 1));
-            BlockWrite(RGStrFile,S,(Length(S) + 1));
-          END;
-        END;
-        Seek(StrPointerFile,RGStrNum);
-        Write(StrPointerFile,StrPointer);
-      END;
-    END;
-  END;
+  While Not EOF(F) And (Found) Do
+    Begin
+      ReadLn(F,S);
+      If (S <> '') And (S[1] = '$') Then
+        Begin
+          Delete(S,1,1);
+          S := AllCaps(S);
+          RGStrNum := -1;
+          If (S = 'SYSTEM_CONFIGURATION_MENU') Then
+            RGStrNum := 0
+          Else If (S = 'MAIN_BBS_CONFIGURATION') Then
+                 RGStrNum := 1
+          Else If (S = 'MAIN_BBS_CONFIGURATION_BBS_NAME') Then
+                 RGStrNum := 2
+          Else If (S = 'MAIN_BBS_CONFIGURATION_BBS_PHONE') Then
+                 RGStrNum := 3
+          Else If (S = 'MAIN_BBS_CONFIGURATION_TELNET_URL') Then
+                 RGStrNum := 4
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSOP_NAME') Then
+                 RGStrNum := 5
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSOP_CHAT_HOURS') Then
+                 RGStrNum := 6
+          Else If (S = 'MAIN_BBS_CONFIGURATION_MINIMUM_BAUD_HOURS') Then
+                 RGStrNum := 7
+          Else If (S = 'MAIN_BBS_CONFIGURATION_DOWNLOAD_HOURS') Then
+                 RGStrNum := 8
+          Else If (S = 'MAIN_BBS_CONFIGURATION_MINIMUM_BAUD_DOWNLOAD_HOURS')
+                 Then
+                 RGStrNum := 9
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSOP_PASSWORD_MENU') Then
+                 RGStrNum := 10
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSOP_PASSWORD') Then
+                 RGStrNum := 11
+          Else If (S = 'MAIN_BBS_CONFIGURATION_NEW_USER_PASSWORD') Then
+                 RGStrNum := 12
+          Else If (S = 'MAIN_BBS_CONFIGURATION_BAUD_OVERRIDE_PASSWORD') Then
+                 RGStrNum := 13
+          Else If (S = 'MAIN_BBS_CONFIGURATION_PRE_EVENT_TIME') Then
+                 RGStrNum := 14
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS') Then
+                 RGStrNum := 15
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_GLOBAL') Then
+                 RGStrNum := 16
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_START') Then
+                 RGStrNum := 17
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_SHUTTLE') Then
+                 RGStrNum := 18
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_NEW_USER') Then
+                 RGStrNum := 19
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_MESSAGE_READ') Then
+                 RGStrNum := 20
+          Else If (S = 'MAIN_BBS_CONFIGURATION_SYSTEM_MENUS_FILE_LISTING') Then
+                 RGStrNum := 21
+          Else If (S = 'MAIN_BBS_CONFIGURATION_BULLETIN_PREFIX') Then
+                 RGStrNum := 22
+          Else If (S = 'MAIN_BBS_CONFIGURATION_LOCAL_SECURITY') Then
+                 RGStrNum := 23
+          Else If (S = 'MAIN_BBS_CONFIGURATION_DATA_PATH') Then
+                 RGStrNum := 24
+          Else If (S = 'MAIN_BBS_CONFIGURATION_MISC_PATH') Then
+                 RGStrNum := 25
+          Else If (S = 'MAIN_BBS_CONFIGURATION_MSG_PATH') Then
+                 RGStrNum := 26
+          Else If (S = 'MAIN_BBS_CONFIGURATION_NODELIST_PATH') Then
+                 RGStrNum := 27
+          Else If (S = 'MAIN_BBS_CONFIGURATION_LOG_PATH') Then
+                 RGStrNum := 28
+          Else If (S = 'MAIN_BBS_CONFIGURATION_TEMP_PATH') Then
+                 RGStrNum := 29
+          Else If (S = 'MAIN_BBS_CONFIGURATION_PROTOCOL_PATH') Then
+                 RGStrNum := 30
+          Else If (S = 'MAIN_BBS_CONFIGURATION_ARCHIVE_PATH') Then
+                 RGStrNum := 31
+          Else If (S = 'MAIN_BBS_CONFIGURATION_ATTACH_PATH') Then
+                 RGStrNum := 32
+          Else If (S = 'MAIN_BBS_CONFIGURATION_STRING_PATH') Then
+                 RGStrNum := 33;
+          If (RGStrNum = -1) Then
+            Begin
+              WriteLn('Error!');
+              WriteLn;
+              WriteLn(^G^G^G'The following string definition is invalid:');
+              WriteLn;
+              WriteLn('   '+S);
+              Found := FALSE;
+            End
+          Else
+            Begin
+              Done := FALSE;
+              With StrPointer Do
+                Begin
+                  Pointer := (FileSize(RGStrFile) + 1);
+                  TextSize := 0;
+                End;
+              Seek(RGStrFile,FileSize(RGStrFile));
+              While Not EOF(F) And (Not Done) Do
+                Begin
+                  ReadLn(F,S);
+                  If (S[1] = '$') Then
+                    Done := TRUE
+                  Else
+                    Begin
+                      Inc(StrPointer.TextSize,(Length(S) + 1));
+                      BlockWrite(RGStrFile,S,(Length(S) + 1));
+                    End;
+                End;
+              Seek(StrPointerFile,RGStrNum);
+              Write(StrPointerFile,StrPointer);
+            End;
+        End;
+    End;
   Close(F);
   Close(RGStrFile);
   Close(StrPointerFile);
-  IF (Found) THEN
+  If (Found) Then
     WriteLn('Done!')
-  ELSE
-  BEGIN
-    Erase(StrPointerFile);
-    Erase(RGStrFile);
-  END;
-END;
+  Else
+    Begin
+      Erase(StrPointerFile);
+      Erase(RGStrFile);
+    End;
+End;
 
-PROCEDURE CompileFileAreaEditorStrings;
-BEGIN
+Procedure CompileFileAreaEditorStrings;
+Begin
   WriteLn;
   Write('Compiling file area editor strings ... ');
   Found := TRUE;
@@ -689,239 +725,239 @@ BEGIN
   ReWrite(RGStrFile,1);
   Assign(F,'FAELNG.TXT');
   Reset(F);
-  WHILE NOT EOF(F) AND (Found) DO
-  BEGIN
-    ReadLn(F,S);
-    IF (S <> '') AND (S[1] = '$') THEN
-    BEGIN
-      Delete(S,1,1);
-      S := AllCaps(S);
-      RGStrNum := -1;
-      IF (S = 'FILE_AREA_HEADER_TOGGLE_ONE') THEN
-        RGStrNum := 0
-      ELSE IF (S = 'FILE_AREA_HEADER_TOGGLE_TWO') THEN
-        RGStrNum := 1
-      ELSE IF (S = 'FILE_AREA_HEADER_NO_FILE_AREAS') THEN
-        RGStrNum := 2
-      ELSE IF (S = 'FILE_AREA_EDITOR_PROMPT') THEN
-        RGStrNum := 3
-      ELSE IF (S = 'FILE_AREA_EDITOR_HELP') THEN
-        RGStrNum := 4
-      ELSE IF (S = 'NO_FILE_AREAS') THEN
-        RGStrNum := 5
-      ELSE IF (S = 'FILE_CHANGE_DRIVE_START') THEN
-        RGStrNum := 6
-      ELSE IF (S = 'FILE_CHANGE_DRIVE_END') THEN
-        RGStrNum := 7
-      ELSE IF (S = 'FILE_CHANGE_DRIVE_DRIVE') THEN
-        RGStrNum := 8
-      ELSE IF (S = 'FILE_CHANGE_INVALID_ORDER') THEN
-        RGStrNum := 9
-      ELSE IF (S = 'FILE_CHANGE_INVALID_DRIVE') THEN
-        RGStrNum := 10
-      ELSE IF (S = 'FILE_CHANGE_UPDATING_DRIVE') THEN
-        RGStrNum := 11
-      ELSE IF (S = 'FILE_CHANGE_UPDATING_DRIVE_DONE') THEN
-        RGStrNum := 12
-      ELSE IF (S = 'FILE_CHANGE_UPDATING_SYSOPLOG') THEN
-        RGStrNum := 13
-      ELSE IF (S = 'FILE_DELETE_PROMPT') THEN
-        RGStrNum := 14
-      ELSE IF (S = 'FILE_DELETE_DISPLAY_AREA') THEN
-        RGStrNum := 15
-      ELSE IF (S = 'FILE_DELETE_VERIFY_DELETE') THEN
-        RGStrNum := 16
-      ELSE IF (S = 'FILE_DELETE_NOTICE') THEN
-        RGStrNum := 17
-      ELSE IF (S = 'FILE_DELETE_SYSOPLOG') THEN
-        RGStrNum := 18
-      ELSE IF (S = 'FILE_DELETE_DATA_FILES') THEN
-        RGStrNum := 19
-      ELSE IF (S = 'FILE_DELETE_REMOVE_DL_DIRECTORY') THEN
-        RGStrNum := 20
-      ELSE IF (S = 'FILE_DELETE_REMOVE_UL_DIRECTORY') THEN
-        RGStrNum := 21
-      ELSE IF (S = 'FILE_INSERT_MAX_FILE_AREAS') THEN
-        RGStrNum := 22
-      ELSE IF (S = 'FILE_INSERT_PROMPT') THEN
-        RGStrNum := 23
-      ELSE IF (S = 'FILE_INSERT_AFTER_ERROR_PROMPT') THEN
-        RGStrNum := 24
-      ELSE IF (S = 'FILE_INSERT_CONFIRM_INSERT') THEN
-        RGStrNum := 25
-      ELSE IF (S = 'FILE_INSERT_NOTICE') THEN
-        RGStrNum := 26
-      ELSE IF (S = 'FILE_INSERT_SYSOPLOG') THEN
-        RGStrNum := 27
-      ELSE IF (S = 'FILE_MODIFY_PROMPT') THEN
-        RGStrNum := 28
-      ELSE IF (S = 'FILE_MODIFY_SYSOPLOG') THEN
-        RGStrNum := 29
-      ELSE IF (S = 'FILE_POSITION_NO_AREAS') THEN
-        RGStrNum := 30
-      ELSE IF (S = 'FILE_POSITION_PROMPT') THEN
-        RGStrNum := 31
-      ELSE IF (S = 'FILE_POSITION_NUMBERING') THEN
-        RGStrNum := 32
-      ELSE IF (S = 'FILE_POSITION_BEFORE_WHICH') THEN
-        RGStrNum := 33
-      ELSE IF (S = 'FILE_POSITION_NOTICE') THEN
-        RGStrNum := 34
-      ELSE IF (S = 'FILE_EDITING_AREA_HEADER') THEN
-        RGStrNum := 35
-      ELSE IF (S = 'FILE_INSERTING_AREA_HEADER') THEN
-        RGStrNum := 36
-      ELSE IF (S = 'FILE_EDITING_INSERTING_SCREEN') THEN
-        RGStrNum := 37
-      ELSE IF (S = 'FILE_EDITING_INSERTING_PROMPT') THEN
-        RGStrNum := 38
-      ELSE IF (S = 'FILE_AREA_NAME_CHANGE') THEN
-        RGStrNum := 39
-      ELSE IF (S = 'FILE_FILE_NAME_CHANGE') THEN
-        RGStrNum := 40
-      ELSE IF (S = 'FILE_DUPLICATE_FILE_NAME_ERROR') THEN
-        RGStrNum := 41
-      ELSE IF (S = 'FILE_USE_DUPLICATE_FILE_NAME') THEN
-        RGStrNum := 42
-      ELSE IF (S = 'FILE_OLD_DATA_FILES_PATH') THEN
-        RGStrNum := 43
-      ELSE IF (S = 'FILE_NEW_DATA_FILES_PATH') THEN
-        RGStrNum := 44
-      ELSE IF (S = 'FILE_RENAME_DATA_FILES') THEN
-        RGStrNum := 45
-      ELSE IF (S = 'FILE_DL_PATH') THEN
-        RGStrNum := 46
-      ELSE IF (S = 'FILE_SET_DL_PATH_TO_UL_PATH') THEN
-        RGStrNum := 47
-      ELSE IF (S = 'FILE_UL_PATH') THEN
-        RGStrNum := 48
-      ELSE IF (S = 'FILE_ACS') THEN
-        RGStrNum := 49
-      ELSE IF (S = 'FILE_DL_ACCESS') THEN
-        RGStrNum := 50
-      ELSE IF (S = 'FILE_UL_ACCESS') THEN
-        RGStrNum := 51
-      ELSE IF (S = 'FILE_MAX_FILES') THEN
-        RGStrNum := 52
-      ELSE IF (S = 'FILE_PASSWORD') THEN
-        RGStrNum := 53
-      ELSE IF (S = 'FILE_ARCHIVE_TYPE') THEN
-        RGStrNum := 54
-      ELSE IF (S = 'FILE_COMMENT_TYPE') THEN
-        RGStrNum := 55
-      ELSE IF (S = 'FILE_TOGGLE_FLAGS') THEN
-        RGStrNum := 56
-      ELSE IF (S = 'FILE_MOVE_DATA_FILES') THEN
-        RGStrNum := 57
-      ELSE IF (S = 'FILE_TOGGLE_HELP') THEN
-        RGStrNum := 58
-      ELSE IF (S = 'FILE_JUMP_TO') THEN
-        RGStrNum := 59
-      ELSE IF (S = 'FILE_FIRST_VALID_RECORD') THEN
-        RGStrNum := 60
-      ELSE IF (S = 'FILE_LAST_VALID_RECORD') THEN
-        RGStrNum := 61
-      ELSE IF (S = 'FILE_INSERT_EDIT_HELP') THEN
-        RGStrNum := 62
-      ELSE IF (S = 'FILE_INSERT_HELP') THEN
-        RGStrNum := 63
-      ELSE IF (S = 'FILE_EDIT_HELP') THEN
-        RGStrNum := 64
-      ELSE IF (S = 'CHECK_AREA_NAME_ERROR') THEN
-        RGStrNum := 65
-      ELSE IF (S = 'CHECK_FILE_NAME_ERROR') THEN
-        RGStrNum := 66
-      ELSE IF (S = 'CHECK_DL_PATH_ERROR') THEN
-        RGStrNum := 67
-      ELSE IF (S = 'CHECK_UL_PATH_ERROR') THEN
-        RGStrNum := 68
-      ELSE IF (S = 'CHECK_ARCHIVE_TYPE_ERROR') THEN
-        RGStrNum := 69
-      ELSE IF (S = 'CHECK_COMMENT_TYPE_ERROR') THEN
-        RGStrNum := 70;
-      IF (RGStrNum = -1) THEN
-      BEGIN
-        WriteLn('Error!');
-        WriteLn;
-        WriteLn('The following string definition is invalid:');
-        WriteLn;
-        WriteLn('   '+S);
-        Found := FALSE;
-      END
-      ELSE
-      BEGIN
-        Done := FALSE;
-        WITH StrPointer DO
-        BEGIN
-          Pointer := (FileSize(RGStrFile) + 1);
-          TextSize := 0;
-        END;
-        Seek(RGStrFile,FileSize(RGStrFile));
-        WHILE NOT EOF(F) AND (NOT Done) DO
-        BEGIN
-          ReadLn(F,S);
-          IF (S[1] = '$') THEN
-            Done := TRUE
-          ELSE
-          BEGIN
-            Inc(StrPointer.TextSize,(Length(S) + 1));
-            BlockWrite(RGStrFile,S,(Length(S) + 1));
-          END;
-        END;
-        Seek(StrPointerFile,RGStrNum);
-        Write(StrPointerFile,StrPointer);
-      END;
-    END;
-  END;
+  While Not EOF(F) And (Found) Do
+    Begin
+      ReadLn(F,S);
+      If (S <> '') And (S[1] = '$') Then
+        Begin
+          Delete(S,1,1);
+          S := AllCaps(S);
+          RGStrNum := -1;
+          If (S = 'FILE_AREA_HEADER_TOGGLE_ONE') Then
+            RGStrNum := 0
+          Else If (S = 'FILE_AREA_HEADER_TOGGLE_TWO') Then
+                 RGStrNum := 1
+          Else If (S = 'FILE_AREA_HEADER_NO_FILE_AREAS') Then
+                 RGStrNum := 2
+          Else If (S = 'FILE_AREA_EDITOR_PROMPT') Then
+                 RGStrNum := 3
+          Else If (S = 'FILE_AREA_EDITOR_HELP') Then
+                 RGStrNum := 4
+          Else If (S = 'NO_FILE_AREAS') Then
+                 RGStrNum := 5
+          Else If (S = 'FILE_CHANGE_DRIVE_START') Then
+                 RGStrNum := 6
+          Else If (S = 'FILE_CHANGE_DRIVE_END') Then
+                 RGStrNum := 7
+          Else If (S = 'FILE_CHANGE_DRIVE_DRIVE') Then
+                 RGStrNum := 8
+          Else If (S = 'FILE_CHANGE_INVALID_ORDER') Then
+                 RGStrNum := 9
+          Else If (S = 'FILE_CHANGE_INVALID_DRIVE') Then
+                 RGStrNum := 10
+          Else If (S = 'FILE_CHANGE_UPDATING_DRIVE') Then
+                 RGStrNum := 11
+          Else If (S = 'FILE_CHANGE_UPDATING_DRIVE_DONE') Then
+                 RGStrNum := 12
+          Else If (S = 'FILE_CHANGE_UPDATING_SYSOPLOG') Then
+                 RGStrNum := 13
+          Else If (S = 'FILE_DELETE_PROMPT') Then
+                 RGStrNum := 14
+          Else If (S = 'FILE_DELETE_DISPLAY_AREA') Then
+                 RGStrNum := 15
+          Else If (S = 'FILE_DELETE_VERIFY_DELETE') Then
+                 RGStrNum := 16
+          Else If (S = 'FILE_DELETE_NOTICE') Then
+                 RGStrNum := 17
+          Else If (S = 'FILE_DELETE_SYSOPLOG') Then
+                 RGStrNum := 18
+          Else If (S = 'FILE_DELETE_DATA_FILES') Then
+                 RGStrNum := 19
+          Else If (S = 'FILE_DELETE_REMOVE_DL_DIRECTORY') Then
+                 RGStrNum := 20
+          Else If (S = 'FILE_DELETE_REMOVE_UL_DIRECTORY') Then
+                 RGStrNum := 21
+          Else If (S = 'FILE_INSERT_MAX_FILE_AREAS') Then
+                 RGStrNum := 22
+          Else If (S = 'FILE_INSERT_PROMPT') Then
+                 RGStrNum := 23
+          Else If (S = 'FILE_INSERT_AFTER_ERROR_PROMPT') Then
+                 RGStrNum := 24
+          Else If (S = 'FILE_INSERT_CONFIRM_INSERT') Then
+                 RGStrNum := 25
+          Else If (S = 'FILE_INSERT_NOTICE') Then
+                 RGStrNum := 26
+          Else If (S = 'FILE_INSERT_SYSOPLOG') Then
+                 RGStrNum := 27
+          Else If (S = 'FILE_MODIFY_PROMPT') Then
+                 RGStrNum := 28
+          Else If (S = 'FILE_MODIFY_SYSOPLOG') Then
+                 RGStrNum := 29
+          Else If (S = 'FILE_POSITION_NO_AREAS') Then
+                 RGStrNum := 30
+          Else If (S = 'FILE_POSITION_PROMPT') Then
+                 RGStrNum := 31
+          Else If (S = 'FILE_POSITION_NUMBERING') Then
+                 RGStrNum := 32
+          Else If (S = 'FILE_POSITION_BEFORE_WHICH') Then
+                 RGStrNum := 33
+          Else If (S = 'FILE_POSITION_NOTICE') Then
+                 RGStrNum := 34
+          Else If (S = 'FILE_EDITING_AREA_HEADER') Then
+                 RGStrNum := 35
+          Else If (S = 'FILE_INSERTING_AREA_HEADER') Then
+                 RGStrNum := 36
+          Else If (S = 'FILE_EDITING_INSERTING_SCREEN') Then
+                 RGStrNum := 37
+          Else If (S = 'FILE_EDITING_INSERTING_PROMPT') Then
+                 RGStrNum := 38
+          Else If (S = 'FILE_AREA_NAME_CHANGE') Then
+                 RGStrNum := 39
+          Else If (S = 'FILE_FILE_NAME_CHANGE') Then
+                 RGStrNum := 40
+          Else If (S = 'FILE_DUPLICATE_FILE_NAME_ERROR') Then
+                 RGStrNum := 41
+          Else If (S = 'FILE_USE_DUPLICATE_FILE_NAME') Then
+                 RGStrNum := 42
+          Else If (S = 'FILE_OLD_DATA_FILES_PATH') Then
+                 RGStrNum := 43
+          Else If (S = 'FILE_NEW_DATA_FILES_PATH') Then
+                 RGStrNum := 44
+          Else If (S = 'FILE_RENAME_DATA_FILES') Then
+                 RGStrNum := 45
+          Else If (S = 'FILE_DL_PATH') Then
+                 RGStrNum := 46
+          Else If (S = 'FILE_SET_DL_PATH_TO_UL_PATH') Then
+                 RGStrNum := 47
+          Else If (S = 'FILE_UL_PATH') Then
+                 RGStrNum := 48
+          Else If (S = 'FILE_ACS') Then
+                 RGStrNum := 49
+          Else If (S = 'FILE_DL_ACCESS') Then
+                 RGStrNum := 50
+          Else If (S = 'FILE_UL_ACCESS') Then
+                 RGStrNum := 51
+          Else If (S = 'FILE_MAX_FILES') Then
+                 RGStrNum := 52
+          Else If (S = 'FILE_PASSWORD') Then
+                 RGStrNum := 53
+          Else If (S = 'FILE_ARCHIVE_TYPE') Then
+                 RGStrNum := 54
+          Else If (S = 'FILE_COMMENT_TYPE') Then
+                 RGStrNum := 55
+          Else If (S = 'FILE_TOGGLE_FLAGS') Then
+                 RGStrNum := 56
+          Else If (S = 'FILE_MOVE_DATA_FILES') Then
+                 RGStrNum := 57
+          Else If (S = 'FILE_TOGGLE_HELP') Then
+                 RGStrNum := 58
+          Else If (S = 'FILE_JUMP_TO') Then
+                 RGStrNum := 59
+          Else If (S = 'FILE_FIRST_VALID_RECORD') Then
+                 RGStrNum := 60
+          Else If (S = 'FILE_LAST_VALID_RECORD') Then
+                 RGStrNum := 61
+          Else If (S = 'FILE_INSERT_EDIT_HELP') Then
+                 RGStrNum := 62
+          Else If (S = 'FILE_INSERT_HELP') Then
+                 RGStrNum := 63
+          Else If (S = 'FILE_EDIT_HELP') Then
+                 RGStrNum := 64
+          Else If (S = 'CHECK_AREA_NAME_ERROR') Then
+                 RGStrNum := 65
+          Else If (S = 'CHECK_FILE_NAME_ERROR') Then
+                 RGStrNum := 66
+          Else If (S = 'CHECK_DL_PATH_ERROR') Then
+                 RGStrNum := 67
+          Else If (S = 'CHECK_UL_PATH_ERROR') Then
+                 RGStrNum := 68
+          Else If (S = 'CHECK_ARCHIVE_TYPE_ERROR') Then
+                 RGStrNum := 69
+          Else If (S = 'CHECK_COMMENT_TYPE_ERROR') Then
+                 RGStrNum := 70;
+          If (RGStrNum = -1) Then
+            Begin
+              WriteLn('Error!');
+              WriteLn;
+              WriteLn('The following string definition is invalid:');
+              WriteLn;
+              WriteLn('   '+S);
+              Found := FALSE;
+            End
+          Else
+            Begin
+              Done := FALSE;
+              With StrPointer Do
+                Begin
+                  Pointer := (FileSize(RGStrFile) + 1);
+                  TextSize := 0;
+                End;
+              Seek(RGStrFile,FileSize(RGStrFile));
+              While Not EOF(F) And (Not Done) Do
+                Begin
+                  ReadLn(F,S);
+                  If (S[1] = '$') Then
+                    Done := TRUE
+                  Else
+                    Begin
+                      Inc(StrPointer.TextSize,(Length(S) + 1));
+                      BlockWrite(RGStrFile,S,(Length(S) + 1));
+                    End;
+                End;
+              Seek(StrPointerFile,RGStrNum);
+              Write(StrPointerFile,StrPointer);
+            End;
+        End;
+    End;
   Close(F);
   Close(RGStrFile);
   Close(StrPointerFile);
-  IF (Found) THEN
+  If (Found) Then
     WriteLn('Done!')
-  ELSE
-  BEGIN
-    Erase(StrPointerFile);
-    Erase(RGStrFile);
-  END;
-END;
+  Else
+    Begin
+      Erase(StrPointerFile);
+      Erase(RGStrFile);
+    End;
+End;
 
-BEGIN
+Begin
   CLrScr;
   WriteLn('Renegade Language String Compiler Version 3.1');
   Writeln('Copyright 2009 - The Renegade Developement Team');
-  IF (NOT Exist('RGLNG.TXT')) THEN
-  BEGIN
-    WriteLn;
-    WriteLn(^G^G^G'RGLNG.TXT does not exist!');
-    Exit;
-  END;
-  IF (NOT Exist('RGMAIN.TXT')) THEN
-  BEGIN
-    WriteLn;
-    WriteLn(^G^G^G'RGMAIN.TXT does not exists!');
-    Exit;
-  END;
-  IF (NOT Exist('RGNOTE.TXT')) THEN
-  BEGIN
-    WriteLn;
-    WriteLn(^G^G^G'RGNOTE.TXT does not exists!');
-    Exit;
-  END;
-  IF (NOT Exist('RGSCFG.TXT')) THEN
-  BEGIN
-    WriteLn;
-    WriteLn(^G^G^G'RGSCFG.TXT does not exists!');
-    Exit;
-  END;
-  IF (NOT Exist('FAELNG.TXT')) THEN
-  BEGIN
-    WriteLn;
-    WriteLn(^G^G^G'FAELNG.TXT does not exists!');
-    Exit;
-  END;
+  If (Not Exist('RGLNG.TXT')) Then
+    Begin
+      WriteLn;
+      WriteLn(^G^G^G'RGLNG.TXT does not exist!');
+      Exit;
+    End;
+  If (Not Exist('RGMAIN.TXT')) Then
+    Begin
+      WriteLn;
+      WriteLn(^G^G^G'RGMAIN.TXT does not exists!');
+      Exit;
+    End;
+  If (Not Exist('RGNOTE.TXT')) Then
+    Begin
+      WriteLn;
+      WriteLn(^G^G^G'RGNOTE.TXT does not exists!');
+      Exit;
+    End;
+  If (Not Exist('RGSCFG.TXT')) Then
+    Begin
+      WriteLn;
+      WriteLn(^G^G^G'RGSCFG.TXT does not exists!');
+      Exit;
+    End;
+  If (Not Exist('FAELNG.TXT')) Then
+    Begin
+      WriteLn;
+      WriteLn(^G^G^G'FAELNG.TXT does not exists!');
+      Exit;
+    End;
   CompileLanguageStrings;
   CompileMainStrings;
   CompileNoteStrings;
   CompileSysOpStrings;
   CompileFileAreaEditorStrings;
-END.
+End.
