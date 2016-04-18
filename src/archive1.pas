@@ -13,7 +13,11 @@
 {   Foundation, either version 3 of the License, or     }
 {   (at your option) any later version.                 }
 {                                                       }
+<<<<<<< HEAD
 {   Foobar is distributed in the hope that it will be   }
+=======
+{   Renegade is distributed in the hope that it will be }
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
 {   useful, but WITHOUT ANY WARRANTY; without even the  }
 {   implied warranty of MERCHANTABILITY or FITNESS FOR  }
 {   A PARTICULAR PURPOSE.  See the GNU General Public   }
@@ -78,11 +82,21 @@ Procedure ArcDeComp(Var Ok: Boolean; AType: Byte; Const FileName, FileSpec:
 Var 
   ResultCode: Byte;
 
+<<<<<<< HEAD
 Begin
   PurgeDir(TempDir+'ARC\',FALSE);
   ExecBatch(Ok, TempDir+'ARC\', General.ArcsPath +
             FunctionalMCI(General.FileArcInfo[AType].UnArcLine, FileName,
             FileSpec), General.FileArcInfo[AType].SuccLevel, ResultCode, False);
+=======
+
+Begin
+  PurgeDir(TempDir+'arc\',FALSE);
+  ExecBatch(Ok, TempDir+'arc\', General.ArcsPath +
+            FunctionalMCI(General.FileArcInfo[AType].UnArcLine, FileName,
+            FileSpec),
+  General.FileArcInfo[AType].SuccLevel, ResultCode, False);
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
   If (Not Ok) And (Pos('.diz', AnsiLowerCase(FileSpec)) = 0) Then
     Begin
       SysOpLog(FileName+': errors during de-compression');
@@ -103,9 +117,16 @@ Begin
     End;
   Else
     Begin
+<<<<<<< HEAD
       ExecBatch(Ok,TempDir+'ARC\',General.ArcsPath+
                 FunctionalMCI(General.FileArcInfo[AType].ArcLine, FileName,
                 FileSpec), General.FileArcInfo[AType].SuccLevel, ResultCode, False);
+=======
+      ExecBatch(Ok,TempDir+'arc\',General.ArcsPath+
+                FunctionalMCI(General.FileArcInfo[AType].ArcLine, FileName,
+                FileSpec),
+      General.FileArcInfo[AType].SuccLevel, ResultCode, False);
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
       If (Not Ok) Then
         Begin
           SysOpLog(FileName+': errors during compression');
@@ -127,6 +148,7 @@ Begin
     Begin
       SaveSwapShell := General.SwapShell;
       General.SwapShell := FALSE;
+<<<<<<< HEAD
       TempStr := StringReplace(General.FileArcInfo[Atype].CmtLine,
                  '%C', General.FileArcComment[CommentNumber]);
       TempStr := StringReplace(
@@ -141,13 +163,23 @@ Begin
   {TempStr := Substitute(TempStr, '%C', General.FileArcComment[CommentNumber]);}
 
       ExecBatch(Ok, TempDir+'ARC\',
+=======
+      TempStr := Substitute(General.FileArcInfo[AType].CmtLine,
+                 '%C', General.FileArcComment[CommentNumber]);
+      TempStr := Substitute(TempStr, '%C', General.FileArcComment[CommentNumber]
+                 );
+      ExecBatch(Ok, TempDir+'arc\',
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                 General.ArcsPath+FunctionalMCI(TempStr, FileName, ''),
       General.FileArcInfo[AType].SuccLevel, ResultCode, False);
       General.SwapShell := SaveSwapShell;
     End;
 End;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
 Procedure ArcIntegrityTest(Var Ok: Boolean; AType: Byte; Const FileName:
                            AnsiString);
 
@@ -157,7 +189,11 @@ Var
 Begin
   If (General.FileArcInfo[AType].TestLine <> '') Then
     Begin
+<<<<<<< HEAD
       ExecBatch(Ok, TempDir+'ARC\', General.ArcsPath+
+=======
+      ExecBatch(Ok, TempDir+'arc\', General.ArcsPath+
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                 FunctionalMCI(General.FileArcInfo[AType].TestLine, FileName,''),
       General.FileArcInfo[AType].SuccLevel, ResultCode, False);
     End;
@@ -306,9 +342,13 @@ Var
   Totals: TotalsRecordType;
   FileName,
   ArchiveFileName: AnsiString;
+<<<<<<< HEAD
   (*
   DirInfo: SearchRec;
   *)
+=======
+  DirInfo: SearchRec;
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
   Directory: DirStr;
   Name: NameStr;
   Extension: ExtStr;
@@ -325,8 +365,14 @@ Begin
   Prompt('^1Already in TEMP: ');
 
   FillChar(Totals, SizeOf(Totals), 0);
+<<<<<<< HEAD
   FindFirst(TempDir+'ARC\*.*', AnyFile - Directory - VolumeID - Hidden - SysFile
             , DirInfo);
+=======
+  FindFirst(TempDir+'arc\*.*', 
+            AnyFile - Directory - VolumeID - Hidden - SysFile, 
+            DirInfo);
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
   While (DOSError = 0) Do
     Begin
       Inc(Totals.TotalFiles);
@@ -477,7 +523,11 @@ Begin
               Begin
                 FSplit(ArchiveFileName, Directory, Name, Extension);
                 NL;
+<<<<<<< HEAD
                 If CopyMoveFile(TRUE,'^5Progress: ',ArcFileName,TempDir+'ARC\'+
+=======
+                If CopyMoveFile(TRUE,'^5Progress: ',ArcFileName,TempDir+'arc\'+
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                    NS+ES,TRUE) Then
                   DidSomething := True;
               End;
@@ -522,7 +572,11 @@ Begin
                             If (FileName <> '') Then
                               Begin
                                 Ok := FALSE;
+<<<<<<< HEAD
                                 ExecBatch(Ok,TempDir+'ARC\',
+=======
+                                ExecBatch(Ok,TempDir+'arc\',
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                                           General.ArcsPath+
                                           FunctionalMCI(General.FileArcInfo[
                                           AType].UnArcLine,
@@ -536,7 +590,11 @@ Begin
                                          ' into TEMP from '+StripName(
                                          ArcFileName));
                                     SysOpLog('Decompressed '+FileName+' into '+
+<<<<<<< HEAD
                                              TempDir+'ARC\ from '+StripName(
+=======
+                                             TempDir+'arc\ from '+StripName(
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                                              ArcFileName));
                                     DidSomething := TRUE;
                                   End
@@ -547,7 +605,11 @@ Begin
                                          ' into TEMP from '+StripName(
                                          ArcFileName));
                                     SysOpLog('Error decompressing '+FileName+
+<<<<<<< HEAD
                                              ' into '+TempDir+'ARC\ from '+
+=======
+                                             ' into '+TempDir+'arc\ from '+
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                                              StripName(ArcFileName));
                                   End;
                               End;
@@ -582,9 +644,13 @@ Procedure UserArchive;
 
 Var 
   User: UserRecordType;
+<<<<<<< HEAD
   (*
   DirInfo: SearchRec;
   *)
+=======
+  DirInfo: SearchRec;
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
   TransferFlags: TransferFlagSet;
   ArchiveFileName,
   FileName: AnsiString;
@@ -652,7 +718,11 @@ Begin
                                NL;
                                Print('^7Illegal file name!^1');
                              End
+<<<<<<< HEAD
                       Else If (Not Exist(TempDir+'ARC\'+FName)) Then
+=======
+                      Else If (Not Exist(TempDir+'arc\'+FName)) Then
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                              Begin
                                NL;
                                Print('^7File not found!^1');
@@ -660,9 +730,15 @@ Begin
                       Else
                         Begin
                           Ok := FALSE;
+<<<<<<< HEAD
                           ExecBatch(Ok,TempDir+'ARC\',General.ArcsPath+
                                     FunctionalMCI(General.FileArcInfo[AType].
                                     ArcLine,TempDir+'ARC\'+ArcFileName,FName),
+=======
+                          ExecBatch(Ok,TempDir+'arc\',General.ArcsPath+
+                                    FunctionalMCI(General.FileArcInfo[AType].
+                                    ArcLine,TempDir+'arc\'+ArcFileName,FName),
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                           General.FileArcInfo[AType].SuccLevel,ReturnCode,FALSE)
                           ;
                           If (Ok) Then
@@ -671,7 +747,11 @@ Begin
                               Star('Compressed "^5'+FName+'^3" into "^5'+
                                    ArcFileName+'^3"');
                               SysOpLog('Compressed "^5'+FName+'^1" into "^5'+
+<<<<<<< HEAD
                                        TempDir+'ARC\'+ArcFileName+'^1"')
+=======
+                                       TempDir+'arc\'+ArcFileName+'^1"')
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                             End
                           Else
                             Begin
@@ -679,7 +759,11 @@ Begin
                               Star('Error compressing "^5'+FName+'^3" into "^5'+
                                    ArcFileName+'^3"');
                               SysOpLog('Error compressing "^5'+FName+
+<<<<<<< HEAD
                                        '^1" into "^5'+TempDir+'ARC\'+ArcFileName
+=======
+                                       '^1" into "^5'+TempDir+'arc\'+ArcFileName
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                                        +'^1"');
                             End;
                         End;
@@ -704,7 +788,11 @@ Begin
                      End
               Else
                 Begin
+<<<<<<< HEAD
                   FindFirst(TempDir+'ARC\'+FName,AnyFile - Directory - VolumeID
+=======
+                  FindFirst(TempDir+'arc\'+FName,AnyFile - Directory - VolumeID
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                             - Hidden - SysFile,DirInfo);
                   If (DOSError <> 0) Then
                     Begin
@@ -718,8 +806,13 @@ Begin
                       With MemFileArea Do
                         Begin
                           AreaName := 'Temp Archive';
+<<<<<<< HEAD
                           DLPath := TempDir+'ARC\';
                           ULPath := TempDir+'ARC\';
+=======
+                          DLPath := TempDir+'arc\';
+                          ULPath := TempDir+'arc\';
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                           FAFlags := [];
                         End;
                   (* Consider charging points, ext. *)
@@ -730,7 +823,11 @@ Begin
                           Description := 'Temporary Archive';
                           FilePoints := 0;
                           Downloaded := 0;
+<<<<<<< HEAD
                           FileSize := GetFileSize(TempDir+'ARC\'+FileName);;
+=======
+                          FileSize := GetFileSize(TempDir+'arc\'+FileName);;
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                           OwnerNum := 1;
                           OwnerName := Caps(User.Name);
                           FileDate := Date2PD(DateStr);
@@ -760,9 +857,15 @@ Begin
             Begin
               AllowContinue := TRUE;
               NL;
+<<<<<<< HEAD
               DosDir(TempDir+'ARC\','*.*',TRUE);
               AllowContinue := FALSE;
               SysOpLog('Listed temporary directory: "^5'+TempDir+'ARC\*.*^1"');
+=======
+              DosDir(TempDir+'arc\','*.*',TRUE);
+              AllowContinue := FALSE;
+              SysOpLog('Listed temporary directory: "^5'+TempDir+'arc\*.*^1"');
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
             End;
       'R' :
             Begin
@@ -782,7 +885,11 @@ Begin
                      End
               Else
                 Begin
+<<<<<<< HEAD
                   FindFirst(TempDir+'ARC\'+FName,AnyFile - Directory - VolumeID
+=======
+                  FindFirst(TempDir+'arc\'+FName,AnyFile - Directory - VolumeID
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                             - Hidden - SysFile,DirInfo);
                   If (DOSError <> 0) Then
                     Begin
@@ -793,10 +900,17 @@ Begin
                     Begin
                       NL;
                       Repeat
+<<<<<<< HEAD
                         Kill(TempDir+'ARC\'+DirInfo.Name);
                         Star('Removed temporary archive file: "^5'+DirInfo.Name+
                              '^3"');
                         SysOpLog('^1Removed temp arc file: "^5'+TempDir+'ARC\'+
+=======
+                        Kill(TempDir+'arc\'+DirInfo.Name);
+                        Star('Removed temporary archive file: "^5'+DirInfo.Name+
+                             '^3"');
+                        SysOpLog('^1Removed temp arc file: "^5'+TempDir+'arc\'+
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                                  DirInfo.Name+'^1"');
                         FindNext(DirInfo);
                       Until (DOSError <> 0) Or (HangUp);
@@ -821,7 +935,11 @@ Begin
                      End
               Else
                 Begin
+<<<<<<< HEAD
                   FindFirst(TempDir+'ARC\'+FName,AnyFile - Directory - VolumeID
+=======
+                  FindFirst(TempDir+'arc\'+FName,AnyFile - Directory - VolumeID
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                             - Hidden - SysFile,DirInfo);
                   If (DOSError <> 0) Then
                     Begin
@@ -831,8 +949,13 @@ Begin
                   Else
                     Begin
                       NL;
+<<<<<<< HEAD
                       PrintF(TempDir+'ARC\'+DirInfo.Name);
                       SysOpLog('Displayed temp arc file: "^5'+TempDir+'ARC\'+
+=======
+                      PrintF(TempDir+'arc\'+DirInfo.Name);
+                      SysOpLog('Displayed temp arc file: "^5'+TempDir+'arc\'+
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                                DirInfo.Name+'^1"');
                     End;
                 End;
@@ -855,7 +978,11 @@ Begin
                      End
               Else
                 Begin
+<<<<<<< HEAD
                   FindFirst(TempDir+'ARC\'+FName,AnyFile - Directory - VolumeID
+=======
+                  FindFirst(TempDir+'arc\'+FName,AnyFile - Directory - VolumeID
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                             - Hidden - SysFile,DirInfo);
                   If (DOSError <> 0) Then
                     Begin
@@ -867,8 +994,13 @@ Begin
                       Abort := FALSE;
                       Next := FALSE;
                       Repeat
+<<<<<<< HEAD
                         ViewInternalArchive(TempDir+'ARC\'+DirInfo.Name);
                         SysOpLog('Viewed temp arc file: "^5'+TempDir+'ARC\'+
+=======
+                        ViewInternalArchive(TempDir+'arc\'+DirInfo.Name);
+                        SysOpLog('Viewed temp arc file: "^5'+TempDir+'arc\'+
+>>>>>>> 25b84157de84d653d09611a125547b91db3c58b2
                                  DirInfo.Name+'^1"');
                         FindNext(DirInfo);
                       Until (DOSError <> 0) Or (Abort) Or (HangUp);
