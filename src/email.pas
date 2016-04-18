@@ -1,22 +1,39 @@
-{
-*****************************************************************************
-This file is part of Renegade BBS
+{*******************************************************}
+{                                                       }
+{   Renegade BBS                                        }
+{                                                       }
+{   Copyright (c) 1990-2013 The Renegade Dev Team       }
+{   Copyleft  (â†„) 2016 Renegade BBS                     }
+{                                                       }
+{   This file is part of Renegade BBS                   }
+{                                                       }
+{   Renegade is free software: you can redistribute it  }
+{   and/or modify it under the terms of the GNU General }
+{   Public License as published by the Free Software    }
+{   Foundation, either version 3 of the License, or     }
+{   (at your option) any later version.                 }
+{                                                       }
+{   Renegade is distributed in the hope that it will be }
+{   useful, but WITHOUT ANY WARRANTY; without even the  }
+{   implied warranty of MERCHANTABILITY or FITNESS FOR  }
+{   A PARTICULAR PURPOSE.  See the GNU General Public   }
+{   License for more details.                           }
+{                                                       }
+{   You should have received a copy of the GNU General  }
+{   Public License along with Renegade.  If not, see    }
+{   <http://www.gnu.org/licenses/>.                     }
+{                                                       }
+{*******************************************************}
+{   _______                                  __         }
+{  |   _   .-----.-----.-----.-----.---.-.--|  .-----.  }
+{  |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|  }
+{  |.  _   |_____|__|__|_____|___  |___._|_____|_____|  }
+{  |:  |   |                 |_____|                    }
+{  |::.|:. |                                            }
+{  `--- ---'                                            }
+{*******************************************************}
 
-See the file LICENSE, included in this distribution,
-for details about the license.
-*****************************************************************************
-
-           _______                                  __
-          |   _   .-----.-----.-----.-----.---.-.--|  .-----.
-          |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|
-          |.  _   |_____|__|__|_____|___  |___._|_____|_____|
-          |:  |   |                 |_____|
-          |::.|:. |
-          `--- ---'
-
-}
-
-{$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
+{$i Renegade.Common.Defines.inc}
 
 Unit EMail; // Unit Renegade.Messages.Email;
 
@@ -744,18 +761,18 @@ VAR
     Next := FALSE;
     (*
     CLS;
-    PrintACR('‡ÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿');
-    PrintACR('‡³ˆ Num ‡³‰ Date/Time         ‡³Š Sender                 ‡³‹ Subject                  ‡³');
-    PrintACR('‡ÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ');
+    PrintACR('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿');
+    PrintACR('ï¿½ï¿½ï¿½ Num ï¿½ï¿½ï¿½ Date/Time         ï¿½ï¿½ï¿½ Sender                 ï¿½ï¿½ï¿½ Subject                  ï¿½ï¿½');
+    PrintACR('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½');
     *)
     lRGLngStr(60,FALSE);
     NumDone := 1;
     WHILE (NumDone < (PageLength - 5)) AND (SNum1 >= 1) AND (SNum1 <= MNum) AND (NOT Abort) AND (NOT HangUp) DO
     BEGIN
       LoadHeader(MessageArray1[SNum1],MHeader);
-      TempStr := 'Œ'+PadRightInt(SNum1,5);
+      TempStr := 'ï¿½'+PadRightInt(SNum1,5);
       IF (MHeader.From.Anon IN [1,2]) THEN
-        TempStr := TempStr + '  [Unknown]          '
+        TempStr := TempStr + '  ï¿½[Unknown]          '
       ELSE
       BEGIN
         PackToDate(DT,MHeader.Date);
@@ -764,18 +781,18 @@ VAR
           Dec(j,12);
         IF (j = 0) THEN
           j := 12;
-        TempStr := TempStr + '  '+ZeroPad(IntToStr(DT.Day))+
+        TempStr := TempStr + '  ï¿½'+ZeroPad(IntToStr(DT.Day))+
                              ' '+Copy(MonthString[DT.Month],1,3)+
                              ' '+IntToStr(DT.Year)+
                              '  '+ZeroPad(IntToStr(j))+
                              ':'+ZeroPad(IntToStr(DT.Min))+
                              AOnOff((DT.Hour >= 12),'p','a');
       END;
-      TempStr := TempStr + ' '+PadLeftStr(UseName(MHeader.From.Anon,MHeader.From.A1S),23);
+      TempStr := TempStr + ' ï¿½'+PadLeftStr(UseName(MHeader.From.Anon,MHeader.From.A1S),23);
       IF (MHeader.FileAttached = 0) THEN
-        TempStr := TempStr + '  '+Copy(MHeader.Subject,1,25)
+        TempStr := TempStr + '  ï¿½'+Copy(MHeader.Subject,1,25)
       ELSE
-        TempStr := TempStr + '  '+StripName(Copy(MHeader.Subject,1,25));
+        TempStr := TempStr + '  ï¿½'+StripName(Copy(MHeader.Subject,1,25));
       PrintACR(TempStr);
       WKey;
       Inc(SNum1);

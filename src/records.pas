@@ -13,7 +13,7 @@
 {   Foundation, either version 3 of the License, or     }
 {   (at your option) any later version.                 }
 {                                                       }
-{   Foobar is distributed in the hope that it will be   }
+{   Renegade is distributed in the hope that it will be }
 {   useful, but WITHOUT ANY WARRANTY; without even the  }
 {   implied warranty of MERCHANTABILITY or FITNESS FOR  }
 {   A PARTICULAR PURPOSE.  See the GNU General Public   }
@@ -36,13 +36,13 @@
 { Records for Renegade BBS }
 
 CONST
-  Build = '2.0.0/';
+  Build = '2.0.0-dev/';
 
-  OS = {$I %TARGETOS%}
-  TargetCPU = {$I %FPCTARGETCPU%}
-  { ???: Move these to Reneagde.Common.Types.inc }
-  BuildTime = {$I %TIME%}
-  BuildDate = {$I %DATE%}
+  OS = {$I %FPCTARGETOS%};
+  TargetCPU = {$I %FPCTARGETCPU%};
+  { ???: Move these to Renegade.Common.Types.inc }
+  BuildTime = {$I %TIME%};
+  BuildDate2 = {$I %DATE%};
   { ???: Probably don't need this in records.
     Will move to Renegade.Common.Types.inc }
   Ver = Build + OS;

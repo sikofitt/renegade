@@ -1,575 +1,652 @@
+{*******************************************************}
+{                                                       }
+{   Renegade BBS                                        }
+{                                                       }
+{   Copyright (c) 1990-2013 The Renegade Dev Team       }
+{   Copyleft  (ↄ) 2016 Renegade BBS                     }
+{                                                       }
+{   This file is part of Renegade BBS                   }
+{                                                       }
+{   Renegade is free software: you can redistribute it  }
+{   and/or modify it under the terms of the GNU General }
+{   Public License as published by the Free Software    }
+{   Foundation, either version 3 of the License, or     }
+{   (at your option) any later version.                 }
+{                                                       }
+{   Renegade is distributed in the hope that it will be }
+{   useful, but WITHOUT ANY WARRANTY; without even the  }
+{   implied warranty of MERCHANTABILITY or FITNESS FOR  }
+{   A PARTICULAR PURPOSE.  See the GNU General Public   }
+{   License for more details.                           }
+{                                                       }
+{   You should have received a copy of the GNU General  }
+{   Public License along with Renegade.  If not, see    }
+{   <http://www.gnu.org/licenses/>.                     }
+{                                                       }
+{*******************************************************}
+{   _______                                  __         }
+{  |   _   .-----.-----.-----.-----.---.-.--|  .-----.  }
+{  |.  l   |  -__|     |  -__|  _  |  _  |  _  |  -__|  }
+{  |.  _   |_____|__|__|_____|___  |___._|_____|_____|  }
+{  |:  |   |                 |_____|                    }
+{  |::.|:. |                                            }
+{  `--- ---'                                            }
+{*******************************************************}
+
+{$i Renegade.Common.Defines.inc}
+
+Unit File0;
+
+Interface
+
+Uses 
+Common;
+
+Function CompFileArea(FArea,ArrayNum: Integer): Integer;
+Function GetCPS(TotalBytes,TransferTime: LongInt): LongInt;
+Procedure CountDown;
+Function Align(Const FName: Str12): Str12;
+Function BadDownloadPath: Boolean;
+Function BadUploadPath: Boolean;
+Procedure DisplayFileInfo(Var F: FileInfoRecordType; Editing: Boolean);
+Function FileAreaAC(FArea: Integer): Boolean;
+Procedure ChangeFileArea(FArea: Integer);
+Procedure LoadFileArea(FArea: Integer);
+Function GetDirPath(MemFileArea: FileAreaRecordType): ASTR;
+Procedure LoadNewScanFile(Var NewScanFile: Boolean);
+Procedure SaveNewScanFile(NewScanFile: Boolean);
+Procedure InitFileArea(FArea: Integer);
+Function Fit(Const FileName1,FileName2: Str12): Boolean;
+Procedure GetFileName(Var FileName: Str12);
+Function ISUL(Const s: AStr): Boolean;
+Function IsWildCard(Const s: AStr): Boolean;
+Procedure NRecNo(FileInfo: FileInfoRecordType; Var RN: Integer);
+Procedure LRecNo(Fileinfo: FileInfoRecordType; Var RN: Integer);
+Procedure RecNo(FileInfo: FileInfoRecordType; FileName: Str12; Var RN: Integer);
+Procedure LoadVerbArray(F: FileInfoRecordType; Var ExtArray:
+                        ExtendedDescriptionArray; Var NumExtDesc: Byte);
+Procedure SaveVerbArray(Var F: FileInfoRecordType; ExtArray:
+                        ExtendedDescriptionArray; NumExtDesc: Byte);
+
+
+Implementation
+
+Uses 
+Dos,
+File1,
+ShortMsg,
+TimeFunc
 {$IFDEF WIN32}
-{$I DEFINES.INC}
+,Windows
 {$ENDIF}
+;
 
-{$A+,B-,D+,E-,F+,I-,L+,N-,O+,R-,S+,V-}
+Function CompFileArea(FArea,ArrayNum: Integer): Integer;
 
-UNIT File0;
-
-INTERFACE
-
-USES
-  Common;
-
-FUNCTION CompFileArea(FArea,ArrayNum: Integer): Integer;
-FUNCTION GetCPS(TotalBytes,TransferTime: LongInt): LongInt;
-PROCEDURE CountDown;
-FUNCTION Align(CONST FName: Str12): Str12;
-FUNCTION BadDownloadPath: Boolean;
-FUNCTION BadUploadPath: Boolean;
-PROCEDURE DisplayFileInfo(VAR F: FileInfoRecordType; Editing: Boolean);
-FUNCTION FileAreaAC(FArea: Integer): Boolean;
-PROCEDURE ChangeFileArea(FArea: Integer);
-PROCEDURE LoadFileArea(FArea: Integer);
-FUNCTION GetDirPath(MemFileArea: FileAreaRecordType): ASTR;
-PROCEDURE LoadNewScanFile(VAR NewScanFile: Boolean);
-PROCEDURE SaveNewScanFile(NewScanFile: Boolean);
-PROCEDURE InitFileArea(FArea: Integer);
-FUNCTION Fit(CONST FileName1,FileName2: Str12): Boolean;
-PROCEDURE GetFileName(VAR FileName: Str12);
-FUNCTION ISUL(CONST s: AStr): Boolean;
-FUNCTION IsWildCard(CONST s: AStr): Boolean;
-PROCEDURE NRecNo(FileInfo: FileInfoRecordType; VAR RN: Integer);
-PROCEDURE LRecNo(Fileinfo: FileInfoRecordType; VAR RN: Integer);
-PROCEDURE RecNo(FileInfo: FileInfoRecordType; FileName: Str12; VAR RN: Integer);
-PROCEDURE LoadVerbArray(F: FileInfoRecordType; VAR ExtArray: ExtendedDescriptionArray; VAR NumExtDesc: Byte);
-PROCEDURE SaveVerbArray(VAR F: FileInfoRecordType; ExtArray: ExtendedDescriptionArray; NumExtDesc: Byte);
-
-IMPLEMENTATION
-
-USES
-  Dos,
-  File1,
-  ShortMsg,
-  TimeFunc
-{$IFDEF WIN32}
-  ,Windows
-{$ENDIF}
-  ;
-
-FUNCTION CompFileArea(FArea,ArrayNum: Integer): Integer;
-VAR
-  FileCompArrayFile: FILE OF CompArrayType;
+Var 
+  FileCompArrayFile: FILE Of CompArrayType;
   CompFileArray: CompArrayType;
-BEGIN
+Begin
   Assign(FileCompArrayFile,TempDir+'FACT'+IntToStr(ThisNode)+'.DAT');
   Reset(FileCompArrayFile);
   Seek(FileCompArrayFile,(FArea - 1));
   Read(FileCompArrayFile,CompFileArray);
   Close(FileCompArrayFile);
   CompFileArea := CompFileArray[ArrayNum];
-END;
+End;
 
-FUNCTION GetCPS(TotalBytes,TransferTime: LongInt): LongInt;
-BEGIN
-  IF (TransferTime > 0) THEN
-    GetCPS := (TotalBytes DIV TransferTime)
-  ELSE
+Function GetCPS(TotalBytes,TransferTime: LongInt): LongInt;
+Begin
+  If (TransferTime > 0) Then
+    GetCPS := (TotalBytes Div TransferTime)
+  Else
     GetCPS := 0;
-END;
+End;
 
 (* Done - 01/01/07 Lee Palmer *)
-FUNCTION Align(CONST FName: Str12): Str12;
-VAR
+Function Align(Const FName: Str12): Str12;
+
+Var 
   F: Str8;
   E: Str3;
   Counter,
   Counter1: Byte;
-BEGIN
+Begin
   Counter := Pos('.',FName);
-  IF (Counter = 0) THEN
-  BEGIN
-    F := FName;
-    E := '   ';
-  END
-  ELSE
-  BEGIN
-    F := Copy(FName,1,(Counter - 1));
-    E := Copy(FName,(Counter + 1),3);
-  END;
+  If (Counter = 0) Then
+    Begin
+      F := FName;
+      E := '   ';
+    End
+  Else
+    Begin
+      F := Copy(FName,1,(Counter - 1));
+      E := Copy(FName,(Counter + 1),3);
+    End;
   F := PadLeftStr(F,8);
   E := PadLeftStr(E,3);
   Counter := Pos('*',F);
-  IF (Counter <> 0) THEN
-    FOR Counter1 := Counter TO 8 DO
+  If (Counter <> 0) Then
+    For Counter1 := Counter To 8 Do
       F[Counter1] := '?';
   Counter := Pos('*',E);
-  IF (Counter <> 0) THEN
-    FOR Counter1 := Counter TO 3 DO
+  If (Counter <> 0) Then
+    For Counter1 := Counter To 3 Do
       E[Counter1] := '?';
   Counter := Pos(' ',F);
-  IF (Counter <> 0) THEN
-    FOR Counter1 := Counter TO 8 DO
+  If (Counter <> 0) Then
+    For Counter1 := Counter To 8 Do
       F[Counter1] := ' ';
   Counter := Pos(' ',E);
-    IF (Counter <> 0) THEN
-      FOR Counter1 := Counter TO 3 DO
-        E[Counter1] := ' ';
+  If (Counter <> 0) Then
+    For Counter1 := Counter To 3 Do
+      E[Counter1] := ' ';
   Align := F+'.'+E;
-END;
+End;
 
-FUNCTION BadDownloadPath: Boolean;
-BEGIN
-  IF (BadDLPath) THEN
-  BEGIN
-    NL;
-    Print('^7File area #'+IntToStr(FileArea)+': Unable to perform command.');
-    SysOpLog('^5Bad DL file path: "'+MemFileArea.DLPath+'".');
-    Print('^5Please inform the SysOp.');
-    SysOpLog('Invalid DL path (File Area #'+IntToStr(FileArea)+'): "'+MemFileArea.DLPath+'"');
-  END;
+Function BadDownloadPath: Boolean;
+Begin
+  If (BadDLPath) Then
+    Begin
+      NL;
+      Print('^7File area #'+IntToStr(FileArea)+': Unable to perform command.');
+      SysOpLog('^5Bad DL file path: "'+MemFileArea.DLPath+'".');
+      Print('^5Please inform the SysOp.');
+      SysOpLog('Invalid DL path (File Area #'+IntToStr(FileArea)+'): "'+
+      MemFileArea.DLPath+'"');
+    End;
   BadDownloadPath := BadDLPath;
-END;
+End;
 
-FUNCTION BadUploadPath: Boolean;
-BEGIN
-  IF (BadULPath) THEN
-  BEGIN
-    NL;
-    Print('^7File area #'+IntToStr(FileArea)+': Unable to perform command.');
-    SysOpLog('^5Bad UL file path: "'+MemFileArea.Ulpath+'".');
-    Print('^5Please inform the SysOp.');
-    SysOpLog('Invalid UL path (File Area #'+IntToStr(FileArea)+'): "'+MemFileArea.Ulpath+'"');
-  END;
+Function BadUploadPath: Boolean;
+Begin
+  If (BadULPath) Then
+    Begin
+      NL;
+      Print('^7File area #'+IntToStr(FileArea)+': Unable to perform command.');
+      SysOpLog('^5Bad UL file path: "'+MemFileArea.Ulpath+'".');
+      Print('^5Please inform the SysOp.');
+      SysOpLog('Invalid UL path (File Area #'+IntToStr(FileArea)+'): "'+
+      MemFileArea.Ulpath+'"');
+    End;
   BadUploadPath := BadULPath;
-END;
+End;
 
-FUNCTION FileAreaAC(FArea: Integer): Boolean;
-BEGIN
+Function FileAreaAC(FArea: Integer): Boolean;
+Begin
   FileAreaAC := FALSE;
-  IF (FArea < 1) OR (FArea > NumFileAreas) THEN
+  If (FArea < 1) Or (FArea > NumFileAreas) Then
     Exit;
   LoadFileArea(FArea);
   FileAreaAC := AACS(MemFileArea.ACS);
-END;
+End;
 
-PROCEDURE ChangeFileArea(FArea: Integer);
-VAR
+Procedure ChangeFileArea(FArea: Integer);
+
+Var 
   PW: Str20;
-BEGIN
-  IF (FArea < 1) OR (FArea > NumFileAreas) OR (NOT FileAreaAC(FArea)) THEN
+Begin
+  If (FArea < 1) Or (FArea > NumFileAreas) Or (Not FileAreaAC(FArea)) Then
     Exit;
-  IF (MemFileArea.Password <> '') AND (NOT SortFilesOnly) THEN
-  BEGIN
-    NL;
-    Print('File area: ^5'+MemFileArea.AreaName+' #'+IntToStr(CompFileArea(FArea,0))+'^1');
-    NL;
-    Prt('Password: ');
-    GetPassword(PW,20);
-    IF (PW <> MemFileArea.Password) THEN
-    BEGIN
+  If (MemFileArea.Password <> '') And (Not SortFilesOnly) Then
+    Begin
       NL;
-      Print('^7Incorrect password!^1');
-      Exit;
-    END;
-  END;
+      Print('File area: ^5'+MemFileArea.AreaName+' #'+IntToStr(CompFileArea(
+            FArea,0))+'^1');
+      NL;
+      Prt('Password: ');
+      GetPassword(PW,20);
+      If (PW <> MemFileArea.Password) Then
+        Begin
+          NL;
+          Print('^7Incorrect password!^1');
+          Exit;
+        End;
+    End;
   FileArea := FArea;
   ThisUser.LastFileArea := FileArea;
-END;
+End;
 
-PROCEDURE LoadFileArea(FArea: Integer);
-VAR
+Procedure LoadFileArea(FArea: Integer);
+
+Var 
   FO: Boolean;
-BEGIN
-  IF (ReadFileArea = FArea) THEN
+Begin
+  If (ReadFileArea = FArea) Then
     Exit;
-  IF (FArea < 1) THEN
+  If (FArea < 1) Then
     Exit;
-  IF (FArea > NumFileAreas) THEN
-  BEGIN
-    MemFileArea := TempMemFileArea;
-    ReadFileArea := FArea;
-    Exit;
-  END;
-  FO := (FileRec(FileAreaFile).Mode <> FMClosed);
-  IF (NOT FO) THEN
-  BEGIN
-    Reset(FileAreaFile);
-    LastError := IOResult;
-    IF (LastError > 0) THEN
-    BEGIN
-      SysOpLog('FBASES.DAT/Open Error - '+IntToStr(LastError)+' (Procedure: LoadFileArea - '+IntToStr(FArea)+')');
+  If (FArea > NumFileAreas) Then
+    Begin
+      MemFileArea := TempMemFileArea;
+      ReadFileArea := FArea;
       Exit;
-    END;
-  END;
+    End;
+  FO := (FileRec(FileAreaFile).Mode <> FMClosed);
+  If (Not FO) Then
+    Begin
+      Reset(FileAreaFile);
+      LastError := IOResult;
+      If (LastError > 0) Then
+        Begin
+          SysOpLog('FBASES.DAT/Open Error - '+IntToStr(LastError)+
+          ' (Procedure: LoadFileArea - '+IntToStr(FArea)+')');
+          Exit;
+        End;
+    End;
   Seek(FileAreaFile,(FArea - 1));
   LastError := IOResult;
-  IF (LastError > 0) THEN
-  BEGIN
-    SysOpLog('FBASES.DAT/Seek Error - '+IntToStr(LastError)+' (Procedure: LoadFileArea - '+IntToStr(FArea)+')');
-    Exit;
-  END;
+  If (LastError > 0) Then
+    Begin
+      SysOpLog('FBASES.DAT/Seek Error - '+IntToStr(LastError)+
+      ' (Procedure: LoadFileArea - '+IntToStr(FArea)+')');
+      Exit;
+    End;
   Read(FileAreaFile,MemFileArea);
   LastError := IOResult;
-  IF (LastError > 0) THEN
-  BEGIN
-    SysOpLog('FBASES.DAT/Read Error - '+IntToStr(LastError)+' (Procedure: LoadFileArea - '+IntToStr(FArea)+')');
-    Exit;
-  END
-  ELSE
-    ReadFileArea := FArea;
-  IF (NOT FO) THEN
-  BEGIN
-    Close(FileAreaFile);
-    LastError := IOResult;
-    IF (LastError > 0) THEN
-    BEGIN
-      SysOpLog('FBASES.DAT/Close Error - '+IntToStr(LastError)+' (Procedure: LoadFileArea - '+IntToStr(FArea)+')');
+  If (LastError > 0) Then
+    Begin
+      SysOpLog('FBASES.DAT/Read Error - '+IntToStr(LastError)+
+      ' (Procedure: LoadFileArea - '+IntToStr(FArea)+')');
       Exit;
-    END;
-  END;
+    End
+  Else
+    ReadFileArea := FArea;
+  If (Not FO) Then
+    Begin
+      Close(FileAreaFile);
+      LastError := IOResult;
+      If (LastError > 0) Then
+        Begin
+          SysOpLog('FBASES.DAT/Close Error - '+IntToStr(LastError)+
+          ' (Procedure: LoadFileArea - '+IntToStr(FArea)+')');
+          Exit;
+        End;
+    End;
   LastError := IOResult;
-END;
+End;
 
-FUNCTION GetDirPath(MemFileArea: FileAreaRecordType): AStr;
-BEGIN
-  IF (FADirDLPath IN MemFileArea.FAFlags) THEN
+Function GetDirPath(MemFileArea: FileAreaRecordType): AStr;
+Begin
+  If (FADirDLPath In MemFileArea.FAFlags) Then
     GetDirPath := MemFileArea.DLPath+MemFileArea.FileName
-  ELSE
+  Else
     GetDirPath := General.DataPath+MemFileArea.FileName;
-END;
+End;
 
-PROCEDURE LoadNewScanFile(VAR NewScanFile: Boolean);
-VAR
-  FileAreaScanFile: FILE OF Boolean;
+Procedure LoadNewScanFile(Var NewScanFile: Boolean);
+
+Var 
+  FileAreaScanFile: FILE Of Boolean;
   Counter: Integer;
-BEGIN
+Begin
   Assign(FileAreaScanFile,GetDirPath(MemFileArea)+'.SCN');
   Reset(FileAreaScanFile);
-  IF (IOResult = 2) THEN
+  If (IOResult = 2) Then
     ReWrite(FileAreaScanFile);
-  IF (UserNum > FileSize(FileAreaScanFile)) THEN
-  BEGIN
-    NewScanFile := TRUE;
-    Seek(FileAreaScanFile,FileSize(FileAreaScanFile));
-    FOR Counter := FileSize(FileAreaScanFile) TO (UserNum - 1) DO
-      Write(FileAreaScanFile,NewScanFile);
-  END
-  ELSE
-  BEGIN
-    Seek(FileAreaScanFile,(UserNum - 1));
-    Read(FileAreaScanFile,NewScanFile);
-  END;
+  If (UserNum > FileSize(FileAreaScanFile)) Then
+    Begin
+      NewScanFile := TRUE;
+      Seek(FileAreaScanFile,FileSize(FileAreaScanFile));
+      For Counter := FileSize(FileAreaScanFile) To (UserNum - 1) Do
+        Write(FileAreaScanFile,NewScanFile);
+    End
+  Else
+    Begin
+      Seek(FileAreaScanFile,(UserNum - 1));
+      Read(FileAreaScanFile,NewScanFile);
+    End;
   Close(FileAreaScanFile);
   LastError := IOResult;
-END;
+End;
 
-PROCEDURE SaveNewScanFile(NewScanFile: Boolean);
-VAR
-  FileAreaScanFile: FILE OF Boolean;
-BEGIN
+Procedure SaveNewScanFile(NewScanFile: Boolean);
+
+Var 
+  FileAreaScanFile: FILE Of Boolean;
+Begin
   Assign(FileAreaScanFile,GetDirPath(MemFileArea)+'.SCN');
   Reset(FileAreaScanFile);
   Seek(FileAreaScanFile,(UserNum - 1));
   Write(FileAreaScanFile,NewScanFile);
   Close(FileAreaScanFile);
   LastError := IOResult;
-END;
+End;
 
-PROCEDURE InitFileArea(FArea: Integer);
-BEGIN
+Procedure InitFileArea(FArea: Integer);
+Begin
   LoadFileArea(FArea);
 
-  IF ((Length(MemFileArea.DLPath) = 3) AND (MemFileArea.DLPath[2] = ':') AND (MemFileArea.DLPath[3] = '\')) THEN
-    BadDLPath := NOT ExistDrive(MemFileArea.DLPath[1])
-  ELSE IF NOT (FACDRom IN MemFileArea.FAFlags) THEN
-    BadDLPath := NOT ExistDir(MemFileArea.DLPath)
-  ELSE
+  If ((Length(MemFileArea.DLPath) = 3) And (MemFileArea.DLPath[2] = ':') And (
+     MemFileArea.DLPath[3] = '\')) Then
+    BadDLPath := Not ExistDrive(MemFileArea.DLPath[1])
+  Else If Not (FACDRom In MemFileArea.FAFlags) Then
+         BadDLPath := Not ExistDir(MemFileArea.DLPath)
+  Else
     BadDLPath := FALSE;
 
-  IF ((Length(MemFileArea.ULPath) = 3) AND (MemFileArea.ULPath[2] = ':') AND (MemFileArea.DLPath[3] = '\')) THEN
-    BadULPath := NOT ExistDrive(MemFileArea.ULPath[1])
-  ELSE IF NOT (FACDRom IN MemFileArea.FAFlags) THEN
-    BadULPath := NOT ExistDir(MemFileArea.ULPath)
-  ELSE
+  If ((Length(MemFileArea.ULPath) = 3) And (MemFileArea.ULPath[2] = ':') And (
+     MemFileArea.DLPath[3] = '\')) Then
+    BadULPath := Not ExistDrive(MemFileArea.ULPath[1])
+  Else If Not (FACDRom In MemFileArea.FAFlags) Then
+         BadULPath := Not ExistDir(MemFileArea.ULPath)
+  Else
     BadULPath := FALSE;
 
-  IF (NOT DirFileOpen1) THEN
-    IF (FileRec(FileInfoFile).Mode <> FMClosed) THEN
+  If (Not DirFileOpen1) Then
+    If (FileRec(FileInfoFile).Mode <> FMClosed) Then
       Close(FileInfoFile);
   DirFileOpen1 := FALSE;
 
   Assign(FileInfoFile,GetDirPath(MemFileArea)+'.DIR');
   Reset(FileInfoFile);
-  IF (IOResult = 2) THEN
+  If (IOResult = 2) Then
     ReWrite(FileInfoFile);
-  IF (IOResult <> 0) THEN
-  BEGIN
-    SysOpLog('Error opening file: '+GetDirPath(MemFileArea)+'.DIR');
-    Exit;
-  END;
+  If (IOResult <> 0) Then
+    Begin
+      SysOpLog('Error opening file: '+GetDirPath(MemFileArea)+'.DIR');
+      Exit;
+    End;
 
-  IF (NOT ExtFileOpen1) THEN
-    IF (FileRec(ExtInfoFile).Mode <> FMClosed) THEN
+  If (Not ExtFileOpen1) Then
+    If (FileRec(ExtInfoFile).Mode <> FMClosed) Then
       Close(ExtInfoFile);
   ExtFileOpen1 := FALSE;
 
   Assign(ExtInfoFile,GetDirPath(MemFileArea)+'.EXT');
   Reset(ExtInfoFile,1);
-  IF (IOResult = 2) THEN
+  If (IOResult = 2) Then
     ReWrite(ExtInfoFile,1);
-  IF (IOResult <> 0) THEN
-  BEGIN
-    SysOpLog('Error opening file: '+GetDirPath(MemFileArea)+'.EXT');
-    Exit;
-  END;
+  If (IOResult <> 0) Then
+    Begin
+      SysOpLog('Error opening file: '+GetDirPath(MemFileArea)+'.EXT');
+      Exit;
+    End;
 
   LoadNewScanFile(NewScanFileArea);
 
   FileAreaNameDisplayed := FALSE;
-END;
+End;
 
-PROCEDURE DisplayFileInfo(VAR F: FileInfoRecordType; Editing: Boolean);
-VAR
+Procedure DisplayFileInfo(Var F: FileInfoRecordType; Editing: Boolean);
+
+Var 
   TempStr: AStr;
   Counter,
   NumLine,
   NumExtDesc: Byte;
 
-  FUNCTION DisplayFIStr(FIFlags: FIFlagSet): AStr;
-  VAR
-    TempStr1: AStr;
-  BEGIN
-    TempStr1 := '';
-    IF (FINotVal IN FIFlags) THEN
-      TempStr1 := TempStr1 + ' ^8'+'<NV>';
-    IF (FIIsRequest IN FIFlags) THEN
-      TempStr1 := TempStr1 + ' ^9'+'Ask (Request File)';
-    IF (FIResumeLater IN FIFlags) THEN
-      TempStr1 := TempStr1 + ' ^7'+'Resume later';
-    IF (FIHatched IN FIFlags) THEN
-      TempStr1 := TempStr1 + ' ^7'+'Hatched';
-    DisplayFIStr := TempStr1;
-  END;
+Function DisplayFIStr(FIFlags: FIFlagSet): AStr;
 
-BEGIN
+Var 
+  TempStr1: AStr;
+Begin
+  TempStr1 := '';
+  If (FINotVal In FIFlags) Then
+    TempStr1 := TempStr1 + ' ^8'+'<NV>';
+  If (FIIsRequest In FIFlags) Then
+    TempStr1 := TempStr1 + ' ^9'+'Ask (Request File)';
+  If (FIResumeLater In FIFlags) Then
+    TempStr1 := TempStr1 + ' ^7'+'Resume later';
+  If (FIHatched In FIFlags) Then
+    TempStr1 := TempStr1 + ' ^7'+'Hatched';
+  DisplayFIStr := TempStr1;
+End;
+
+Begin
   Counter := 1;
-  WHILE (Counter <= 7) AND (NOT Abort) AND (NOT HangUp) DO
-  BEGIN
-    WITH F DO
-    BEGIN
-      IF (Editing) THEN
-        TempStr := IntToStr(Counter)+'. '
-      ELSE
-        TempStr := '';
-      CASE Counter OF
-        1 : TempStr := TempStr + 'Filename         : ^0'+SQOutSp(FileName);
-        2 : IF (NOT General.FileCreditRatio) THEN
-              TempStr := TempStr + 'File size        : ^2'+ConvertBytes(FileSize,FALSE)
-            ELSE
-              TempStr := TempStr + 'File size        : ^2'+ConvertKB(FileSize DIV 1024,FALSE);
-        3 : BEGIN
-              TempStr := TempStr + 'Description      : ^9'+Description;
-              PrintACR('^1'+TempStr);
-              IF (F.VPointer <> -1) THEN
-              BEGIN
-                LoadVerbArray(F,ExtendedArray,NumExtDesc);
-                NumLine := 1;
-                WHILE (NumLine <= NumExtDesc) AND (NOT Abort) AND (NOT HangUp) DO
-                BEGIN
-                  PrintACR('^1'+AOnOff(Editing,PadLeftStr('',3),'')
-                           +AOnOff(Editing AND (NumLine = 1),PadLeftStr('Extended',13),PadLeftStr('',13))
-                           +AOnOff(Editing,PadRightInt(NumLine,3),PadRightStr('',3))
-                           +' : ^9'+ExtendedArray[NumLine]);
-                  Inc(NumLine);
-                END;
-              END;
-              IF (Editing) THEN
-                IF (F.VPointer = -1) THEN
-                  PrintACR('^5   No extended description.');
-            END;
-        4 : TempStr := TempStr + 'Uploaded by      : ^4'+Caps(OwnerName);
-        5 : TempStr := TempStr + 'Uploaded on      : ^5'+PD2Date(FileDate);
-        6 : BEGIN
-              TempStr := TempStr + 'Times downloaded : ^5'+FormatNumber(Downloaded);
-              PrintACR('^1'+TempStr);
-              IF (NOT Editing) THEN
-              BEGIN
-                TempStr := 'Block size       : 128-"^5'+IntToStr(FileSize DIV 128)+
-                                               '^1" / 1024-"^5'+IntToStr(FileSize DIV 1024)+'^1"';
-                PrintACR('^1'+TempStr);
-                TempStr := 'Time to download : ^5'+CTim(FileSize DIV Rate);
-                PrintACR('^1'+TempStr);
-              END;
-            END;
-        7 : TempStr := TempStr + 'File point cost  : ^4'+AOnOff((FilePoints > 0),FormatNumber(FilePoints),'FREE')+
-                                 DisplayFIStr(FIFlags);
-      END;
-      IF (NOT (Counter IN [3,6])) THEN
-        PrintACR('^1'+TempStr+'^1');
-    END;
-    Inc(Counter);
-  END;
-END;
+  While (Counter <= 7) And (Not Abort) And (Not HangUp) Do
+    Begin
+      With F Do
+        Begin
+          If (Editing) Then
+            TempStr := IntToStr(Counter)+'. '
+          Else
+            TempStr := '';
+          Case Counter Of 
+            1 : TempStr := TempStr + 'Filename         : ^0'+SQOutSp(FileName);
+            2 : If (Not General.FileCreditRatio) Then
+                  TempStr := TempStr + 'File size        : ^2'+ConvertBytes(
+                             FileSize,FALSE)
+                Else
+                  TempStr := TempStr + 'File size        : ^2'+ConvertKB(
+                             FileSize Div 1024,FALSE);
+            3 :
+                Begin
+                  TempStr := TempStr + 'Description      : ^9'+Description;
+                  PrintACR('^1'+TempStr);
+                  If (F.VPointer <> -1) Then
+                    Begin
+                      LoadVerbArray(F,ExtendedArray,NumExtDesc);
+                      NumLine := 1;
+                      While (NumLine <= NumExtDesc) And (Not Abort) And (Not
+                            HangUp) Do
+                        Begin
+                          PrintACR('^1'+AOnOff(Editing,PadLeftStr('',3),'')
+                          +AOnOff(Editing And (NumLine = 1),PadLeftStr(
+                                                                      'Extended'
+                                                                       ,13),
+                          PadLeftStr('',13))
+                          +AOnOff(Editing,PadRightInt(NumLine,3),PadRightStr('',
+                                                                             3))
+                          +' : ^9'+ExtendedArray[NumLine]);
+                          Inc(NumLine);
+                        End;
+                    End;
+                  If (Editing) Then
+                    If (F.VPointer = -1) Then
+                      PrintACR('^5   No extended description.');
+                End;
+            4 : TempStr := TempStr + 'Uploaded by      : ^4'+Caps(OwnerName);
+            5 : TempStr := TempStr + 'Uploaded on      : ^5'+PD2Date(FileDate);
+            6 :
+                Begin
+                  TempStr := TempStr + 'Times downloaded : ^5'+FormatNumber(
+                             Downloaded);
+                  PrintACR('^1'+TempStr);
+                  If (Not Editing) Then
+                    Begin
+                      TempStr := 'Block size       : 128-"^5'+IntToStr(FileSize
+                                 Div 128)+
+                                 '^1" / 1024-"^5'+IntToStr(FileSize Div 1024)+
+                                 '^1"';
+                      PrintACR('^1'+TempStr);
+                      TempStr := 'Time to download : ^5'+CTim(FileSize Div Rate)
+                      ;
+                      PrintACR('^1'+TempStr);
+                    End;
+                End;
+            7 : TempStr := TempStr + 'File point cost  : ^4'+AOnOff((FilePoints
+                           > 0),FormatNumber(FilePoints),'FREE')+
+                           DisplayFIStr(FIFlags);
+          End;
+          If (Not (Counter In [3,6])) Then
+            PrintACR('^1'+TempStr+'^1');
+        End;
+      Inc(Counter);
+    End;
+End;
 
-FUNCTION Fit(CONST FileName1,FileName2: Str12): Boolean;
-VAR
+Function Fit(Const FileName1,FileName2: Str12): Boolean;
+
+Var 
   Counter: Byte;
   Match: Boolean;
-BEGIN
+Begin
   Match := TRUE;
-  FOR Counter := 1 TO 12 DO
-    IF (FileName1[Counter] <> FileName2[Counter]) AND (FileName1[Counter] <> '?') THEN
+  For Counter := 1 To 12 Do
+    If (FileName1[Counter] <> FileName2[Counter]) And (FileName1[Counter] <> '?'
+       ) Then
       Match := FALSE;
-  IF (FileName2 = '') THEN
+  If (FileName2 = '') Then
     Match := FALSE;
   Fit := Match;
-END;
+End;
 
-PROCEDURE GetFileName(VAR FileName: Str12);
-BEGIN
+Procedure GetFileName(Var FileName: Str12);
+Begin
   MPL(12);
   InputMain(FileName,12,[NoLineFeed,UpperOnly]);
-  IF (FileName <> '') THEN
+  If (FileName <> '') Then
     NL
-  ELSE
-  BEGIN
-    MPL(12);
-    FileName := '*.*';
-    Print(FileName);
-  END;
+  Else
+    Begin
+      MPL(12);
+      FileName := '*.*';
+      Print(FileName);
+    End;
   FileName := Align(FileName);
-END;
+End;
 
-FUNCTION ISUL(CONST s: AStr): Boolean;
-BEGIN
-  ISUL := ((Pos('/',s) <> 0) OR (Pos('\',s) <> 0) OR (Pos(':',s) <> 0) OR (Pos('|',s) <> 0));
-END;
+Function ISUL(Const s: AStr): Boolean;
+Begin
+  ISUL := ((Pos('/',s) <> 0) Or (Pos('\',s) <> 0) Or (Pos(':',s) <> 0) Or (Pos(
+          '|',s) <> 0));
+End;
 
-FUNCTION IsWildCard(CONST S: AStr): Boolean;
-BEGIN
-  IsWildCard := ((Pos('*',S) <> 0) OR (Pos('?',S) <> 0));
-END;
+Function IsWildCard(Const S: AStr): Boolean;
+Begin
+  IsWildCard := ((Pos('*',S) <> 0) Or (Pos('?',S) <> 0));
+End;
 
-PROCEDURE LRecNo(FileInfo: FileInfoRecordType; VAR RN: Integer);
-VAR
+Procedure LRecNo(FileInfo: FileInfoRecordType; Var RN: Integer);
+
+Var 
   DirFileRecNum: Integer;
-BEGIN
+Begin
   RN := 0;
-  IF (LastDIRRecNum <= FileSize(FileInfoFile)) AND (LastDIRRecNum >= 0) THEN
-  BEGIN
-    DirFileRecNum := (LastDIRRecNum - 1);
-    WHILE (DirFileRecNum >= 0) AND (RN = 0) DO
-    BEGIN
-      Seek(FileInfoFile,DirFileRecNum);
-      Read(FileInfoFile,FileInfo);
-      IF Fit(LastDIRFileName,FileInfo.FileName) THEN
-        RN := DirFileRecNum;
-      Dec(DirFileRecNum);
-    END;
-    LastDIRRecNum := RN;
-  END
-  ELSE
+  If (LastDIRRecNum <= FileSize(FileInfoFile)) And (LastDIRRecNum >= 0) Then
+    Begin
+      DirFileRecNum := (LastDIRRecNum - 1);
+      While (DirFileRecNum >= 0) And (RN = 0) Do
+        Begin
+          Seek(FileInfoFile,DirFileRecNum);
+          Read(FileInfoFile,FileInfo);
+          If Fit(LastDIRFileName,FileInfo.FileName) Then
+            RN := DirFileRecNum;
+          Dec(DirFileRecNum);
+        End;
+      LastDIRRecNum := RN;
+    End
+  Else
     RN := -1;
   LastError := IOResult;
-END;
+End;
 
-PROCEDURE NRecNo(FileInfo: FileInfoRecordType; VAR RN: Integer);
-VAR
+Procedure NRecNo(FileInfo: FileInfoRecordType; Var RN: Integer);
+
+Var 
   DirFileRecNum: Integer;
-BEGIN
+Begin
   RN := 0;
-  IF (LastDIRRecNum < FileSize(FileInfoFile)) AND (LastDIRRecNum >= -1) THEN
-  BEGIN
-    DirFileRecNum := (LastDIRRecNum + 1);
-    WHILE (DirFileRecNum < FileSize(FileInfoFile)) AND (RN = 0) DO
-    BEGIN
-      Seek(FileInfoFile,DirFileRecNum);
-      Read(FileInfoFile,FileInfo);
-      IF Fit(LastDIRFileName,FileInfo.FileName) THEN
-        RN := (DirFileRecNum + 1);
-      Inc(DirFileRecNum);
-    END;
-    Dec(RN);
-    LastDIRRecNum := RN;
-  END
-  ELSE
+  If (LastDIRRecNum < FileSize(FileInfoFile)) And (LastDIRRecNum >= -1) Then
+    Begin
+      DirFileRecNum := (LastDIRRecNum + 1);
+      While (DirFileRecNum < FileSize(FileInfoFile)) And (RN = 0) Do
+        Begin
+          Seek(FileInfoFile,DirFileRecNum);
+          Read(FileInfoFile,FileInfo);
+          If Fit(LastDIRFileName,FileInfo.FileName) Then
+            RN := (DirFileRecNum + 1);
+          Inc(DirFileRecNum);
+        End;
+      Dec(RN);
+      LastDIRRecNum := RN;
+    End
+  Else
     RN := -1;
   LastError := IOResult;
-END;
+End;
 
-PROCEDURE RecNo(FileInfo: FileInfoRecordType; FileName: Str12; VAR RN: Integer);
-VAR
+Procedure RecNo(FileInfo: FileInfoRecordType; FileName: Str12; Var RN: Integer);
+
+Var 
   DirFileRecNum: Integer;
-BEGIN
+Begin
   InitFileArea(FileArea);
   FileName := Align(FileName);
   RN := 0;
   DirFileRecNum := 0;
-  WHILE (DirFileRecNum < FileSize(FileInfoFile)) AND (RN = 0) DO
-  BEGIN
-    Seek(FileInfoFile,DirFileRecNum);
-    Read(FileInfoFile,FileInfo);
-    IF Fit(FileName,FileInfo.FileName) THEN
-      RN := (DirFileRecNum + 1);
-    Inc(DirFileRecNum);
-  END;
+  While (DirFileRecNum < FileSize(FileInfoFile)) And (RN = 0) Do
+    Begin
+      Seek(FileInfoFile,DirFileRecNum);
+      Read(FileInfoFile,FileInfo);
+      If Fit(FileName,FileInfo.FileName) Then
+        RN := (DirFileRecNum + 1);
+      Inc(DirFileRecNum);
+    End;
   Dec(RN);
   LastDIRRecNum := RN;
   LastDIRFileName := FileName;
   LastError := IOResult;
-END;
+End;
 
-PROCEDURE LoadVerbArray(F: FileInfoRecordType; VAR ExtArray: ExtendedDescriptionArray; VAR NumExtDesc: Byte);
-VAR
+Procedure LoadVerbArray(F: FileInfoRecordType; Var ExtArray:
+                        ExtendedDescriptionArray; Var NumExtDesc: Byte);
+
+Var 
   VerbStr: AStr;
   TotLoad: Integer;
   VFO: Boolean;
-BEGIN
+Begin
   FillChar(ExtArray,SizeOf(ExtArray),0);
   NumExtDesc := 1;
   VFO := (FileRec(ExtInfoFile).Mode <> FMClosed);
-  IF (NOT VFO) THEN
+  If (Not VFO) Then
     Reset(ExtInfoFile,1);
-  IF (IOResult = 0) THEN
-  BEGIN
-    TotLoad := 0;
-    Seek(ExtInfoFile,(F.VPointer - 1));
-    REPEAT
-      BlockRead(ExtInfoFile,VerbStr[0],1);
-      BlockRead(ExtInfoFile,VerbStr[1],Ord(VerbStr[0]));
-      Inc(TotLoad,(Length(VerbStr) + 1));
-      ExtArray[NumExtDesc] := VerbStr;
-      Inc(NumExtDesc);
-    UNTIL (TotLoad >= F.VTextSize);
-    IF (NOT VFO) THEN
-      Close(ExtInfoFile);
-  END;
+  If (IOResult = 0) Then
+    Begin
+      TotLoad := 0;
+      Seek(ExtInfoFile,(F.VPointer - 1));
+      Repeat
+        BlockRead(ExtInfoFile,VerbStr[0],1);
+        BlockRead(ExtInfoFile,VerbStr[1],Ord(VerbStr[0]));
+        Inc(TotLoad,(Length(VerbStr) + 1));
+        ExtArray[NumExtDesc] := VerbStr;
+        Inc(NumExtDesc);
+      Until (TotLoad >= F.VTextSize);
+      If (Not VFO) Then
+        Close(ExtInfoFile);
+    End;
   Dec(NumExtDesc);
   LastError := IOResult;
-END;
+End;
 
-PROCEDURE SaveVerbArray(VAR F: FileInfoRecordType; ExtArray: ExtendedDescriptionArray; NumExtDesc: Byte);
-VAR
+Procedure SaveVerbArray(Var F: FileInfoRecordType; ExtArray:
+                        ExtendedDescriptionArray; NumExtDesc: Byte);
+
+Var 
   LineNum: Byte;
   VFO: Boolean;
-BEGIN
+Begin
   VFO := (FileRec(ExtInfoFile).Mode <> FMClosed);
-  IF (NOT VFO) THEN
+  If (Not VFO) Then
     Reset(ExtInfoFile,1);
-  IF (IOResult = 0) THEN
-  BEGIN
-    F.VPointer := (FileSize(ExtInfoFile) + 1);
-    F.VTextSize := 0;
-    Seek(ExtInfoFile,FileSize(ExtInfoFile));
-    FOR LineNum := 1 TO NumExtDesc DO
-      IF (ExtArray[LineNum] <> '') THEN
-      BEGIN
-        Inc(F.VTextSize,(Length(ExtArray[LineNum]) + 1));
-        BlockWrite(ExtInfoFile,ExtArray[LineNum],(Length(ExtArray[LineNum]) + 1));
-      END;
-    IF (NOT VFO) THEN
-      Close(ExtInfoFile);
-  END;
+  If (IOResult = 0) Then
+    Begin
+      F.VPointer := (FileSize(ExtInfoFile) + 1);
+      F.VTextSize := 0;
+      Seek(ExtInfoFile,FileSize(ExtInfoFile));
+      For LineNum := 1 To NumExtDesc Do
+        If (ExtArray[LineNum] <> '') Then
+          Begin
+            Inc(F.VTextSize,(Length(ExtArray[LineNum]) + 1));
+            BlockWrite(ExtInfoFile,ExtArray[LineNum],(Length(ExtArray[LineNum])
+            + 1));
+          End;
+      If (Not VFO) Then
+        Close(ExtInfoFile);
+    End;
   LastError := IOResult;
-END;
+End;
 
-PROCEDURE CountDown;
-VAR
+Procedure CountDown;
+
+Var 
   Cmd: Char;
   Counter: Byte;
   SaveTimer: LongInt;
-BEGIN
+Begin
   NL;
   Print('Press <^5CR^1> to logoff now.');
   Print('Press <^5Esc^1> to abort logoff.');
@@ -578,32 +655,32 @@ BEGIN
   SaveTimer := Timer;
   Cmd := #0;
   Counter := 9;
-  WHILE (Counter > 0) AND NOT (Cmd IN [#13,#27]) AND (NOT HangUp) DO
-  BEGIN
-    IF (NOT Empty) THEN
-      Cmd := Char(InKey);
-    IF (Timer <> SaveTimer) THEN
-    BEGIN
-      Dec(Counter);
-      Prompt(^H+IntToStr(Counter));
-      SaveTimer := Timer;
-    END
-    ELSE
+  While (Counter > 0) And Not (Cmd In [#13,#27]) And (Not HangUp) Do
+    Begin
+      If (Not Empty) Then
+        Cmd := Char(InKey);
+      If (Timer <> SaveTimer) Then
+        Begin
+          Dec(Counter);
+          Prompt(^H+IntToStr(Counter));
+          SaveTimer := Timer;
+        End
+      Else
 {$IFDEF MSDOS}
-      ASM
+        ASM
         Int 28h
-      END;
+    End;
 {$ENDIF}
 {$IFDEF WIN32}
-      Sleep(1);
+  Sleep(1);
 {$ENDIF}
-  END;
-  IF (Cmd <> #27) THEN
-  BEGIN
+End;
+If (Cmd <> #27) Then
+  Begin
     HangUp := TRUE;
     OutCom := FALSE;
-  END;
-  UserColor(1);
-END;
+  End;
+UserColor(1);
+End;
 
-END.
+End.
