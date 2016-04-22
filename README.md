@@ -26,4 +26,6 @@ Eventually it should compile on any system that can run Free Pascal.
 
 All code should conform to the [Object Pascal Style Guide](http://edn.embarcadero.com/article/10280 "Object Pascal Style Guide"), with exceptions found [here](http://rgbbs.net/yYEpJ "Style Guide").
 
+[Shrink your code (or die refactoring)](http://webagility.com/posts/shrink-your-code-or-die-refactoring "Shrink your code (or die refactoring)").
+
 You can follow the roadmap [here](../../wiki/Roadmap "Roadmap").

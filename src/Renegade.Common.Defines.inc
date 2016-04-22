@@ -40,6 +40,14 @@
 {$INCLUDEPATH includes}
 {$MODESWITCH typehelpers}
 
+{$IFDEF MSDOS}
+{$IFDEF FPC}
+{$M 35500,131072}
+{$ELSE FPC}
+{$M 35500,0,131072}{$E-} { No Math-Co library }
+{$ENDIF FPC}
+{$ENDIF MSDOS}
+
 {$A+} { Align Data for faster execution }
 {$B-} { Shortcut Boolean eval }
 
