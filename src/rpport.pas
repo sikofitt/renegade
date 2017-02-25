@@ -591,7 +591,7 @@ end;
 {$IFDEF WIN32}
 procedure RPSetAttrAt(AAttr, AX, AY: Byte);
 var
-  NumWritten: longint;
+  NumWritten: LongWord;
   WriteCoord: TCoord;
 begin
   WriteCoord.X := AX - 1;
