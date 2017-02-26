@@ -44,6 +44,7 @@ USES
 
 PROCEDURE ToggleNetAttr(NetAttrT: NetAttr; VAR NetAttrS: NetAttribs);
 PROCEDURE ToggleNetAttrs(C: CHAR; VAR NetAttrS: NetAttribs);
+FUNCTION GetNewAddr(DisplayStr: ShortString; MaxLen: Byte; VAR Zone,Net,Node,Point: SmallWord): Boolean; //SysOp2H needed this, couldn't find GetNewAddr
 FUNCTION NetMail_Attr(NetAttribute: NetAttribs): AStr;
 FUNCTION CompName(VAR ALine,Desire; L: Char): Integer;
 FUNCTION CompAddress(VAR ALine,Desire; L: Char): Integer;

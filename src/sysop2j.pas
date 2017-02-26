@@ -217,10 +217,9 @@ VAR
       Abort := FALSE;
       Next := FALSE;
       CLS; { starts at color 28 }
-      PrintACR('зддддддбдддддддддддддддддддбддддддддддддддддддддбдддддддддддддддддддбдддддддд©');
-      PrintACR('? Msg# ? Sender            ? Receiver           ?  '+
-               'Subject           ?! Posted ?);
-      PrintACR('юддддддадддддддддддддддддддаддддддддддддддддддддадддддддддддддддддддадддддддды');
+      PrintACR('зддддддбдддддддддддддддддддбддддддддддддддддддддбдддддддддддддддддддбдддддддд©');
+      PrintACR('Ё Msg# Ё Sender            Ё Receiver           Ё Subject           Ё Posted Ё');
+      PrintACR('юддддддадддддддддддддддддддаддддддддддддддддддддадддддддддддддддддддадддддддды');
       PrintACR('''* "2#      Exodus              $Nuclear              %Re: Renegade       &01/01/93');
       PrintACR('''> "3#      Nuclear             $Exodus               %RG Update          &01/01/93');
       NL;
@@ -315,12 +314,11 @@ VAR
       Abort := FALSE;
       Next := FALSE;
       CLS;  { starts at 115 }
-      Print(Centre('|The QWKЪSystem is now gathering mail.'));
+      Print(Centre('The QWKЪSystem is now gathering mail.'));
       NL;
-      PrintACR('sздддддбдддддддддддддддддддддддбдддддддддбддддддбдддддддддбдддддбддддддбдддддд©');
-      PrintACR('s?t Num s?u Message base name     s?v  Short  s?w Echo s?x  Total  '+
-               's?y New s?z Your s?{ Size s?);
-      PrintACR('sюдддддадддддддддддддддддддддддадддддддддаддддддадддддддддадддддаддддддадддддды');
+      PrintACR('здддддбдддддддддддддддддддддддбдддддддддбддддддбдддддддддбдддддбддддддбдддддд©');
+      PrintACR('Ё Num Ё Message base name     Ё Short   Ё Echo Ё Total   Ё New Ё Your Ё Size Ё');
+      PrintACR('юдддддадддддддддддддддддддддддадддддддддаддддддадддддддддадддддаддддддадддддды');
       PrintACR('   }1    ~General                 GENERAL    ─No      │530     ┌328    ┐13    └103k');
       PrintACR('   }2    ~Not so general          NSGEN      ─No      │854     ┌ 86    ┐15     └43k');
       PrintACR('   }3    ~Vague                   VAGUE      ─No      │985     ┌148     ┐8     └74k');
@@ -359,9 +357,9 @@ VAR
       Abort := FALSE;
       Next := FALSE;
       CLS;   { starts at 135 }
-      PrintACR('┤здддддбдддддддддддддддддддбддддддддддддддддддддддддбдддддддддддддддддддддддддд?);
-      PrintACR('┤?┬ Num ┤?┴ Date/Time         ┤?┼ Sender                 ┤?▀ Subject                  ┤?);
-      PrintACR('┤юдддддадддддддддддддддддддаддддддддддддддддддддддддадддддддддддддддддддддддддд?);
+      PrintACR('┤здддддбдддддддддддддддддддбддддддддддддддддддддддддбдддддддддддддддддддддддддд?');
+      PrintACR('┤?┬ Num ┤?┴ Date/Time         ┤?┼ Sender                 ┤?▀ Subject                  ┤?');
+      PrintACR('┤юдддддадддддддддддддддддддаддддддддддддддддддддддддадддддддддддддддддддддддддд?');
       PrintACR('    ▄1  █01 Jan 1993  01:00a ▌Exodus                   ▐Renegade');
       PrintACR('    ▄1  █01 Jan 1993  01:00a ▌Nuclear                  ▐Upgrades');
       NL;
@@ -851,4 +849,4 @@ BEGIN
   LastError := IOResult;
 END;
 
-END.
+END.

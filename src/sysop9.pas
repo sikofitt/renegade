@@ -134,7 +134,9 @@ VAR
     END;
   END;
 
-  FUNCTION FAEMCI(CONST S: STRING; MemFileArea: FileAreaRecordType; MCIVars1: MCIVarRecord): STRING;
+  {* LeeWoodridge: This IF statement needs to be fixed, my attempt is below *}
+
+{  FUNCTION FAEMCI(CONST S: STRING; MemFileArea: FileAreaRecordType; MCIVars1: MCIVarRecord): STRING;
   VAR
     Temp: STRING;
     Add: AStr;
@@ -200,10 +202,80 @@ VAR
       ELSE
         Temp := Temp + S[Index];
     FAEMCI := Temp;
+  END;}
+
+  FUNCTION FAEMCI(CONST S: STRING; MemFileArea: FileAreaRecordType; MCIVars1: MCIVarRecord): STRING;
+  VAR
+    Temp: STRING;
+    Add: AStr;
+    Index: Byte;
+  BEGIN
+    Temp := '';
+    Index := 1;
+    While Index <= Length(S) DO
+      While (S[Index] = '%') AND (Index + 1 < Length(S)) Do
+      BEGIN
+        Add := '%' + S[Index + 1] + S[Index + 2];
+          CASE AnsiUpperCase(S[Index + 1]) OF
+          'A' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'N' : Add := MemFileArea.AreaName;
+                  'R' : Add := AOnOff((MemFileArea.ACS = ''),'*None*',MemFileArea.ACS);
+                  'T' : Add := AOnOff((MemFileArea.ArcType = 0),'*None*',General.FileArcInfo[MemFileArea.ArcType].Ext);
+                END;
+          'C' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'T' : Add := AOnOff((MemFileArea.CmtType = 0),'*None*',IntToStr(MemFileArea.CmtType));
+                END;
+          'D' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'D' : Add := MCIVars1.Drive;
+                  'P' : Add := MemFileArea.DLPath;
+                  'R' : Add := AOnOff((MemFileArea.DLACS = ''),'*None*',MemFileArea.DLACS);
+                END;
+          'F' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'N' : Add := MemFileArea.FileName;
+                  'R' : Add := IntToStr(MCIVars1.FirstRecNum);
+                  'S' : Add := DisplayFAFlags(MemFileArea.FAFlags,'5','1');
+                  'T' : Add := DisplayFAFlags(MemFileArea.FAFlags,'5','4');
+                END;
+          'G' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'D' : Add := GetDirPath(MemFileArea);
+                END;
+          'L' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'R' : Add := IntToStr(MCIVars1.LastRecNum);
+                END;
+          'M' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'A' : Add := IntToStr(MaxFileAreas);
+                  'F' : Add := IntToStr(MemFileArea.MaxFiles);
+                END;
+          'N' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'A' : Add := IntToStr(NumFileAreas);
+                  'F' : Add := IntToStr(NumFileAreas + 1);
+                  'P' : Add := MCIVars1.NewPath;
+                END;
+          'O' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'P' : Add := MCIVars1.OldPath;
+                END;
+          'P' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'W' : Add := AOnOff((MemFileArea.Password = ''),'*None*',MemFileArea.Password);
+                END;
+          'R' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'E' : Add := IntToStr(MCIVars1.RecNumToEdit);
+                END;
+          'U' : CASE AnsiUpperCase(S[Index + 2]) OF
+                  'P' : Add := MemFileArea.ULPath;
+                  'R' : Add := AOnOff((MemFileArea.ULACS = ''),'*None*',MemFileArea.ULACS);
+                END;
+          END;
+        Temp := Temp + Add;
+        Inc(Index,2);
+      END;
+        Temp := Temp + S[Index];
+    FAEMCI := Temp;
   END;
+
 
   FUNCTION FAELngStr(StrNum: LongInt; MemFileArea: FileAreaRecordType; MCIVars1: MCIVarRecord; PassValue: Boolean): AStr;
   VAR
+    Abort: Boolean;
     StrPointerFile: FILE OF StrPointerRec;
     StrPointer: StrPointerRec;
     RGStrFile: FILE;
@@ -669,6 +741,7 @@ VAR
   PROCEDURE EditFileArea(TempMemFileArea1: FileAreaRecordType; VAR MemFileArea: FileAreaRecordType; VAR Cmd1: Char;
                          VAR MCIVars1: MCIVarRecord; VAR Changed: Boolean; Editing: Boolean);
   VAR
+    Abort: Boolean;
     TempFileName: Str8;
     CmdStr: AStr;
     RecNum,
@@ -899,6 +972,7 @@ VAR
 
   PROCEDURE InsertFileArea(TempMemFileArea1: FileAreaRecordType; MCIVars1: MCIVarRecord);
   VAR
+    Abort: Boolean;
     FileAreaScanFile: FILE OF Boolean;
     Cmd1: Char;
     RecNum,
@@ -1206,6 +1280,7 @@ VAR
 
   PROCEDURE ListFileAreas(VAR RecNumToList1: Integer; MCIVars1: MCIVarRecord);
   VAR
+    Abort: Boolean;
     NumDone: Integer;
   BEGIN
     IF (RecNumToList1 < 1) OR (RecNumToList1 > NumFileAreas) THEN
@@ -1296,4 +1371,4 @@ BEGIN
   LastError := IOResult;
 END;
 
-END.
+END.
