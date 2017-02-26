@@ -198,8 +198,8 @@ TYPE
   END;
 VAR
   TotalsRecord: TotalsRecordType;
-  FileName: AnsiString; // Str12
-  ReZipCmd: AnsiString; //Str78;
+  FileName: ShortString; // Str12
+  ReZipCmd: ShortString; //Str78;
   FArea,
   SaveFileArea: Integer;
 BEGIN

@@ -44,7 +44,7 @@ USES
 
 PROCEDURE ReadQ(CONST FileN: AStr);
 PROCEDURE ReadASW(UserN: Integer; FN: AStr);
-PROCEDURE ReadASW1(MenuOption: AnsiString); // Str50
+PROCEDURE ReadASW1(MenuOption: ShortString); // Str50
 
 IMPLEMENTATION
 
@@ -58,13 +58,14 @@ USES
 
 PROCEDURE ReadQ(CONST FileN: AStr);
 VAR
+  Abort: Boolean;
   InFile,
   OutFile,
   OutFile1: Text;
   C: Char;
   OutP,
   Lin,
-  S : AnsiString;
+  S : ShortString;
   Mult,
   Got,
   LastInp,
@@ -313,8 +314,8 @@ BEGIN
                           IF (Lin[1] = ';') THEN
                             OutP := #0#0#0
                         END;
-                  'V' : IF (AnsiUpperCase(OutP[3]) IN ['!'..'~']) THEN
-                          AutoValidate(ThisUser,UserNum,AnsiUpperCase(OutP[3]));
+                  'V' : IF OutP[3] IN ['!'..'~'] THEN
+                          AutoValidate(ThisUser,UserNum,OutP[3]);
                   ';' : S := #0#0#0;
                 END;
                 IF (S <> #1#1#1) THEN
@@ -352,6 +353,7 @@ END;
 
 PROCEDURE ReadASW(UserN: Integer; FN: AStr);
 VAR
+  Abort: Boolean;
   QF: Text;
   User: UserRecordType;
   QS: AStr;
@@ -422,7 +424,7 @@ BEGIN
   LastError := IOResult;
 END;
 
-PROCEDURE ReadASW1(MenuOption: AnsiString);
+PROCEDURE ReadASW1(MenuOption: ShortString);
 VAR
   PS: PathStr;
   NS: NameStr;

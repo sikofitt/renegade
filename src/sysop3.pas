@@ -219,7 +219,7 @@ CONST
   F_DLRatio2: LongInt = 2147483647;
 VAR
   User: UserRecordType;
-  TempStr: AnsiString;
+  TempStr: ShortString;
   Cmd: Char;
   TempB,
   Counter: Byte;
@@ -483,7 +483,7 @@ VAR
   VAR
     User1: UserRecordType;
     FSF: F_StatusFlagsRec;
-    TempStr1: AnsiString;
+    TempStr1: ShortString;
     Cmd1: Char;
     SType,
     UNum1,

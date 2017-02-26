@@ -521,7 +521,7 @@ PROCEDURE ExtractMsgToFile(MsgNum: Word; MHeader: MHeaderRec);
 VAR
   ExtTxtFile: Text;
   FileOwner: AnsiString; // Str36
-  FileName: AnsiString; // Str52
+  FileName: ShortString; // Str52
   MsgTxtStr: String;
   Counter: Byte;
   TempTextSize: Word;

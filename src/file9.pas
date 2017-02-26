@@ -60,9 +60,8 @@ USES
 
 PROCEDURE DosDir(CurDir: ASTR; CONST FSpec: Str12; Expanded: Boolean);
 VAR
-  (*
-  DirInfo: SearchRec;
-  *)
+  Abort: Boolean;
+  DirInfo: TRawbyteSearchRec;
   DT: DateTime;
   TempStr: ASTR;
   AmPm: Str2;
@@ -411,7 +410,7 @@ END;
 (* Done - Lee Palmer 06/18/06 *)
 PROCEDURE SetFileAreaNewScanDate;
 VAR
-  TempDate: AnsiString;
+  TempDate: ShortString;
   Key: CHAR;
 BEGIN
   {

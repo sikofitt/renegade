@@ -79,7 +79,7 @@ VAR
 
   PROCEDURE ConfigureQWK;
   VAR
-    ArcExt: AnsiString; //Str3;
+    ArcExt: ShortString; //Str3;
     AType: Byte;
   BEGIN
     SetLength(ArcExt, 3);
@@ -116,7 +116,7 @@ VAR
 
   PROCEDURE DoAddress;
   VAR
-    TempStreet: AnsiString; //Str30;
+    TempStreet: ShortString; //Str30;
   BEGIN
     SetLength(TempStreet, 30);
     Print('Enter your street address:');
@@ -137,7 +137,7 @@ VAR
 
   PROCEDURE DoAge;
   VAR
-    TempDate: AnsiString; // Str10;
+    TempDate: ShortString; // Str10;
     TempDay,
     TempMonth,
     TempYear,
@@ -198,7 +198,7 @@ VAR
   VAR
     s,
     s1,  // Str2
-    s2 : AnsiString; // Str26
+    s2 : ShortString; // Str26
   BEGIN
     SetLength(s, SizeOf(User.CityState) - 1);
     SetLength(s1, 2);
@@ -271,7 +271,7 @@ VAR
   PROCEDURE DoUserDef(QuestionNum: Byte);
   VAR
     UserDefQues: STRING[80];
-    s: AnsiString; //Str35;
+    s: ShortString; //Str35;
   BEGIN
     SetLength(s, 35);
     CASE QuestionNum OF
@@ -299,7 +299,7 @@ VAR
   PROCEDURE DoName;
   VAR
     TextFile: Text;
-    s : AnsiString;
+    s : ShortString;
     s1,
     s2: AStr;
     UNum: Integer;
@@ -400,7 +400,7 @@ VAR
 
   PROCEDURE DoPhone;
   VAR
-    TempPhone: AnsiString;
+    TempPhone: ShortString;
   BEGIN
     SetLength(TempPhone, 12);
     CASE How OF
@@ -524,7 +524,7 @@ VAR
 
   PROCEDURE DoForgotPW;
   VAR
-    s: AnsiString;
+    s: ShortString;
   BEGIN
     SetLength(s, 40);
     IF (How IN [1..2]) THEN
@@ -545,7 +545,7 @@ VAR
 
   PROCEDURE DoRealName;
   VAR
-    TempRealName: AnsiString;
+    TempRealName: ShortString;
     UNum: Integer;
   BEGIN
     SetLength(TempRealName, SizeOf(User.RealName) -1);
@@ -633,7 +633,7 @@ VAR
 
   PROCEDURE DoZIPCode;
   VAR
-    TempZipCode: AnsiString; //Str10;
+    TempZipCode: ShortString; //Str10;
   BEGIN
     SetLength(TempZipCode, 10);
     IF (How = 3) THEN

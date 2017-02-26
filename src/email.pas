@@ -65,7 +65,7 @@ Uses
   NodeList,
   MiscUser;
 
-PROCEDURE SSMail(MenuOption: Str50);
+PROCEDURE SSMail(MenuOption: AnsiString);
 VAR
   MHeader: MHeaderRec;
 BEGIN
@@ -763,7 +763,8 @@ VAR
     CLS;
     PrintACR('������������������������������������������������������������������������������Ŀ');
     PrintACR('��� Num ��� Date/Time         ��� Sender                 ��� Subject                  ��');
-    PrintACR('��������������������������������������������������������������������������������');
+    PrintACR('��������������������������������������������������������������������������������
+');
     *)
     lRGLngStr(60,FALSE);
     NumDone := 1;

@@ -236,7 +236,7 @@ VAR
 
   PROCEDURE ModifyCommand;
   VAR
-    TempS1: AnsiString; // Str2
+    TempS1: ShortString; // Str2
     Cmd1: Char;
     TempB: Byte;
     RecNumToModify,

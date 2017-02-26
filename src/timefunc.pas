@@ -70,7 +70,7 @@ FUNCTION Date2PD(CONST SDate: Str10): LongInt;
 FUNCTION TimeStr: Str8;
 FUNCTION DateStr: Str10;
 FUNCTION CTim(L: LongInt): Str8;
-FUNCTION Days(VAR Month,Year: Word): Word;
+FUNCTION Days(Month,Year: Word): Word;
 FUNCTION DayNum(DateStr: Str10): Word;
 FUNCTION Dat: Str160;
 
@@ -350,7 +350,7 @@ BEGIN
 END;
 
 (* Done - 10/25/07 - Lee Palmer *)
-FUNCTION Days(VAR Month,Year: Word): Word;
+FUNCTION Days(Month,Year: Word): Word;
 VAR
   TotalDayCount: Word;
 BEGIN
@@ -421,4 +421,4 @@ BEGIN
 END;
 
 
-END.
+END.

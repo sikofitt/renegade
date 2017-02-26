@@ -52,7 +52,7 @@ IMPLEMENTATION
 
 Uses
   SysUtils;
-  
+
 PROCEDURE LoadMenu;
 VAR
   Counter,
@@ -169,7 +169,7 @@ BEGIN
         ELSE IF (Length(CKeys) > 1) THEN
           TempCkeys := '/'
         ELSE
-          TempCkeys := AnsiUpperCase(CKeys[1]);
+          TempCkeys := CKeys[1];
         IF (Pos(TempCkeys,MenuKeys) = 0) THEN
           MenuKeys := MenuKeys + TempCkeys;
         CmdKeys := MenuR.CmdKeys;
@@ -198,6 +198,7 @@ END;
 
 PROCEDURE ShowCmds(MenuOption: Str50);
 VAR
+  Abort: Boolean;
   TempStr,
   TempStr1: AStr;
   CmdToList,
@@ -396,6 +397,7 @@ VAR
 
   PROCEDURE GenTuto;
   VAR
+    Abort: Boolean; 
     CmdToList,
     MaxRight: Byte;
     Acc,
@@ -429,6 +431,7 @@ VAR
 
   PROCEDURE GenNorm;
   VAR
+    Abort: Boolean;
     TempStr,
     TempStr1: AStr;
     CmdToList,
