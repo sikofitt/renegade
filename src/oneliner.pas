@@ -42,7 +42,8 @@ Interface
 Uses 
 Common,
 Timefunc,
-Mail1;
+Mail1,
+SysUtils; //Needed for FileExists
 
 Type 
   OneLinerRecordType = Record
