@@ -364,7 +364,7 @@ TYPE
   END;
 VAR
   Totals: TotalsRecordType;
-  ReturnCode: SmallInt;
+  ReturnCode: Byte;
   ProtocolNumber: Integer;
   TransferTime: LongInt;
 BEGIN
@@ -580,7 +580,7 @@ PROCEDURE Receive(FileName: Str12;
                   AddULBatch: Boolean;
                   VAR TransferTime: LongInt);
 VAR
-  ReturnCode: SmallInt;
+  ReturnCode: Byte;
   ProtocolNumber: Integer;
 BEGIN
   UploadOk := TRUE;
@@ -635,4 +635,4 @@ BEGIN
   END;
 END;
 
-END.
+END.

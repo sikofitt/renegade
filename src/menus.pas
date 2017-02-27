@@ -336,7 +336,7 @@ BEGIN
         END;
       END;
 
-      C := AnsiUpperCase(Char(Key));
+      C := Char(Key);
       SaveSS := SS;
       IF (SS = '') THEN
       BEGIN
@@ -468,6 +468,7 @@ END;
 
 PROCEDURE MainMenuHandle(VAR Cmd: AStr);
 VAR
+  Abort: Boolean;
   NewArea: Integer;
 BEGIN
   TLeft;
@@ -615,6 +616,7 @@ PROCEDURE DoMenuCommand(VAR Done: Boolean;
                         VAR NewMenuCmd: AStr;
                         NodeActivityDesc: AStr);
 VAR
+  Abort: Boolean;
   MHeader: MHeaderRec;
   TempStr: AStr;
   SaveMenu: Byte;

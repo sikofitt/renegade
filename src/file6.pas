@@ -135,7 +135,7 @@ VAR
   ProtocolNumber,
   SaveLastDirFileRecNum,
   ToXfer: Integer;
-  ReturnCode: SmallInt;
+  ReturnCode: Byte;
   RecNum,
   RecNum1,
   TransferTime: LongInt;
@@ -1023,4 +1023,4 @@ BEGIN
   END;
 END;
 
-END.
+END.
