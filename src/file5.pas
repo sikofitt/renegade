@@ -125,6 +125,7 @@ VAR
 
   PROCEDURE DoCmd(CONST Cmd: AStr);
   VAR
+    Abort: Boolean;
     F: FILE;
     ps,
     ns,
@@ -833,4 +834,4 @@ BEGIN
 END;
 
 END.
-
+

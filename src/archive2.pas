@@ -70,9 +70,9 @@ VAR
   DirInfo: SearchRec;
   *)
   FileName, //Str78
-  S : AnsiString; // 70
+  S : ShortString; // 70
   S1 : AStr;
-  S2 : AnsiString;
+  S2 : ShortString;
   OS1: AStr;
   DS: DirStr;
   NS: NameStr;

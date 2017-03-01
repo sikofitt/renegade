@@ -57,7 +57,7 @@ PROCEDURE lFindUserWS(VAR UserNum: LongInt);
 VAR
   User: UserRecordType;
   UserIDX: UserIDXRec;
-  UserName: AnsiString;
+  UserName: ShortString;
   Cmd: Char;
   Counter,
   NumIDX: Integer;
@@ -171,7 +171,7 @@ END;
 PROCEDURE FindUser(VAR UserNum: LongInt);
 VAR
   User: UserRecordType;
-  TempUserName: AnsiString; //Str36;
+  TempUserName: ShortString; //Str36;
   TempUserNum: Integer;
 BEGIN
   SetLength(TempUserName, 36);

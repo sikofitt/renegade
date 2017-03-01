@@ -126,7 +126,7 @@ BEGIN
   END;
 END;
 
-PROCEDURE SortUserDecending(VAR Top10User: Top10UserArray; UNum: Integer; Info: Real);
+{PROCEDURE SortUserDecending(VAR Top10User: Top10UserArray; UNum: Integer; Info: Real);
 VAR
   Counter,
   Counter1: Byte;
@@ -141,9 +141,30 @@ BEGIN
         Top10User[Counter].Info := Info;
         Counter := 10;
       END;
+END; }
+
+PROCEDURE SortUserDecending(VAR Top10User: Top10UserArray; UNum: Integer; Info: Real);
+VAR
+  Counter,
+  Counter1: Byte;
+BEGIN
+  IF (Info > 0.0) THEN
+  Counter := 1;
+    WHILE Counter <= 10 DO
+	Begin
+      IF (Info >= Top10User[Counter].Info) THEN
+      BEGIN
+        FOR Counter1 := 10 DOWNTO (Counter + 1) DO
+          Top10User[Counter1] := Top10User[Counter1 - 1];
+        Top10User[Counter].UNum := UNum;
+        Top10User[Counter].Info := Info;
+        Counter := 10;
+      End;
+	  Inc(counter);
+	  End;
 END;
 
-PROCEDURE SortFileDecending(VAR Top20File: Top20FileArray; DirNum,DirRecNum: Integer; Downloaded: LongInt);
+{PROCEDURE SortFileDecending(VAR Top20File: Top20FileArray; DirNum,DirRecNum: Integer; Downloaded: LongInt);
 VAR
   Counter,
   Counter1: Byte;
@@ -159,10 +180,33 @@ BEGIN
         Top20File[Counter].Downloaded := Downloaded;
         Counter := 20;
       END;
+END;}
+
+PROCEDURE SortFileDecending(VAR Top20File: Top20FileArray; DirNum,DirRecNum: Integer; Downloaded: LongInt);
+VAR
+  Counter,
+  Counter1: Byte;
+BEGIN
+  IF (Downloaded > 0) THEN
+  Counter := 1;
+    While Counter <= 20 DO
+	Begin
+      IF (Downloaded >= Top20File[Counter].Downloaded) THEN
+      BEGIN
+        FOR Counter1 := 20 DOWNTO (Counter + 1) DO
+          Top20File[Counter1] := Top20File[Counter1 - 1];
+        Top20File[Counter].DirNum := DirNum;
+        Top20File[Counter].DirRecNum := DirRecNum;
+        Top20File[Counter].Downloaded := Downloaded;
+        Counter := 20;
+      END;
+	  Inc(Counter);
+	  End;
 END;
 
 PROCEDURE SearchTop10User(VAR Top10User: Top10UserArray; Cmd: Char; ExcludeUserNum: Integer);
 VAR
+  Abort: Boolean;
   User: UserRecordType;
   UNum: Integer;
   Info: Real;
@@ -204,6 +248,7 @@ END;
 
 PROCEDURE SearchTop20AreaFileSpec(FArea: Integer; VAR Top20File: Top20FileArray);
 VAR
+  Abort: Boolean;
   F: FileInfoRecordType;
   DirFileRecNum: LongInt;
 BEGIN
@@ -229,6 +274,7 @@ END;
 
 PROCEDURE SearchTop20GlobalFileSpec(VAR Top20File: Top20FileArray);
 VAR
+  Abort: Boolean;
   FArea,
   SaveFileArea: Integer;
   SaveConfSystem: Boolean;
@@ -262,6 +308,7 @@ END;
 
 PROCEDURE DisplayTop10UserArray(Top10User: Top10UserArray; Title,Header: AStr; Decimal,Width: Byte);
 VAR
+  Abort: Boolean;
   User: UserRecordType;
   TempStr: AStr;
   Counter,
@@ -298,6 +345,7 @@ END;
 
 PROCEDURE DisplayTop20FileArray(Top20File: Top20FileArray);
 VAR
+  Abort: Boolean;
   F: FileInfoRecordType;
   TempStr: AStr;
   Counter,

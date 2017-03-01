@@ -119,9 +119,15 @@ BEGIN
             NoSound;
 {$ENDIF}
 {$IFDEF WIN32}
-            Sound(3000, 200);
-			Sound(1000, 200);
-			Sound(3000, 200);
+            Sound(3000);
+            Delay(200);
+            NoSound;
+            Sound(1000);
+            Delay(200);
+            NoSound;
+            Sound(3000);
+            Delay(200);
+            NoSound;
 {$ENDIF}
           END;
           IF (KeyPressed) THEN
@@ -417,12 +423,24 @@ BEGIN
       UNTIL (Counter = 200);
 {$ENDIF}
 {$IFDEF WIN32}
-      Sound(650, 200);
-	  Sound(700, 200);
-	  Sound(600, 200);
-	  Sound(500, 200);
-	  Sound(400, 200);
-	  Sound(300, 200);
+        Sound(650);
+        Delay(200);
+        NoSound;
+        Sound(700);
+        Delay(200);
+        NoSound;
+        Sound(600);
+        Delay(200);
+        NoSound;
+        Sound(500);
+        Delay(200);
+        NoSound;
+        Sound(400);
+        Delay(200);
+        NoSound;
+        Sound(300);
+        Delay(200);
+        NoSound;
 {$ENDIF}
       Prompt(^G^G);
     END

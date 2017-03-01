@@ -44,10 +44,12 @@ USES
 
 PROCEDURE ToggleNetAttr(NetAttrT: NetAttr; VAR NetAttrS: NetAttribs);
 PROCEDURE ToggleNetAttrs(C: CHAR; VAR NetAttrS: NetAttribs);
-FUNCTION GetNewAddr(DisplayStr: AnsiString; MaxLen: Byte; VAR Zone,Net,Node,Point: SmallWord): Boolean;
-PROCEDURE GetNetAddress(VAR SysOpName: AnsiString; VAR Zone,Net,Node,Point: SmallWord; var Fee: Word; GetFee: Boolean);
-PROCEDURE ChangeFlags(VAR MsgHeader: MHeaderRec);
+FUNCTION GetNewAddr(DisplayStr: ShortString; MaxLen: Byte; VAR Zone,Net,Node,Point: SmallWord): Boolean; //SysOp2H needed this, couldn't find GetNewAddr
 FUNCTION NetMail_Attr(NetAttribute: NetAttribs): AStr;
+FUNCTION CompName(VAR ALine,Desire; L: Char): Integer;
+FUNCTION CompAddress(VAR ALine,Desire; L: Char): Integer;
+PROCEDURE GetNetAddress(VAR SysOpName: ShortString; VAR Zone,Net,Node,Point: SmallWord; var Fee: Word; GetFee: Boolean);
+PROCEDURE ChangeFlags(VAR MsgHeader: MHeaderRec);
 
 IMPLEMENTATION
 
@@ -138,7 +140,7 @@ BEGIN
   END;
 END;
 
-FUNCTION GetNewAddr(DisplayStr: AnsiString; MaxLen: Byte; VAR Zone,Net,Node,Point: SmallWord): Boolean;
+FUNCTION GetNewAddr(DisplayStr: ShortString; MaxLen: Byte; VAR Zone,Net,Node,Point: SmallWord): Boolean;
 BEGIN
   GetNewAddr := FALSE;
   Prt(DisplayStr);
@@ -240,11 +242,11 @@ BEGIN
   Compaddress := K;
 END;
 
-PROCEDURE GetNetAddress(VAR SysOpName: AnsiString; VAR Zone,Net,Node,Point: SmallWord; var Fee: Word; GetFee: Boolean);
+PROCEDURE GetNetAddress(VAR SysOpName: ShortString; VAR Zone,Net,Node,Point: SmallWord; var Fee: Word; GetFee: Boolean);
 VAR
   DataFile,
   NDXFile: FILE;
-  s: AnsiString; //STRING[36];
+  s: ShortString; //STRING[36];
   Location: LongInt;
   Dat: DatRec;
   Internet: Boolean;
@@ -481,7 +483,7 @@ VAR
     BTree := FRec;
   END;
 
-  FUNCTION Pull(VAR S: AnsiString; C: Char): STRING;
+  FUNCTION Pull(VAR S: ShortString; C: Char): STRING;
   VAR
     I: Byte;
   BEGIN
@@ -536,9 +538,7 @@ BEGIN
     s := FullNodeStr(s);
     Assign(NDXFile,General.NodePath+'NODEX.NDX');
     Reset(NDXFile,1);
-    Location := BTree(NDXFile,MakeAddress(StrToInt(Pull(S,':')),
-                      StrToInt(Pull(S,'/')),StrToInt(Pull(S,'.')),
-                      StrToInt(S)),Compaddress);
+    Location := BTree(NDXFile,MakeAddress(StrToInt(Pull(S,':')),StrToInt(Pull(S,'/')),StrToInt(Pull(S,'.')),StrToInt(S)),@Compaddress);
     Close(NDXFile);
     IF (Location <> -1) THEN
     BEGIN
@@ -565,15 +565,14 @@ BEGIN
       s := FullNodeStr(s);
       Assign(NDXFile,General.NodePath+'NODEX.NDX');
       Reset(NDXFile,1);
-      Location := BTree(NDXFile,MakeAddress(StrToInt(Pull(S,':')),StrToInt(Pull(S,'/')),StrToInt(Pull(S,'.')),StrToInt(S)),
-                        Compaddress);
+      Location := BTree(NDXFile,MakeAddress(StrToInt(Pull(S,':')),StrToInt(Pull(S,'/')),StrToInt(Pull(S,'.')),StrToInt(S)),@Compaddress);
       Close(NDXFile);
     END
     ELSE
     BEGIN
       Assign(NDXFile,General.NodePath+'SYSOP.NDX');
       Reset(NDXFile,1);
-      Location := BTree(NDXFile,MakeName(S),CompName);
+      Location := BTree(NDXFile,MakeName(S),@CompName);
       Close(NDXFile);
     END;
     IF (Location <> -1) THEN

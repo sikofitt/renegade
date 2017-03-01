@@ -151,7 +151,7 @@ VAR
   SaveTempPause: Boolean;
 BEGIN
   IF (MenuOption <> '') THEN
-    CASE AnsiUpperCase(MenuOption[1]) OF
+    CASE MenuOption[1] OF 
       '+' : BEGIN
               MArea := MsgArea;
               IF (MsgArea >= NumMsgAreas) THEN
@@ -513,4 +513,4 @@ BEGIN
   LastCommandOvr := TRUE;
 END;
 
-END.
+END.

@@ -1,4 +1,4 @@
-{*******************************************************}
+﻿{*******************************************************}
 {                                                       }
 {   Renegade BBS                                        }
 {                                                       }
@@ -39,7 +39,7 @@ Unit MyIO;
 
 Interface
 
-Type 
+Type
   AStr = STRING[160];
   WindowRec = ARRAY[0..8000] Of Byte;
   ScreenType = ARRAY [0..3999] Of Byte;
@@ -49,7 +49,7 @@ Type
   SmallWord = System.Word;
   {$ENDIF}
 
-Const 
+Const
   Infield_Seperators: SET Of Char = [' ','\','.'];
 
   Infield_Only_Allow_On: BOOLEAN = FALSE;
@@ -72,7 +72,7 @@ Const
   COL2          = $FB;          { Color, graphics chars        }
 {$ENDIF}
 
-Var 
+Var
   Wind: WindowRec;
 
 {$IFDEF WIN32}
@@ -95,12 +95,10 @@ Var
   Infield_Normal_Exit_Keys: STRING;
 
 {$IFDEF MSDOS}
-Procedure Update_Logo(Data: Array Of Char; OriginX, OriginY, DataLength: integer
-);
+Procedure Update_Logo(Data: Array Of Char; OriginX, OriginY, DataLength: integer);
 {$ENDIF}
 {$IFNDEF MSDOS}
-Procedure Update_Logo(Data: Array Of Char; OriginX, OriginY, DataLength: integer
-);
+Procedure Update_Logo(Data: Array Of Char; OriginX, OriginY, DataLength: integer);
 {$ENDIF}
 Procedure CursorOn(b: BOOLEAN) Overload;
 Procedure infield1(x,y: Byte; Var s: AStr; Len: Byte);
@@ -115,28 +113,26 @@ Procedure cwritecentered(y: Integer; Const s: AStr);
 Procedure Box(LineType,TLX,TLY,BRX,BRY: Integer);
 Procedure SaveScreen(Var Wind: WindowRec);
 Procedure RemoveWindow(Var Wind: WindowRec);
-Procedure SetWindow(Var Wind: WindowRec; TLX,TLY,BRX,BRY,TColr,BColr,BoxType:
-                    Integer);
+Procedure SetWindow(Var Wind: WindowRec; TLX,TLY,BRX,BRY,TColr,BColr,BoxType: Integer);
 
 Implementation
 
-Uses 
+Uses
 Crt,
 RPPort
 {$IFDEF WIN32}
 ,RPScreen
-,VpSysLow
+//,VpSysLow
 {$ENDIF}
-  {$IFDEF LINUX}
+{$IFDEF LINUX}
 ,Unix
 ,SysUtils
-  {$ENDIF}
+{$ENDIF}
 ;
 
 {$IFNDEF MSDOS}
-
-Var 
-  SavedScreen: TConsoleBuf;
+Var
+  SavedScreen: Array[1..25, 1..80] of TCharInfo; // Don't hardcode to 80x25
 {$ENDIF}
 
 {$IFDEF MSDOS}
@@ -173,7 +169,7 @@ End;
 
 Procedure infield1(x,y: Byte; Var s: AStr; Len: Byte);
 
-Var 
+Var
   SaveS: AStr;
   c: Char;
   SaveTextAttr,
@@ -193,7 +189,7 @@ End;
 
 Procedure Exit_W_Arrow;
 
-Var 
+Var
   i: Integer;
   brk: Boolean = false;
 Begin
@@ -219,7 +215,7 @@ End;
 
 Procedure Exit_W_Normal;
 
-Var 
+Var
   i: Integer;
   brk: Boolean = false;
 Begin
@@ -243,7 +239,7 @@ Begin
     s := SaveS;
 End;
 
-Var 
+Var
   brk : Boolean = false;
 Begin
 
@@ -296,7 +292,7 @@ Begin
                 GoToXY(x,y);
               End;
           End;
-        Case c Of 
+        Case c Of
           #0 :
                Begin
                  c := ReadKey;
@@ -304,7 +300,7 @@ Begin
                     (Pos(c,Infield_Arrow_Exit_Types) <> 0)) Then
                    Exit_W_Arrow
                  Else
-                   Case c Of 
+                   Case c Of
                      #72,#80 :
                                If (Infield_Arrow_Exit) Then
                                  Exit_W_Arrow;
@@ -339,7 +335,7 @@ Begin
                               Begin
                                 i := (p - 1);
                                 While ((Not (s[i - 1] In Infield_Seperators)) Or
-                                      (s[i] In Infield_Seperators)) And (i > 1) 
+                                      (s[i] In Infield_Seperators)) And (i > 1)
                                   Do
                                   Dec(i);
                                 p := i;
@@ -434,7 +430,7 @@ End;
 
 Function l_yn: BOOLEAN;
 
-Var 
+Var
   C: Char;
 Begin
   Repeat
@@ -462,7 +458,7 @@ End;
 
 Procedure CWrite(Const S: AStr);
 
-Var 
+Var
   C: Char;
   Counter: Byte;
   LastB,
@@ -483,7 +479,7 @@ Begin
           LastC := FALSE;
         End
       Else
-        Case C Of 
+        Case C Of
           #2 : LastB := TRUE;
           #3 : LastC := TRUE;
           Else
@@ -500,7 +496,7 @@ End;
 
 Function CStringLength(Const s: AStr): Integer;
 
-Var 
+Var
   Len,
   i: Integer;
 Begin
@@ -531,12 +527,12 @@ End;
  *}
 Procedure Box(LineType,TLX,TLY,BRX,BRY: Integer);
 
-Var 
+Var
   TL,TR,BL,BR,HLine,VLine: Char;
   i: Integer;
 Begin
   Window(1,1,MaxDisplayCols,MaxDisplayRows);
-  Case LineType Of 
+  Case LineType Of
     1 :
         Begin
           TL := #218;
@@ -754,7 +750,7 @@ End;
 Procedure Update_Logo(Data: Array Of Char; OriginX, OriginY, DataLength: integer
 );
 
-Var 
+Var
   i, x, y, count, counter: Integer;
   character: Char;
   spaces: String;
@@ -766,7 +762,7 @@ Begin
 
   While (i < DataLength) Do
     Begin
-      Case Data[i] Of 
+      Case Data[i] Of
         #0..#15:
                  Begin
                    TextColor(Ord(Data[i]));
